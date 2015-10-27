@@ -98,8 +98,8 @@ int gridDim;
 int boardDim;
 int gameover;
 int winner;
-Ppmimage *marbleImage;
-GLuint marbleTexture;
+Ppmimage *heistImage;
+GLuint heistTexture;
 int nbuttons;
 Button button[MAXBUTTONS];
 Player player;
@@ -133,7 +133,7 @@ int main(int argc, char *argv[])
 	gameover = 0;
 	winner = 0;
 	nbuttons = 0;
-	marbleImage=NULL;
+	heistImage=NULL;
 	
 	if (argc) {}
 	if (argv[0]) {}
@@ -198,7 +198,7 @@ void setTitle(void)
 {
 	//Set the window title bar.
 	XMapWindow(dpy, win);
-	XStoreName(dpy, win, "CS335 - OpenGL Animation Template Under XWindows");
+	XStoreName(dpy, win, "CS335 - Heist Game");
 }
 
 void setupScreenRes(const int w, const int h)
@@ -273,16 +273,16 @@ void initOpengl(void)
 	//
 	//load the image file into a ppm structure.
 	//
-	marbleImage = ppm6GetImage("./images/marble.ppm");
+	heistImage = ppm6GetImage("./images/heist.ppm");
 	//
 	//create opengl texture elements
-	glGenTextures(1, &marbleTexture);
-	glBindTexture(GL_TEXTURE_2D, marbleTexture);
+	glGenTextures(1, &heistTexture);
+	glBindTexture(GL_TEXTURE_2D, heistTexture);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, 3,
-	             marbleImage->width, marbleImage->height,
-	             0, GL_RGB, GL_UNSIGNED_BYTE, marbleImage->data);
+	             heistImage->width, heistImage->height,
+	             0, GL_RGB, GL_UNSIGNED_BYTE, heistImage->data);
 }
 
 void checkResize(XEvent *e)
@@ -577,7 +577,7 @@ void render(void)
 	//
 	//screen background
 	glColor3f(0.5f, 0.5f, 0.5f);
-	glBindTexture(GL_TEXTURE_2D, marbleTexture);
+	glBindTexture(GL_TEXTURE_2D, heistTexture);
 	glBegin(GL_QUADS);
 		glTexCoord2f(0.0f, 0.0f); glVertex2i(0,      0);
 		glTexCoord2f(0.0f, 1.0f); glVertex2i(0,      yres);
@@ -702,5 +702,5 @@ void render(void)
 	r.left   = xres/2;
 	r.bot    = yres-100;
 	r.center = 1;
-	ggprint16(&r, 16, 0x00ffffff, "CS335 Game");
+	ggprint16(&r, 16, 0x00ffffff, "Heist Game");
 }
