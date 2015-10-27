@@ -46,11 +46,6 @@ extern "C"{
 	#include "fonts.h"
 }
 
-// #define USE_OPENAL_SOUND
-#ifdef USE_OPENAL_SOUND
-#include </usr/include/AL/alut.h>
-#endif //USE_OPENAL_SOUND
-
 
 //macros
 #define rnd() (double)rand()/(double)RAND_MAX
@@ -214,7 +209,7 @@ int main(int argc, char *argv[])
 	cleanupXWindows();
 	cleanup_fonts();
 	logClose();
-	//exit(EXIT_SUCCESS);
+	//exit(EXIT_SUCCESS);ls
 	return 0;
 }
 

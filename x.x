@@ -1,1 +1,2 @@
-new treasure: 39 33
+new treasure: 27 27
+new treasure: 15 5
