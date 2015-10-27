@@ -67,10 +67,15 @@ void checkResize(XEvent *e);
 void checkMouse(XEvent *e);
 void checkKeys(XEvent *e);
 void init();
-int checkCollision();
+// void initSounds(void);
 void physics(void);
 void render(void);
 void getGridCenter(const int i, const int j, int cent[2]);
+// #ifdef USE_OPENAL_SOUND
+// void initSound();
+// void cleanupSound();
+// void playSound(ALuint source);
+// #endif //USE_OPENAL_SOUND
 
 #define DIRECTION_DOWN  0
 #define DIRECTION_LEFT  1
@@ -83,19 +88,19 @@ typedef struct t_grid {
 	float color[4];
 } Grid;
 //
-typedef struct t_player {
+typedef struct t_snake {
 	int status;
 	int length;
 	int pos[MAX_GRID*MAX_GRID][2];
 	int direction;
 	double timer;
 	double delay;
-} Player;
+} Snake;
 //
-typedef struct t_treasure {
+typedef struct t_rat {
 	int status;
 	int pos[2];
-} Treasure;
+} Rat;
 //
 //
 //
@@ -116,8 +121,8 @@ struct Global {
 	int xres;
 	int yres;
 	Grid grid[MAX_GRID][MAX_GRID];
-	Player player;
-	Treasure treasure;
+	Snake snake;
+	Rat rat;
 	int done;
 	int gridDim;
 	int boardDim;
@@ -127,6 +132,9 @@ struct Global {
 	GLuint marbleTexture;
 	Button button[MAXBUTTONS];
 	int nbuttons;
+	//
+	// ALuint alBufferDrip, alBufferTick;
+	// ALuint alSourceDrip, alSourceTick;
 	Global() {
 		xres = 800;
 		yres = 600;
@@ -169,6 +177,7 @@ int main(int argc, char *argv[])
 	initOpengl();
 	init();
 	initialize_fonts();
+	// initSound();
 	srand((unsigned int)time(NULL));
 	clock_gettime(CLOCK_REALTIME, &timePause);
 	clock_gettime(CLOCK_REALTIME, &timeStart);
@@ -208,12 +217,92 @@ int main(int argc, char *argv[])
 		render();
 		glXSwapBuffers(dpy, win);
 	}
+	// cleanupSound();
 	cleanupXWindows();
 	cleanup_fonts();
 	logClose();
 	//exit(EXIT_SUCCESS);
 	return 0;
 }
+
+// void initSound()
+// {
+	// #ifdef USE_OPENAL_SOUND
+	// alutInit(0, NULL);
+	// if (alGetError() != AL_NO_ERROR) {
+		// printf("ERROR: alutInit()\n");
+		// return;
+	// }
+	// // Clear error state.
+	// alGetError();
+	
+	// // Setup the listener.
+	// // Forward and up vectors are used.
+	// float vec[6] = {0.0f,0.0f,1.0f, 0.0f,1.0f,0.0f};
+	// alListener3f(AL_POSITION, 0.0f, 0.0f, 0.0f);
+	// alListenerfv(AL_ORIENTATION, vec);
+	// alListenerf(AL_GAIN, 1.0f);
+	
+	// // Buffer holds the sound information.
+	// g.alBufferDrip = alutCreateBufferFromFile("./sounds/drip.wav");
+	// g.alBufferTick = alutCreateBufferFromFile("./sounds/tick.wav");
+	
+	// // Source refers to the sound.
+	// // Generate a source, and store it in a buffer.
+	// alGenSources(1, &g.alSourceDrip);
+	// alSourcei(g.alSourceDrip, AL_BUFFER, g.alBufferDrip);
+	// // Set volume and pitch to normal, no looping of sound.
+	// alSourcef(g.alSourceDrip, AL_GAIN, 1.0f);
+	// alSourcef(g.alSourceDrip, AL_PITCH, 1.0f);
+	// alSourcei(g.alSourceDrip, AL_LOOPING, AL_FALSE);
+	// if (alGetError() != AL_NO_ERROR) {
+		// printf("ERROR: setting source\n");
+		// return;
+	// }
+	// // Generate a source, and store it in a buffer.
+	// alGenSources(1, &g.alSourceTick);
+	// alSourcei(g.alSourceTick, AL_BUFFER, g.alBufferTick);
+	// // Set volume and pitch to normal, no looping of sound.
+	// alSourcef(g.alSourceTick, AL_GAIN, 1.0f);
+	// alSourcef(g.alSourceTick, AL_PITCH, 1.0f);
+	// alSourcei(g.alSourceTick, AL_LOOPING, AL_FALSE);
+	// if (alGetError() != AL_NO_ERROR) {
+		// printf("ERROR: setting source\n");
+		// return;
+	// }
+	// #endif //USE_OPENAL_SOUND
+// }
+
+// void cleanupSound()
+// {
+	// #ifdef USE_OPENAL_SOUND
+	// //First delete the source.
+	// alDeleteSources(1, &g.alSourceDrip);
+	// alDeleteSources(1, &g.alSourceTick);
+	// //Delete the buffer.
+	// alDeleteBuffers(1, &g.alBufferDrip);
+	// alDeleteBuffers(1, &g.alBufferTick);
+	// //Close out OpenAL itself.
+	// //Get active context.
+	// ALCcontext *Context = alcGetCurrentContext();
+	// //Get device for active context.
+	// ALCdevice *Device = alcGetContextsDevice(Context);
+	// //Disable context.
+	// alcMakeContextCurrent(NULL);
+	// //Release context(s).
+	// alcDestroyContext(Context);
+	// //Close device.
+	// alcCloseDevice(Device);
+	// #endif //USE_OPENAL_SOUND
+// }
+
+// void playSound(ALuint source)
+// {
+	// #ifdef USE_OPENAL_SOUND
+	// alSourcePlay(source);
+	// #endif //USE_OPENAL_SOUND
+// }
+
 
 void cleanupXWindows(void)
 {
@@ -324,35 +413,33 @@ void checkResize(XEvent *e)
 	}
 }
 
-void initPlayer(void)
+void initSnake(void)
 {
-	//spawns player in an initial position
 	int i;
-	g.player.status = 1;
-	g.player.delay = .15;
-	g.player.length = rand() % 4 + 3;
-	for (i=0; i<g.player.length; i++) {
-		g.player.pos[i][0] = 2;
-		g.player.pos[i][1] = 2;
+	g.snake.status = 1;
+	g.snake.delay = .15;
+	g.snake.length = rand() % 4 + 3;
+	for (i=0; i<g.snake.length; i++) {
+		g.snake.pos[i][0] = 2;
+		g.snake.pos[i][1] = 2;
 	}
-	g.player.direction = DIRECTION_RIGHT;
+	g.snake.direction = DIRECTION_RIGHT;
 	//snake.timer = glfwGetTime() + 0.5;
 }
 
-void initTreasure(void)
+void initRat(void)
 {
-	//spawns treasure in an initial position
-	g.treasure.status = 1;
-	g.treasure.pos[0] = 25;
-	g.treasure.pos[1] = 2;
+	g.rat.status = 1;
+	g.rat.pos[0] = 25;
+	g.rat.pos[1] = 2;
 }
 
 void init(void)
 {
 	g.boardDim = g.gridDim * 10;
 	//
-	initPlayer();
-	initTreasure();
+	initSnake();
+	initRat();
 	//
 	//initialize buttons...
 	g.nbuttons=0;
@@ -407,8 +494,8 @@ void init(void)
 
 void resetGame(void)
 {
-	initPlayer();
-	initTreasure();
+	initSnake();
+	initRat();
 	g.gameover  = 0;
 	g.winner    = 0;
 }
@@ -436,37 +523,29 @@ void checkKeys(XEvent *e)
 		case XK_r:
 			resetGame();
 			break;
-		//~ case XK_equal:
-			//~ g.snake.delay *= 0.9;
-			//~ if (g.snake.delay < 0.001)
-				//~ g.snake.delay = 0.001;
-			//~ break;
-		//~ case XK_minus:
-			//~ g.snake.delay *= (1.0 / 0.9);
-			//~ break;
+		case XK_equal:
+			g.snake.delay *= 0.9;
+			if (g.snake.delay < 0.001)
+				g.snake.delay = 0.001;
+			break;
+		case XK_minus:
+			g.snake.delay *= (1.0 / 0.9);
+			break;
 		case XK_Left:
-			g.player.direction = DIRECTION_LEFT;
-			if(checkCollision()){
-				g.player.pos[0][0] -= 1;
-			}
+			g.snake.direction = DIRECTION_LEFT;
+			g.snake.pos[0][0] -= 1;
 			break;
 		case XK_Right:
-			g.player.direction = DIRECTION_RIGHT;
-			if(checkCollision()){
-				g.player.pos[0][0] += 1;
-			}
+			g.snake.direction = DIRECTION_RIGHT;
+			g.snake.pos[0][0] += 1;
 			break;
 		case XK_Up:
-			g.player.direction = DIRECTION_UP;
-			if(checkCollision()){
-				g.player.pos[0][1] -= 1;
-			}
+			g.snake.direction = DIRECTION_UP;
+			g.snake.pos[0][1] -= 1;
 			break;
 		case XK_Down:
-			g.player.direction = DIRECTION_DOWN;
-			if(checkCollision()){
-				g.player.pos[0][1] += 1;
-			}
+			g.snake.direction = DIRECTION_DOWN;
+			g.snake.pos[0][1] += 1;
 			break;
 	}
 }
@@ -547,19 +626,6 @@ void getGridCenter(const int i, const int j, int cent[2])
 	cent[1] += (bq * i1);
 }
 
-//this function checks to see if the player will collide with a boundary if moved in the direction the player asks for
-//currently it only checks if it collides with the boundaries of the game box, it can be extended later 
-int checkCollision()
-{
-	if (g.player.pos[0][0] < 1 ||
-		g.player.pos[0][0] > g.gridDim-2 ||
-		g.player.pos[0][1] < 1 ||
-		g.player.pos[0][1] > g.gridDim-2) {
-			return 0;
-	} else {
-		return 1;
-	}
-}
 
 void physics(void)
 {
@@ -568,31 +634,51 @@ void physics(void)
 		return;
 	//
 	//
-	//Is it time to move the player?
-	//move the player segments...
+	//Is it time to move the snake?
+	static struct timespec snakeTime;
+	static int firsttime=1;
+	if (firsttime) {
+		firsttime=0;
+		clock_gettime(CLOCK_REALTIME, &snakeTime);
+	}
+	struct timespec tt;
+	clock_gettime(CLOCK_REALTIME, &tt);
+	double timeSpan = timeDiff(&snakeTime, &tt);
+	if (timeSpan < g.snake.delay)
+		return;
+	timeCopy(&snakeTime, &tt);
+	// //
+	// playSound(g.alSourceDrip);
+	//move the snake segments...
 	int headpos[2];
 	int newpos[2];
 	int oldpos[2];
 	//save the head position.
-	headpos[0] = g.player.pos[0][0];
-	headpos[1] = g.player.pos[0][1];
-	//player.direction:
+	headpos[0] = g.snake.pos[0][0];
+	headpos[1] = g.snake.pos[0][1];
+	//snake.direction:
 	//0=down
 	//1=left
 	//2=up
 	//3=right
-	// switch(g.player.direction) {
-		// case DIRECTION_DOWN:  g.player.pos[0][1] += 1; break;
-		// case DIRECTION_LEFT:  g.player.pos[0][0] -= 1; break;
-		// case DIRECTION_UP:    g.player.pos[0][1] -= 1; break;
-		// case DIRECTION_RIGHT: g.player.pos[0][0] += 1; break;
+	// switch(g.snake.direction) {
+		// case DIRECTION_DOWN:  g.snake.pos[0][1] += 1; break;
+		// case DIRECTION_LEFT:  g.snake.pos[0][0] -= 1; break;
+		// case DIRECTION_UP:    g.snake.pos[0][1] -= 1; break;
+		// case DIRECTION_RIGHT: g.snake.pos[0][0] += 1; break;
 	// }
-	//check for player off board...
-
-	//check for player crossing itself...
-	for (i=1; i<g.player.length; i++) {
-		if (g.player.pos[i][0] == g.player.pos[0][0] &&
-			g.player.pos[i][1] == g.player.pos[0][1]) {
+	//check for snake off board...
+	if (g.snake.pos[0][0] < 0 ||
+		g.snake.pos[0][0] > g.gridDim-1 ||
+		g.snake.pos[0][1] < 0 ||
+		g.snake.pos[0][1] > g.gridDim-1) {
+		g.gameover=1;
+		return;
+	}
+	//check for snake crossing itself...
+	for (i=1; i<g.snake.length; i++) {
+		if (g.snake.pos[i][0] == g.snake.pos[0][0] &&
+			g.snake.pos[i][1] == g.snake.pos[0][1]) {
 			g.gameover=1;
 			return;
 		}
@@ -600,40 +686,40 @@ void physics(void)
 	//
 	newpos[0] = headpos[0];
 	newpos[1] = headpos[1];
-	for (i=1; i<g.player.length; i++) {
-		oldpos[0] = g.player.pos[i][0];
-		oldpos[1] = g.player.pos[i][1];
-		if (g.player.pos[i][0] == newpos[0] &&
-			g.player.pos[i][1] == newpos[1])
+	for (i=1; i<g.snake.length; i++) {
+		oldpos[0] = g.snake.pos[i][0];
+		oldpos[1] = g.snake.pos[i][1];
+		if (g.snake.pos[i][0] == newpos[0] &&
+			g.snake.pos[i][1] == newpos[1])
 			break;
-		g.player.pos[i][0] = newpos[0];
-		g.player.pos[i][1] = newpos[1];
+		g.snake.pos[i][0] = newpos[0];
+		g.snake.pos[i][1] = newpos[1];
 		newpos[0] = oldpos[0];
 		newpos[1] = oldpos[1];
 	}
-	//did the player eat the rat???
-	if (headpos[0] == g.treasure.pos[0] && headpos[1] == g.treasure.pos[1]) {
-		//yes, increase length of player.
+	//did the snake eat the rat???
+	if (headpos[0] == g.rat.pos[0] && headpos[1] == g.rat.pos[1]) {
+		//yes, increase length of snake.
 		// playSound(g.alSourceTick);
-		//put new segment at end of player.
-		Log("player ate treasure. player.length: %i   dir: %i\n",
-		                                g.player.length,g.player.direction);
+		//put new segment at end of snake.
+		Log("snake ate rat. snake.length: %i   dir: %i\n",
+		                                g.snake.length,g.snake.direction);
 		int addlength = rand() % 4 + 4;
 		for (i=0; i<addlength; i++) {
-			g.player.pos[g.player.length][0] = g.player.pos[g.player.length-1][0];
-			g.player.pos[g.player.length][1] = g.player.pos[g.player.length-1][1];
-			g.player.length++;
+			g.snake.pos[g.snake.length][0] = g.snake.pos[g.snake.length-1][0];
+			g.snake.pos[g.snake.length][1] = g.snake.pos[g.snake.length-1][1];
+			g.snake.length++;
 		}
-		//new position for treasure...
+		//new position for rat...
 		int collision=0;
 		int ntries=0;
 		while(1) {
-			g.treasure.pos[0] = rand() % g.gridDim;
-			g.treasure.pos[1] = rand() % g.gridDim;
+			g.rat.pos[0] = rand() % g.gridDim;
+			g.rat.pos[1] = rand() % g.gridDim;
 			collision=0;
-			for (i=0; i<g.player.length; i++) {
-				if (g.treasure.pos[0] == g.player.pos[i][0] &&
-					g.treasure.pos[1] == g.player.pos[i][1]) {
+			for (i=0; i<g.snake.length; i++) {
+				if (g.rat.pos[0] == g.snake.pos[i][0] &&
+					g.rat.pos[1] == g.snake.pos[i][1]) {
 					collision=1;
 					break;
 				}
@@ -641,7 +727,7 @@ void physics(void)
 			if (!collision) break;
 			if (++ntries > 1000000) break;
 		}
-		Log("new treasure: %i %i\n",g.treasure.pos[0],g.treasure.pos[1]);
+		Log("new rat: %i %i\n",g.rat.pos[0],g.rat.pos[1]);
 		return;
 	}
 }
@@ -756,13 +842,13 @@ void render(void)
 	#ifdef COLORFUL_SNAKE
 	float c[3]={1.0f,1.0,0.5};
 	float rgb[3];
-	rgb[0] = -0.9 / (float)g.player.length;
-	rgb[2] = -0.45 / (float)g.player.length;
+	rgb[0] = -0.9 / (float)g.snake.length;
+	rgb[2] = -0.45 / (float)g.snake.length;
 	glColor3fv(c);
 	//
 	glBegin(GL_QUADS);
-	for (i=0; i<g.player.length; i++) {
-		getGridCenter(g.player.pos[i][1],g.player.pos[i][0],cent);
+	for (i=0; i<g.snake.length; i++) {
+		getGridCenter(g.snake.pos[i][1],g.snake.pos[i][0],cent);
 		glVertex2i(cent[0]-4, cent[1]-3);
 		glVertex2i(cent[0]-4, cent[1]+4);
 		glVertex2i(cent[0]+3, cent[1]+4);
@@ -775,8 +861,8 @@ void render(void)
 	#else //COLORFUL_SNAKE
 	glColor3f(0.1f, 0.8f, 0.1f);
 	glBegin(GL_QUADS);
-	for (i=0; i<g.player.length; i++) {
-		getGridCenter(g.player.pos[i][1],g.player.pos[i][0],cent);
+	for (i=0; i<g.snake.length; i++) {
+		getGridCenter(g.snake.pos[i][1],g.snake.pos[i][0],cent);
 		glVertex2i(cent[0]-4, cent[1]-3);
 		glVertex2i(cent[0]-4, cent[1]+4);
 		glVertex2i(cent[0]+3, cent[1]+4);
@@ -787,8 +873,8 @@ void render(void)
 	#endif //COLORFUL_SNAKE
 	//
 	//
-	//draw treasure...
-	getGridCenter(g.treasure.pos[1],g.treasure.pos[0],cent);
+	//draw rat...
+	getGridCenter(g.rat.pos[1],g.rat.pos[0],cent);
 	glColor3f(0.1, 0.1f, 0.0f);
 	glBegin(GL_QUADS);
 	glVertex2i(cent[0]-4, cent[1]-3);
@@ -801,7 +887,7 @@ void render(void)
 	r.left   = g.xres/2;
 	r.bot    = g.yres-100;
 	r.center = 1;
-	ggprint16(&r, 16, 0x00ffffff, "player");
+	ggprint16(&r, 16, 0x00ffffff, "Snake");
 }
 
 
