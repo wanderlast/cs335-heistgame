@@ -46,6 +46,8 @@
 extern "C"{
 	#include "fonts.h"
 }
+#include "main.h"
+#include "lianneL.h"
 
 using namespace std;
 
@@ -75,31 +77,6 @@ void getGridCenter(const int i, const int j, int cent[2]);
 #define DIRECTION_RIGHT 3
 //
 #define MAX_GRID 80
-typedef struct t_grid {
-	int status;
-	float color[4];
-} Grid;
-//
-typedef struct t_player {
-	//I'm currently keeping in the code for direction
-	//in the case we substitute a directionally facing sprite in
-	
-	int status; //whether it exists
-	//int length;
-	int pos[MAX_GRID*MAX_GRID][2];
-	int direction;
-	double timer;
-	double delay;
-} Player;
-//
-typedef struct t_treasure {
-	int status;
-	int pos[2];
-} Treasure;
-//
-//
-//
-//
 #define MAXBUTTONS 4
 typedef struct t_button {
 	Rect r;
@@ -112,34 +89,20 @@ typedef struct t_button {
 	unsigned int text_color;
 } Button;
 
-struct Global {
-	int xres;
-	int yres;
-	Grid grid[MAX_GRID][MAX_GRID];
-	Player player;
-	Treasure treasure;
-	int done;
-	int gridDim;
-	int boardDim;
-	int gameover;
-	int winner;
-	Ppmimage *marbleImage;
-	GLuint marbleTexture;
-	Button button[MAXBUTTONS];
-	int nbuttons;
-	Global() {
-		xres = 800;
-		yres = 600;
-		done = 0;
-		gridDim = 40;
-		gameover = 0;
-		winner = 0;
-		nbuttons = 0;
-		marbleImage=NULL;
-	}
-} g;
-
-
+int xres;
+int yres;
+Grid grid[MAX_GRID][MAX_GRID];
+Treasure treasure;
+int done;
+int gridDim;
+int boardDim;
+int gameover;
+int winner;
+Ppmimage *marbleImage;
+GLuint marbleTexture;
+int nbuttons;
+Button button[MAXBUTTONS];
+Player player;
 
 //-----------------------------------------------------------------------------
 //Setup timers
@@ -162,6 +125,16 @@ void timeCopy(struct timespec *dest, struct timespec *source) {
 
 int main(int argc, char *argv[])
 {
+	
+	xres = 800;
+	yres = 600;
+	done = 0;
+	gridDim = 40;
+	gameover = 0;
+	winner = 0;
+	nbuttons = 0;
+	marbleImage=NULL;
+	
 	if (argc) {}
 	if (argv[0]) {}
 	logOpen();
@@ -172,7 +145,7 @@ int main(int argc, char *argv[])
 	srand((unsigned int)time(NULL));
 	clock_gettime(CLOCK_REALTIME, &timePause);
 	clock_gettime(CLOCK_REALTIME, &timeStart);
-	while(!g.done) {
+	while(!done) {
 		while(XPending(dpy)) {
 			XEvent e;
 			XNextEvent(dpy, &e);
@@ -230,8 +203,8 @@ void setTitle(void)
 
 void setupScreenRes(const int w, const int h)
 {
-	g.xres = w;
-	g.yres = h;
+	xres = w;
+	yres = h;
 }
 
 void initXWindows(void)
@@ -239,7 +212,7 @@ void initXWindows(void)
 	GLint att[] = { GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None };
 	//GLint att[] = { GLX_RGBA, GLX_DEPTH_SIZE, 24, None };
 	XSetWindowAttributes swa;
-	setupScreenRes(g.xres, g.yres);
+	setupScreenRes(xres, yres);
 	dpy = XOpenDisplay(NULL);
 	if (dpy == NULL) {
 		printf("\n\tcannot connect to X server\n\n");
@@ -261,7 +234,7 @@ void initXWindows(void)
 						PointerMotionMask |
 						StructureNotifyMask |
 						SubstructureNotifyMask;
-	win = XCreateWindow(dpy, root, 0, 0, g.xres, g.yres, 0,	vi->depth,
+	win = XCreateWindow(dpy, root, 0, 0, xres, yres, 0,	vi->depth,
 					InputOutput, vi->visual, CWColormap | CWEventMask, &swa);
 	GLXContext glc = glXCreateContext(dpy, vi, NULL, GL_TRUE);
 	glXMakeCurrent(dpy, win, glc);
@@ -276,7 +249,7 @@ void reshapeWindow(int width, int height)
 	glViewport(0, 0, (GLint)width, (GLint)height);
 	glMatrixMode(GL_PROJECTION); glLoadIdentity();
 	glMatrixMode(GL_MODELVIEW); glLoadIdentity();
-	glOrtho(0, g.xres, 0, g.yres, -1, 1);
+	glOrtho(0, xres, 0, yres, -1, 1);
 	setTitle();
 }
 
@@ -300,16 +273,16 @@ void initOpengl(void)
 	//
 	//load the image file into a ppm structure.
 	//
-	g.marbleImage = ppm6GetImage("./images/marble.ppm");
+	marbleImage = ppm6GetImage("./images/marble.ppm");
 	//
 	//create opengl texture elements
-	glGenTextures(1, &g.marbleTexture);
-	glBindTexture(GL_TEXTURE_2D, g.marbleTexture);
+	glGenTextures(1, &marbleTexture);
+	glBindTexture(GL_TEXTURE_2D, marbleTexture);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, 3,
-	             g.marbleImage->width, g.marbleImage->height,
-	             0, GL_RGB, GL_UNSIGNED_BYTE, g.marbleImage->data);
+	             marbleImage->width, marbleImage->height,
+	             0, GL_RGB, GL_UNSIGNED_BYTE, marbleImage->data);
 }
 
 void checkResize(XEvent *e)
@@ -318,7 +291,7 @@ void checkResize(XEvent *e)
 	if (e->type != ConfigureNotify)
 		return;
 	XConfigureEvent xce = e->xconfigure;
-	if (xce.width != g.xres || xce.height != g.yres) {
+	if (xce.width != xres || xce.height != yres) {
 		//Window size did change.
 		reshapeWindow(xce.width, xce.height);
 	}
@@ -327,86 +300,86 @@ void checkResize(XEvent *e)
 void initPlayer(void)
 {
 	//spawns player in an initial position
-	g.player.status = 1;
-	g.player.delay = .15;
-	g.player.pos[0][0] = 2;
-	g.player.pos[0][1] = 2;
-	g.player.direction = DIRECTION_RIGHT;
+	player.status = 1;
+	player.delay = .15;
+	player.pos[0][0] = 2;
+	player.pos[0][1] = 2;
+	player.direction = DIRECTION_RIGHT;
 	//snake.timer = glfwGetTime() + 0.5;
 }
 
 void initTreasure(void)
 {
 	//spawns treasure in an initial position
-	g.treasure.status = 1;
-	g.treasure.pos[0] = 25;
-	g.treasure.pos[1] = 2;
+	treasure.status = 1;
+	treasure.pos[0] = 25;
+	treasure.pos[1] = 2;
 }
 
 void init(void)
 {
-	g.boardDim = g.gridDim * 10;
+	boardDim = gridDim * 10;
 	//
 	initPlayer();
 	initTreasure();
 	//
 	//initialize buttons...
-	g.nbuttons=0;
+	nbuttons=0;
 	//size and position
-	g.button[g.nbuttons].r.width = 140;
-	g.button[g.nbuttons].r.height = 60;
-	g.button[g.nbuttons].r.left = 20;
-	g.button[g.nbuttons].r.bot = 320;
-	g.button[g.nbuttons].r.right =
-	   g.button[g.nbuttons].r.left + g.button[g.nbuttons].r.width;
-	g.button[g.nbuttons].r.top =
-	   g.button[g.nbuttons].r.bot + g.button[g.nbuttons].r.height;
-	g.button[g.nbuttons].r.centerx =
-	   (g.button[g.nbuttons].r.left + g.button[g.nbuttons].r.right) / 2;
-	g.button[g.nbuttons].r.centery =
-	   (g.button[g.nbuttons].r.bot + g.button[g.nbuttons].r.top) / 2;
-	strcpy(g.button[g.nbuttons].text, "Reset");
-	g.button[g.nbuttons].down = 0;
-	g.button[g.nbuttons].click = 0;
-	g.button[g.nbuttons].color[0] = 0.4f;
-	g.button[g.nbuttons].color[1] = 0.4f;
-	g.button[g.nbuttons].color[2] = 0.7f;
-	g.button[g.nbuttons].dcolor[0] = g.button[g.nbuttons].color[0] * 0.5f;
-	g.button[g.nbuttons].dcolor[1] = g.button[g.nbuttons].color[1] * 0.5f;
-	g.button[g.nbuttons].dcolor[2] = g.button[g.nbuttons].color[2] * 0.5f;
-	g.button[g.nbuttons].text_color = 0x00ffffff;
-	g.nbuttons++;
-	g.button[g.nbuttons].r.width = 140;
-	g.button[g.nbuttons].r.height = 60;
-	g.button[g.nbuttons].r.left = 20;
-	g.button[g.nbuttons].r.bot = 160;
-	g.button[g.nbuttons].r.right =
-	   g.button[g.nbuttons].r.left + g.button[g.nbuttons].r.width;
-	g.button[g.nbuttons].r.top = g.button[g.nbuttons].r.bot +
-	   g.button[g.nbuttons].r.height;
-	g.button[g.nbuttons].r.centerx = (g.button[g.nbuttons].r.left +
-	   g.button[g.nbuttons].r.right) / 2;
-	g.button[g.nbuttons].r.centery = (g.button[g.nbuttons].r.bot +
-	   g.button[g.nbuttons].r.top) / 2;
-	strcpy(g.button[g.nbuttons].text, "Quit");
-	g.button[g.nbuttons].down = 0;
-	g.button[g.nbuttons].click = 0;
-	g.button[g.nbuttons].color[0] = 0.3f;
-	g.button[g.nbuttons].color[1] = 0.3f;
-	g.button[g.nbuttons].color[2] = 0.6f;
-	g.button[g.nbuttons].dcolor[0] = g.button[g.nbuttons].color[0] * 0.5f;
-	g.button[g.nbuttons].dcolor[1] = g.button[g.nbuttons].color[1] * 0.5f;
-	g.button[g.nbuttons].dcolor[2] = g.button[g.nbuttons].color[2] * 0.5f;
-	g.button[g.nbuttons].text_color = 0x00ffffff;
-	g.nbuttons++;
+	button[nbuttons].r.width = 140;
+	button[nbuttons].r.height = 60;
+	button[nbuttons].r.left = 20;
+	button[nbuttons].r.bot = 320;
+	button[nbuttons].r.right =
+	   button[nbuttons].r.left + button[nbuttons].r.width;
+	button[nbuttons].r.top =
+	   button[nbuttons].r.bot + button[nbuttons].r.height;
+	button[nbuttons].r.centerx =
+	   (button[nbuttons].r.left + button[nbuttons].r.right) / 2;
+	button[nbuttons].r.centery =
+	   (button[nbuttons].r.bot + button[nbuttons].r.top) / 2;
+	strcpy(button[nbuttons].text, "Reset");
+	button[nbuttons].down = 0;
+	button[nbuttons].click = 0;
+	button[nbuttons].color[0] = 0.4f;
+	button[nbuttons].color[1] = 0.4f;
+	button[nbuttons].color[2] = 0.7f;
+	button[nbuttons].dcolor[0] = button[nbuttons].color[0] * 0.5f;
+	button[nbuttons].dcolor[1] = button[nbuttons].color[1] * 0.5f;
+	button[nbuttons].dcolor[2] = button[nbuttons].color[2] * 0.5f;
+	button[nbuttons].text_color = 0x00ffffff;
+	nbuttons++;
+	button[nbuttons].r.width = 140;
+	button[nbuttons].r.height = 60;
+	button[nbuttons].r.left = 20;
+	button[nbuttons].r.bot = 160;
+	button[nbuttons].r.right =
+	   button[nbuttons].r.left + button[nbuttons].r.width;
+	button[nbuttons].r.top = button[nbuttons].r.bot +
+	   button[nbuttons].r.height;
+	button[nbuttons].r.centerx = (button[nbuttons].r.left +
+	   button[nbuttons].r.right) / 2;
+	button[nbuttons].r.centery = (button[nbuttons].r.bot +
+	   button[nbuttons].r.top) / 2;
+	strcpy(button[nbuttons].text, "Quit");
+	button[nbuttons].down = 0;
+	button[nbuttons].click = 0;
+	button[nbuttons].color[0] = 0.3f;
+	button[nbuttons].color[1] = 0.3f;
+	button[nbuttons].color[2] = 0.6f;
+	button[nbuttons].dcolor[0] = button[nbuttons].color[0] * 0.5f;
+	button[nbuttons].dcolor[1] = button[nbuttons].color[1] * 0.5f;
+	button[nbuttons].dcolor[2] = button[nbuttons].color[2] * 0.5f;
+	button[nbuttons].text_color = 0x00ffffff;
+	nbuttons++;
 }
 
 void resetGame(void)
 {
 	initPlayer();
 	initTreasure();
-	g.gameover  = 0;
-	g.winner    = 0;
+	gameover  = 0;
+	winner    = 0;
 }
 
 void checkKeys(XEvent *e)
@@ -441,40 +414,40 @@ void checkKeys(XEvent *e)
 			//~ g.snake.delay *= (1.0 / 0.9);
 			//~ break;
 		case XK_Left:
-			g.player.direction = DIRECTION_LEFT;
-			g.player.pos[0][0] -= 1;
+			player.direction = DIRECTION_LEFT;
+			player.pos[0][0] -= 1;
 			if(!checkCollision()){
-				g.player.pos[0][0] += 1;
+				player.pos[0][0] += 1;
 			}
-			cout << "(" << g.player.pos[0][0] << "," <<
-			 g.player.pos[0][1] << ")" << endl;
+			cout << "(" << player.pos[0][0] << "," <<
+			 player.pos[0][1] << ")" << endl;
 			break;
 		case XK_Right:
-			g.player.direction = DIRECTION_RIGHT;
-			g.player.pos[0][0] += 1;
+			player.direction = DIRECTION_RIGHT;
+			player.pos[0][0] += 1;
 			if(!checkCollision()){
-				g.player.pos[0][0] -= 1;
+				player.pos[0][0] -= 1;
 			}
-			cout << "(" << g.player.pos[0][0] << "," <<
-			 g.player.pos[0][1] << ")" << endl;
+			cout << "(" << player.pos[0][0] << "," <<
+			 player.pos[0][1] << ")" << endl;
 			break;
 		case XK_Up:
-			g.player.direction = DIRECTION_UP;
-			g.player.pos[0][1] -= 1;
+			player.direction = DIRECTION_UP;
+			player.pos[0][1] -= 1;
 			if(!checkCollision()){
-				g.player.pos[0][1] += 1;
+				player.pos[0][1] += 1;
 			}
-			cout << "(" << g.player.pos[0][0] << "," <<
-			 g.player.pos[0][1] << ")" << endl;
+			cout << "(" << player.pos[0][0] << "," <<
+			 player.pos[0][1] << ")" << endl;
 			break;
 		case XK_Down:
-			g.player.direction = DIRECTION_DOWN;
-			g.player.pos[0][1] += 1;
+			player.direction = DIRECTION_DOWN;
+			player.pos[0][1] += 1;
 			if(!checkCollision()){
-				g.player.pos[0][1] -= 1;
+				player.pos[0][1] -= 1;
 			}
-			cout << "(" << g.player.pos[0][0] << "," <<
-			 g.player.pos[0][1] << ")" << endl;
+			cout << "(" << player.pos[0][0] << "," <<
+			 player.pos[0][1] << ")" << endl;
 			break;
 	}
 }
@@ -502,27 +475,27 @@ void checkMouse(XEvent *e)
 	}
 	x = e->xbutton.x;
 	y = e->xbutton.y;
-	y = g.yres - y;
+	y = yres - y;
 	if (savex != e->xbutton.x || savey != e->xbutton.y) {
 		//Mouse moved
 		savex = e->xbutton.x;
 		savey = e->xbutton.y;
 	}
-	for (i=0; i<g.nbuttons; i++) {
-		g.button[i].over=0;
-		if (x >= g.button[i].r.left &&
-			x <= g.button[i].r.right &&
-			y >= g.button[i].r.bot &&
-			y <= g.button[i].r.top) {
-			g.button[i].over=1;
-			if (g.button[i].over) {
+	for (i=0; i<nbuttons; i++) {
+		button[i].over=0;
+		if (x >= button[i].r.left &&
+			x <= button[i].r.right &&
+			y >= button[i].r.bot &&
+			y <= button[i].r.top) {
+			button[i].over=1;
+			if (button[i].over) {
 				if (lbutton) {
 					switch(i) {
 						case 0:
 							resetGame();
 							break;
 						case 1:
-							g.done=1;
+							done=1;
 							break;
 					}
 				}
@@ -535,39 +508,24 @@ void checkMouse(XEvent *e)
 void getGridCenter(const int i, const int j, int cent[2])
 {
 	//This function can be optimized, and made more generic.
-	int b2 = g.boardDim/2;
-	int screenCenter[2] = {g.xres/2, g.yres/2};
+	int b2 = boardDim/2;
+	int screenCenter[2] = {xres/2, yres/2};
 	int s0 = screenCenter[0];
 	int s1 = screenCenter[1];
 	int bq;
 	//quad upper-left corner
 	int quad[2];
 	//bq is the width of one grid section
-	bq = (g.boardDim / g.gridDim);
+	bq = (boardDim / gridDim);
 	//-------------------------------------
 	//because y dimension is bottom-to-top in OpenGL.
-	int i1 = g.gridDim - i - 1;
+	int i1 = gridDim - i - 1;
 	quad[0] = s0-b2;
 	quad[1] = s1-b2;
 	cent[0] = quad[0] + bq/2;
 	cent[1] = quad[1] + bq/2;
 	cent[0] += (bq * j);
 	cent[1] += (bq * i1);
-}
-
-//Checks to see if the player will collide with a boundary if moved in
-//the direction the player asks for. Currently only checks against
-//game grid boundaries. 
-int checkCollision()
-{
-	if (g.player.pos[0][0] < 0 ||
-		g.player.pos[0][0] > g.gridDim-1 ||
-		g.player.pos[0][1] < 0 ||
-		g.player.pos[0][1] > g.gridDim-1) {
-			return 0;
-	} else {
-		return 1;
-	}
 }
 
 void physics(void)
@@ -578,39 +536,39 @@ void physics(void)
 	//move the player segments...
 	int headpos[2];
 	//save the head position.
-	headpos[0] = g.player.pos[0][0];
-	headpos[1] = g.player.pos[0][1];
+	headpos[0] = player.pos[0][0];
+	headpos[1] = player.pos[0][1];
 	//player.direction:
 	//0=down
 	//1=left
 	//2=up
 	//3=right
-	// switch(g.player.direction) {
-		// case DIRECTION_DOWN:  g.player.pos[0][1] += 1; break;
-		// case DIRECTION_LEFT:  g.player.pos[0][0] -= 1; break;
-		// case DIRECTION_UP:    g.player.pos[0][1] -= 1; break;
-		// case DIRECTION_RIGHT: g.player.pos[0][0] += 1; break;
+	// switch(player.direction) {
+		// case DIRECTION_DOWN:  player.pos[0][1] += 1; break;
+		// case DIRECTION_LEFT:  player.pos[0][0] -= 1; break;
+		// case DIRECTION_UP:    player.pos[0][1] -= 1; break;
+		// case DIRECTION_RIGHT: player.pos[0][0] += 1; break;
 	// }
 
 	//
 	//did the player get the treasure
-	if (headpos[0] == g.treasure.pos[0] && headpos[1] == g.treasure.pos[1]) {
+	if (headpos[0] == treasure.pos[0] && headpos[1] == treasure.pos[1]) {
 		//new position for treasure...
 		int collision=0;
 		int ntries=0;
 		while(1) {
-			g.treasure.pos[0] = rand() % g.gridDim;
-			g.treasure.pos[1] = rand() % g.gridDim;
+			treasure.pos[0] = rand() % gridDim;
+			treasure.pos[1] = rand() % gridDim;
 			collision=0;
-			if (g.treasure.pos[0] == g.player.pos[0][0] &&
-					g.treasure.pos[1] == g.player.pos[0][1]) {
+			if (treasure.pos[0] == player.pos[0][0] &&
+					treasure.pos[1] == player.pos[0][1]) {
 					collision=1;
 					break;
 				}
 			if (!collision) break;
 			if (++ntries > 1000000) break;
 		}
-		Log("new treasure: %i %i\n",g.treasure.pos[0],g.treasure.pos[1]);
+		Log("new treasure: %i %i\n",treasure.pos[0],treasure.pos[1]);
 		return;
 	}
 }
@@ -622,16 +580,16 @@ void render(void)
 	//--------------------------------------------------------
 	//This code is repeated several times in this program, so
 	//it can be made more generic and cleaner with some work.
-	int b2 = g.boardDim/2;
-	int s0 = g.xres>>1;
-	int s1 = g.yres>>1;
+	int b2 = boardDim/2;
+	int s0 = xres>>1;
+	int s1 = yres>>1;
 	//center of a grid
 	int cent[2];
 	//bq is the width of one grid section
 	//--------------------------------------------------------
 	//start the opengl stuff
 	//set the viewing area on screen
-	glViewport(0, 0, g.xres, g.yres);
+	glViewport(0, 0, xres, yres);
 	//clear color buffer
 	glClearColor(0.1f, 0.2f, 0.3f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -639,53 +597,53 @@ void render(void)
 	glMatrixMode (GL_PROJECTION); glLoadIdentity();
 	glMatrixMode(GL_MODELVIEW); glLoadIdentity();
 	//this sets to 2D mode (no perspective)
-	glOrtho(0, g.xres, 0, g.yres, -1, 1);
+	glOrtho(0, xres, 0, yres, -1, 1);
 	//
 	//screen background
 	glColor3f(0.5f, 0.5f, 0.5f);
-	glBindTexture(GL_TEXTURE_2D, g.marbleTexture);
+	glBindTexture(GL_TEXTURE_2D, marbleTexture);
 	glBegin(GL_QUADS);
 		glTexCoord2f(0.0f, 0.0f); glVertex2i(0,      0);
-		glTexCoord2f(0.0f, 1.0f); glVertex2i(0,      g.yres);
-		glTexCoord2f(1.0f, 1.0f); glVertex2i(g.xres, g.yres);
-		glTexCoord2f(1.0f, 0.0f); glVertex2i(g.xres, 0);
+		glTexCoord2f(0.0f, 1.0f); glVertex2i(0,      yres);
+		glTexCoord2f(1.0f, 1.0f); glVertex2i(xres, yres);
+		glTexCoord2f(1.0f, 0.0f); glVertex2i(xres, 0);
 	glEnd();
 	glBindTexture(GL_TEXTURE_2D, 0);
 	//
 	//draw all buttons
-	for (i=0; i<g.nbuttons; i++) {
-		if (g.button[i].over) {
+	for (i=0; i<nbuttons; i++) {
+		if (button[i].over) {
 			int w=2;
 			glColor3f(1.0f, 1.0f, 0.0f);
 			//draw a highlight around button
 			glLineWidth(3);
 			glBegin(GL_LINE_LOOP);
-				glVertex2i(g.button[i].r.left-w,  g.button[i].r.bot-w);
-				glVertex2i(g.button[i].r.left-w,  g.button[i].r.top+w);
-				glVertex2i(g.button[i].r.right+w, g.button[i].r.top+w);
-				glVertex2i(g.button[i].r.right+w, g.button[i].r.bot-w);
-				glVertex2i(g.button[i].r.left-w,  g.button[i].r.bot-w);
+				glVertex2i(button[i].r.left-w,  button[i].r.bot-w);
+				glVertex2i(button[i].r.left-w,  button[i].r.top+w);
+				glVertex2i(button[i].r.right+w, button[i].r.top+w);
+				glVertex2i(button[i].r.right+w, button[i].r.bot-w);
+				glVertex2i(button[i].r.left-w,  button[i].r.bot-w);
 			glEnd();
 			glLineWidth(1);
 		}
-		if (g.button[i].down) {
-			glColor3fv(g.button[i].dcolor);
+		if (button[i].down) {
+			glColor3fv(button[i].dcolor);
 		} else {
-			glColor3fv(g.button[i].color);
+			glColor3fv(button[i].color);
 		}
 		glBegin(GL_QUADS);
-			glVertex2i(g.button[i].r.left,  g.button[i].r.bot);
-			glVertex2i(g.button[i].r.left,  g.button[i].r.top);
-			glVertex2i(g.button[i].r.right, g.button[i].r.top);
-			glVertex2i(g.button[i].r.right, g.button[i].r.bot);
+			glVertex2i(button[i].r.left,  button[i].r.bot);
+			glVertex2i(button[i].r.left,  button[i].r.top);
+			glVertex2i(button[i].r.right, button[i].r.top);
+			glVertex2i(button[i].r.right, button[i].r.bot);
 		glEnd();
-		r.left = g.button[i].r.centerx;
-		r.bot  = g.button[i].r.centery-8;
+		r.left = button[i].r.centerx;
+		r.bot  = button[i].r.centery-8;
 		r.center = 1;
-		if (g.button[i].down) {
-			ggprint16(&r, 0, g.button[i].text_color, "Pressed!");
+		if (button[i].down) {
+			ggprint16(&r, 0, button[i].text_color, "Pressed!");
 		} else {
-			ggprint16(&r, 0, g.button[i].text_color, g.button[i].text);
+			ggprint16(&r, 0, button[i].text_color, button[i].text);
 		}
 	}
 	//draw the main game board in middle of screen
@@ -704,7 +662,7 @@ void render(void)
 	int y1 = s1+b2;
 	glColor3f(0.1f, 0.1f, 0.1f);
 	glBegin(GL_LINES);
-	for (i=1; i<g.gridDim; i++) {
+	for (i=1; i<gridDim; i++) {
 		y0 += 10;
 		glVertex2i(x0,y0);
 		glVertex2i(x1,y0);
@@ -712,7 +670,7 @@ void render(void)
 	x0 = s0-b2;
 	y0 = s1-b2;
 	y1 = s1+b2;
-	for (j=1; j<g.gridDim; j++) {
+	for (j=1; j<gridDim; j++) {
 		x0 += 10;
 		glVertex2i(x0,y0);
 		glVertex2i(x0,y1);
@@ -730,7 +688,7 @@ void render(void)
 	glColor3fv(c);
 	//
 	glBegin(GL_QUADS);
-		getGridCenter(g.player.pos[0][1],g.player.pos[0][0],cent);
+		getGridCenter(player.pos[0][1],player.pos[0][0],cent);
 		glVertex2i(cent[0]-4, cent[1]-3);
 		glVertex2i(cent[0]-4, cent[1]+4);
 		glVertex2i(cent[0]+3, cent[1]+4);
@@ -742,8 +700,8 @@ void render(void)
 	#else //COLORFUL_SNAKE
 	glColor3f(0.1f, 0.8f, 0.1f);
 	glBegin(GL_QUADS);
-	for (i=0; i<g.player.length; i++) {
-		getGridCenter(g.player.pos[i][1],g.player.pos[i][0],cent);
+	for (i=0; i<player.length; i++) {
+		getGridCenter(player.pos[i][1],player.pos[i][0],cent);
 		glVertex2i(cent[0]-4, cent[1]-3);
 		glVertex2i(cent[0]-4, cent[1]+4);
 		glVertex2i(cent[0]+3, cent[1]+4);
@@ -755,7 +713,7 @@ void render(void)
 	//
 	//
 	//draw treasure...
-	getGridCenter(g.treasure.pos[1],g.treasure.pos[0],cent);
+	getGridCenter(treasure.pos[1],treasure.pos[0],cent);
 	glColor3f(0.1, 0.1f, 0.0f);
 	glBegin(GL_QUADS);
 	glVertex2i(cent[0]-4, cent[1]-3);
@@ -765,8 +723,8 @@ void render(void)
 	glEnd();
 	//
 	//
-	r.left   = g.xres/2;
-	r.bot    = g.yres-100;
+	r.left   = xres/2;
+	r.bot    = yres-100;
 	r.center = 1;
 	ggprint16(&r, 16, 0x00ffffff, "CS335 Game");
 }
