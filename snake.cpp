@@ -28,6 +28,7 @@
 // . Additional features
 //
 //
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -46,11 +47,7 @@ extern "C"{
 	#include "fonts.h"
 }
 
-// #define USE_OPENAL_SOUND
-#ifdef USE_OPENAL_SOUND
-#include </usr/include/AL/alut.h>
-#endif //USE_OPENAL_SOUND
-
+using namespace std;
 
 //macros
 #define rnd() (double)rand()/(double)RAND_MAX
@@ -214,7 +211,7 @@ int main(int argc, char *argv[])
 	cleanupXWindows();
 	cleanup_fonts();
 	logClose();
-	//exit(EXIT_SUCCESS);
+	//exit(EXIT_SUCCESS);ls
 	return 0;
 }
 
@@ -445,27 +442,39 @@ void checkKeys(XEvent *e)
 			//~ break;
 		case XK_Left:
 			g.player.direction = DIRECTION_LEFT;
-			if(checkCollision()){
-				g.player.pos[0][0] -= 1;
+			g.player.pos[0][0] -= 1;
+			if(!checkCollision()){
+				g.player.pos[0][0] += 1;
 			}
+			cout << "(" << g.player.pos[0][0] << "," <<
+			 g.player.pos[0][1] << ")" << endl;
 			break;
 		case XK_Right:
 			g.player.direction = DIRECTION_RIGHT;
-			if(checkCollision()){
-				g.player.pos[0][0] += 1;
+			g.player.pos[0][0] += 1;
+			if(!checkCollision()){
+				g.player.pos[0][0] -= 1;
 			}
+			cout << "(" << g.player.pos[0][0] << "," <<
+			 g.player.pos[0][1] << ")" << endl;
 			break;
 		case XK_Up:
 			g.player.direction = DIRECTION_UP;
-			if(checkCollision()){
-				g.player.pos[0][1] -= 1;
+			g.player.pos[0][1] -= 1;
+			if(!checkCollision()){
+				g.player.pos[0][1] += 1;
 			}
+			cout << "(" << g.player.pos[0][0] << "," <<
+			 g.player.pos[0][1] << ")" << endl;
 			break;
 		case XK_Down:
 			g.player.direction = DIRECTION_DOWN;
-			if(checkCollision()){
-				g.player.pos[0][1] += 1;
+			g.player.pos[0][1] += 1;
+			if(!checkCollision()){
+				g.player.pos[0][1] -= 1;
 			}
+			cout << "(" << g.player.pos[0][0] << "," <<
+			 g.player.pos[0][1] << ")" << endl;
 			break;
 	}
 }
@@ -546,14 +555,15 @@ void getGridCenter(const int i, const int j, int cent[2])
 	cent[1] += (bq * i1);
 }
 
-//this function checks to see if the player will collide with a boundary if moved in the direction the player asks for
-//currently it only checks if it collides with the boundaries of the game box, it can be extended later 
+//Checks to see if the player will collide with a boundary if moved in
+//the direction the player asks for. Currently only checks against
+//game grid boundaries. 
 int checkCollision()
 {
-	if (g.player.pos[0][0] < 1 ||
-		g.player.pos[0][0] > g.gridDim-2 ||
-		g.player.pos[0][1] < 1 ||
-		g.player.pos[0][1] > g.gridDim-2) {
+	if (g.player.pos[0][0] < 0 ||
+		g.player.pos[0][0] > g.gridDim-1 ||
+		g.player.pos[0][1] < 0 ||
+		g.player.pos[0][1] > g.gridDim-1) {
 			return 0;
 	} else {
 		return 1;
@@ -562,8 +572,6 @@ int checkCollision()
 
 void physics(void)
 {
-	if (g.gameover)
-		return;
 	//
 	//
 	//Is it time to move the player?
