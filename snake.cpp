@@ -84,8 +84,11 @@ typedef struct t_grid {
 } Grid;
 //
 typedef struct t_player {
-	int status;
-	int length;
+	//I'm currently keeping in the code for direction
+	//in the case we substitute a directionally facing sprite in
+	
+	int status; //whether it exists
+	//int length;
 	int pos[MAX_GRID*MAX_GRID][2];
 	int direction;
 	double timer;
@@ -327,14 +330,10 @@ void checkResize(XEvent *e)
 void initPlayer(void)
 {
 	//spawns player in an initial position
-	int i;
 	g.player.status = 1;
 	g.player.delay = .15;
-	g.player.length = rand() % 4 + 3;
-	for (i=0; i<g.player.length; i++) {
-		g.player.pos[i][0] = 2;
-		g.player.pos[i][1] = 2;
-	}
+	g.player.pos[0][0] = 2;
+	g.player.pos[0][1] = 2;
 	g.player.direction = DIRECTION_RIGHT;
 	//snake.timer = glfwGetTime() + 0.5;
 }
@@ -563,7 +562,6 @@ int checkCollision()
 
 void physics(void)
 {
-	int i;
 	if (g.gameover)
 		return;
 	//
@@ -571,8 +569,6 @@ void physics(void)
 	//Is it time to move the player?
 	//move the player segments...
 	int headpos[2];
-	int newpos[2];
-	int oldpos[2];
 	//save the head position.
 	headpos[0] = g.player.pos[0][0];
 	headpos[1] = g.player.pos[0][1];
@@ -587,43 +583,10 @@ void physics(void)
 		// case DIRECTION_UP:    g.player.pos[0][1] -= 1; break;
 		// case DIRECTION_RIGHT: g.player.pos[0][0] += 1; break;
 	// }
-	//check for player off board...
 
-	//check for player crossing itself...
-	for (i=1; i<g.player.length; i++) {
-		if (g.player.pos[i][0] == g.player.pos[0][0] &&
-			g.player.pos[i][1] == g.player.pos[0][1]) {
-			g.gameover=1;
-			return;
-		}
-	}
 	//
-	newpos[0] = headpos[0];
-	newpos[1] = headpos[1];
-	for (i=1; i<g.player.length; i++) {
-		oldpos[0] = g.player.pos[i][0];
-		oldpos[1] = g.player.pos[i][1];
-		if (g.player.pos[i][0] == newpos[0] &&
-			g.player.pos[i][1] == newpos[1])
-			break;
-		g.player.pos[i][0] = newpos[0];
-		g.player.pos[i][1] = newpos[1];
-		newpos[0] = oldpos[0];
-		newpos[1] = oldpos[1];
-	}
-	//did the player eat the rat???
+	//did the player get the treasure
 	if (headpos[0] == g.treasure.pos[0] && headpos[1] == g.treasure.pos[1]) {
-		//yes, increase length of player.
-		// playSound(g.alSourceTick);
-		//put new segment at end of player.
-		Log("player ate treasure. player.length: %i   dir: %i\n",
-		                                g.player.length,g.player.direction);
-		int addlength = rand() % 4 + 4;
-		for (i=0; i<addlength; i++) {
-			g.player.pos[g.player.length][0] = g.player.pos[g.player.length-1][0];
-			g.player.pos[g.player.length][1] = g.player.pos[g.player.length-1][1];
-			g.player.length++;
-		}
 		//new position for treasure...
 		int collision=0;
 		int ntries=0;
@@ -631,13 +594,11 @@ void physics(void)
 			g.treasure.pos[0] = rand() % g.gridDim;
 			g.treasure.pos[1] = rand() % g.gridDim;
 			collision=0;
-			for (i=0; i<g.player.length; i++) {
-				if (g.treasure.pos[0] == g.player.pos[i][0] &&
-					g.treasure.pos[1] == g.player.pos[i][1]) {
+			if (g.treasure.pos[0] == g.player.pos[0][0] &&
+					g.treasure.pos[1] == g.player.pos[0][1]) {
 					collision=1;
 					break;
 				}
-			}
 			if (!collision) break;
 			if (++ntries > 1000000) break;
 		}
@@ -756,13 +717,12 @@ void render(void)
 	#ifdef COLORFUL_SNAKE
 	float c[3]={1.0f,1.0,0.5};
 	float rgb[3];
-	rgb[0] = -0.9 / (float)g.player.length;
-	rgb[2] = -0.45 / (float)g.player.length;
+	rgb[0] = -0.9;
+	rgb[2] = -0.45;
 	glColor3fv(c);
 	//
 	glBegin(GL_QUADS);
-	for (i=0; i<g.player.length; i++) {
-		getGridCenter(g.player.pos[i][1],g.player.pos[i][0],cent);
+		getGridCenter(g.player.pos[0][1],g.player.pos[0][0],cent);
 		glVertex2i(cent[0]-4, cent[1]-3);
 		glVertex2i(cent[0]-4, cent[1]+4);
 		glVertex2i(cent[0]+3, cent[1]+4);
@@ -770,7 +730,6 @@ void render(void)
 		c[0] +=	rgb[0];
 		c[2] +=	rgb[2];
 		glColor3fv(c);
-	}
 	glEnd();
 	#else //COLORFUL_SNAKE
 	glColor3f(0.1f, 0.8f, 0.1f);
@@ -801,9 +760,5 @@ void render(void)
 	r.left   = g.xres/2;
 	r.bot    = g.yres-100;
 	r.center = 1;
-	ggprint16(&r, 16, 0x00ffffff, "player");
+	ggprint16(&r, 16, 0x00ffffff, "CS335 Game");
 }
-
-
-
-
