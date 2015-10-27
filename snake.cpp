@@ -414,40 +414,16 @@ void checkKeys(XEvent *e)
 			//~ g.snake.delay *= (1.0 / 0.9);
 			//~ break;
 		case XK_Left:
-			player.direction = DIRECTION_LEFT;
-			player.pos[0][0] -= 1;
-			if(!checkCollision()){
-				player.pos[0][0] += 1;
-			}
-			cout << "(" << player.pos[0][0] << "," <<
-			 player.pos[0][1] << ")" << endl;
+			movement(1);
 			break;
 		case XK_Right:
-			player.direction = DIRECTION_RIGHT;
-			player.pos[0][0] += 1;
-			if(!checkCollision()){
-				player.pos[0][0] -= 1;
-			}
-			cout << "(" << player.pos[0][0] << "," <<
-			 player.pos[0][1] << ")" << endl;
+			movement(3);
 			break;
 		case XK_Up:
-			player.direction = DIRECTION_UP;
-			player.pos[0][1] -= 1;
-			if(!checkCollision()){
-				player.pos[0][1] += 1;
-			}
-			cout << "(" << player.pos[0][0] << "," <<
-			 player.pos[0][1] << ")" << endl;
+			movement(2);
 			break;
 		case XK_Down:
-			player.direction = DIRECTION_DOWN;
-			player.pos[0][1] += 1;
-			if(!checkCollision()){
-				player.pos[0][1] -= 1;
-			}
-			cout << "(" << player.pos[0][0] << "," <<
-			 player.pos[0][1] << ")" << endl;
+			movement(0);
 			break;
 	}
 }

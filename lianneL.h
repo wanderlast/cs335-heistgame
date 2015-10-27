@@ -14,5 +14,5 @@ typedef struct t_player {
 
 extern Player player;
 
-extern void movement();
+extern void movement(int n);
 extern int checkCollision();
