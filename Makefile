@@ -4,8 +4,8 @@ LFLAGS = -lrt -lX11 -lGLU -lGL -pthread -lm #-lXrandr
 
 all: snake
 
-snake: snake.cpp ppm.cpp log.cpp lianneL.cpp
-	g++ $(CFLAGS) snake.cpp ppm.cpp log.cpp lianneL.cpp libggfonts.a \
+snake: snake.cpp ppm.cpp log.cpp lianneL.cpp kevinB.cpp
+	g++ $(CFLAGS) snake.cpp ppm.cpp log.cpp lianneL.cpp kevinB.cpp libggfonts.a \
 	-Wall -Wextra $(LFLAGS) -o snake
 
 clean:
