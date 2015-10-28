@@ -9,5 +9,4 @@ typedef struct t_button {
 	unsigned int text_color;
 } Button;
 extern Button button;
-extern int bq;
-extern void map(int bq);
+extern void getGridCenter(const int i, const int j, int cent[2]);
