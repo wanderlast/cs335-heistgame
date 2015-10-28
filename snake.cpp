@@ -481,7 +481,7 @@ void checkMouse(XEvent *e)
 	return;
 }
 
-void getGridCenter(const int i, const int j, int cent[2])
+/*void getGridCenter(const int i, const int j, int cent[2])
 {
 	//This function can be optimized, and made more generic.
 	int b2 = boardDim/2;
@@ -502,7 +502,7 @@ void getGridCenter(const int i, const int j, int cent[2])
 	cent[1] = quad[1] + bq/2;
 	cent[0] += (bq * j);
 	cent[1] += (bq * i1);
-}
+}*/
 
 void physics(void)
 {
