@@ -12,12 +12,12 @@ ALuint alBuffer;
 
 void createSound()
 {
- Get started right here.
+ //Get started right here.
  alutInit(0, NULL);
  if (alGetError() != AL_NO_ERROR) {
  printf("ERROR: alutInit()\n");
  }
- Clear error state.
+ //Clear error state.
  alGetError();
 	
  // Setup the listener.
