@@ -1,4 +1,4 @@
-typedef struct t_button {
+/*typedef struct t_button {
 //	Rect r;
 	char text[32];
 	int over;
@@ -8,5 +8,5 @@ typedef struct t_button {
 	float dcolor[3];
 	unsigned int text_color;
 } Button;
-extern Button button;
+extern Button button;*/
 extern void getGridCenter(const int i, const int j, int cent[2]);
