@@ -36,11 +36,12 @@
 #include <time.h>
 #include <math.h>
 #include <X11/Xlib.h>
-//#include <X11/Xutil.h>
-//#include <GL/gl.h>
-//#include <GL/glu.h>
+#include <X11/Xutil.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
 #include <X11/keysym.h>
 #include <GL/glx.h>
+#include "ryanS.h"
 #include "log.h"
 #include "ppm.h"
 extern "C"{
@@ -48,8 +49,6 @@ extern "C"{
 }
 #include "main.h"
 #include "lianneL.h"
-#include "kevinB.h"
-
 
 using namespace std;
 
@@ -59,6 +58,7 @@ using namespace std;
 //X Windows variables
 Display *dpy;
 Window win;
+GLXContext glc;
 
 //function prototypes
 void initXWindows(void);
@@ -509,7 +509,11 @@ void checkMouse(XEvent *e)
 void physics(void)
 {
 	//
-	//
+	
+	//timer for clock
+	//clock_physics();
+	
+	
 	//Is it time to move the player?
 	//move the player segments...
 	int headpos[2];
@@ -588,6 +592,12 @@ void render(void)
 	glEnd();
 	glBindTexture(GL_TEXTURE_2D, 0);
 	//
+	
+	
+	//draw timer
+	//clock_animation();
+	
+	
 	//draw all buttons
 	for (i=0; i<nbuttons; i++) {
 		if (button[i].over) {
