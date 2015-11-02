@@ -10,16 +10,14 @@
 ALuint alSource;
 ALuint alBuffer;
 
-void createSound()
-{
- //Get started right here.
+void createSound() {
+		 //Get started right here.
  alutInit(0, NULL);
  if (alGetError() != AL_NO_ERROR) {
  printf("ERROR: alutInit()\n");
  }
  //Clear error state.
  alGetError();
-	
  // Setup the listener.
  // Forward and up vectors are used.
  float vec[6] = {0.0f,0.0f,1.0f, 0.0f,1.0f,0.0f};
@@ -28,7 +26,7 @@ void createSound()
  alListenerf(AL_GAIN, 1.0f);
 	
 	// // Buffer holds the sound information.
- ALuint alBuffer;
+ //ALuint alBuffer;
  alBuffer = alutCreateBufferFromFile("./cha-ching.wav");
 	
 	// // Source refers to the sound.
@@ -39,20 +37,17 @@ void createSound()
 	// // Set volume and pitch to normal, no looping of sound.
  alSourcef(alSource, AL_GAIN, 1.0f);
  alSourcef(alSource, AL_PITCH, 1.0f);
- alSourcei(alSource, AL_LOOPING, AL_TRUE);
+ alSourcei(alSource, AL_LOOPING, AL_FALSE);
  if (alGetError() != AL_NO_ERROR) {
- printf("ERROR: setting source\n");
+ 	printf("ERROR: setting source\n");
  }
- for (int i=0; i<4; i++) {
- while(true){
- alSourcePlay(alSource);
- usleep(900000000);
+for (int i=0; i<1; i++){
+	 alSourcePlay(alSource);
+ 	 usleep(900000);
  }
- }
- void cleanupSound()
- {
- }
-	// // Cleanup.
+}
+
+ void cleanupSound() {
 	// // First delete the source.
  alDeleteSources(1, &alSource);
 	// // Delete the buffer.
@@ -63,10 +58,10 @@ void createSound()
 	// // Get device for active context.
  ALCdevice *Device = alcGetContextsDevice(Context);
 	// // Disable context.
-	 alcMakeContextCurrent(NULL);
+ alcMakeContextCurrent(NULL);
 	// // Release context(s).
-	 alcDestroyContext(Context);
+ alcDestroyContext(Context);
 	// // Close device.
-	 alcCloseDevice(Device);
+ alcCloseDevice(Device);
 
  }

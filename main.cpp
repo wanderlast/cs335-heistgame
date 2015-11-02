@@ -47,9 +47,9 @@ extern "C"{
 	#include "fonts.h"
 }
 #include "main.h"
+#include "sergioA.h"
 #include "lianneL.h"
 #include "kevinB.h"
-
 
 using namespace std;
 
@@ -142,6 +142,7 @@ int main(int argc, char *argv[])
 	logOpen();
 	initXWindows();
 	initOpengl();
+//	initSound();
 	init();
 	initialize_fonts();
 	srand((unsigned int)time(NULL));
@@ -538,9 +539,11 @@ void physics(void)
 			treasure.pos[0] = rand() % gridDim;
 			treasure.pos[1] = rand() % gridDim;
 			collision=0;
+			createSound();
 			if (treasure.pos[0] == player.pos[0][0] &&
 					treasure.pos[1] == player.pos[0][1]) {
 					collision=1;
+					cleanupSound();
 					break;
 				}
 			if (!collision) break;
