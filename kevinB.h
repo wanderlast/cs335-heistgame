@@ -9,4 +9,6 @@
 	unsigned int text_color;
 } Button;
 extern Button button;*/
+//extern Player player;
 extern void getGridCenter(const int i, const int j, int cent[2]);
+extern void physics(void);
