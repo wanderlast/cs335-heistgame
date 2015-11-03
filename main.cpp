@@ -716,4 +716,22 @@ void render(void)
 	r.bot    = yres-100;
 	r.center = 1;
 	ggprint16(&r, 16, 0x00ffffff, "Heist Game");
+	
+	// draw wall
+	getGridCenter(wall.here[1],wall.here[0],cent);
+	glColor3f(0.1, 0.1f, 0.0f);
+	glBegin(GL_QUADS);
+	glVertex2i(cent[0]-4, cent[1]-3);
+	glVertex2i(cent[0]-4, cent[1]+4);
+	glVertex2i(cent[0]+3, cent[1]+4);
+	glVertex2i(cent[0]+3, cent[1]-3);
+	glEnd();
+	//
+	//
+	r.left   = xres/2;
+	r.bot    = yres-100;
+	r.center = 1;
+	ggprint16(&r, 16, 0x00ffffff, "Heist Game");
+}
+
 }
