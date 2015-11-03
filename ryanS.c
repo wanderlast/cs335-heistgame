@@ -39,10 +39,8 @@ void clock_animation()
 	float ang;
 	float len, wid;
 	//x,y is clock center
-	//float x = xres2/2.0;
-	//float y = yres2/2.0 - 40.0;
-	float x = 700;
-	float y = 450;
+	float x = xres2/2.0;
+	float y = yres2/2.0 - 40.0;
 	//
 	//Draw clock hands
 	//
@@ -54,15 +52,15 @@ void clock_animation()
 	glRotatef(bigHand, 0.0, 0.0, 1.0);
 	glColor3ub(230,230,230);
 	glBegin(GL_QUADS);
-		glVertex2i(0, -wid);
-		glVertex2i(0, wid);
-		glVertex2i(len, wid);
+		glVertex2i(0,   -wid);
+		glVertex2i(0,    wid);
+		glVertex2i(len,  wid);
 		glVertex2i(len, -wid);
 	glEnd();
 	glBegin(GL_TRIANGLES);
-		glVertex2i(len, -wid*2.0);
+		glVertex2i(len,     -wid*2.0);
 		glVertex2i(len+20.0, 0.0);
-		glVertex2i(len, wid*2.0);
+		glVertex2i(len,      wid*2.0);
 	glEnd();
 	glPopMatrix();
 	//

@@ -50,6 +50,7 @@ extern "C"{
 #include "sergioA.h"
 #include "lianneL.h"
 #include "kevinB.h"
+#include "ryanS.h"
 
 using namespace std;
 
@@ -511,6 +512,10 @@ void physics(void)
 {
 	//
 	//
+	//
+	clock_physics();
+	//
+	//
 	//Is it time to move the player?
 	//move the player segments...
 	int headpos[2];
@@ -558,6 +563,7 @@ void render(void)
 {
 	int i,j;
 	Rect r;
+
 	//--------------------------------------------------------
 	//This code is repeated several times in this program, so
 	//it can be made more generic and cleaner with some work.
@@ -658,6 +664,8 @@ void render(void)
 	}
 	glEnd();
 	//
+	//
+	clock_animation();
 	#define COLORFUL_SNAKE
 	//
 	//draw snake...
