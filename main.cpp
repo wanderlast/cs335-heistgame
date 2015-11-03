@@ -508,7 +508,7 @@ void checkMouse(XEvent *e)
 	cent[1] += (bq * i1);
 }*/
 
-void physics(void)
+/*void physics(void)
 {
 	//
 	//
@@ -557,7 +557,7 @@ void physics(void)
 		Log("new treasure: %i %i\n",treasure.pos[0],treasure.pos[1]);
 		return;
 	}
-}
+}*/
 
 void render(void)
 {
