@@ -1,10 +1,11 @@
-#include"kevinB.h"
-#include"main.h"
-#include"log.h"
-#include"sergioA.h"
-#include"cstdlib"
-#include<iostream>
-#include"lianneL.h"
+#include "kevinB.h"
+#include "main.h"
+#include "log.h"
+#include "sergioA.h"
+#include "cstdlib"
+#include <iostream>
+#include "lianneL.h"
+#include "ryanS.h"
 using namespace std;
 
 void getGridCenter(const int i, const int j, int cent[2])
@@ -41,7 +42,8 @@ void physics(void)
 {
 	//
 	//
-	//Is it time to move the player?
+	clock_physics();
+  //Is it time to move the player?
 	//move the player segments...
 	int headpos[2];
 	//save the head position.
