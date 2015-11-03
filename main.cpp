@@ -106,7 +106,7 @@ GLuint heistTexture;
 int nbuttons;
 Button button[MAXBUTTONS];
 Player player;
-
+Wall wall;
 //-----------------------------------------------------------------------------
 //Setup timers
 const double physicsRate = 1.0 / 60.0;
