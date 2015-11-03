@@ -733,5 +733,3 @@ void render(void)
 	r.center = 1;
 	ggprint16(&r, 16, 0x00ffffff, "Heist Game");
 }
-
-}
