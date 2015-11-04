@@ -16,6 +16,7 @@
 
 using namespace std;
 
+//controls user movement, checking for collision with boundaries
 void movement(int n)
 {
 	if(n == 0){
@@ -73,12 +74,21 @@ int checkCollision()
 //treasure collision and points
 int findTreasureValue(Treasure* t)
 {	
-	//if a 1. coin
-	if (t->type == 1) {
-		return 100;
-	} else {
-		//type is 2. jewel
-		return 500;
+	int value = t-> type;
+	
+	switch (value) {
+	  case 1:
+	    //coin
+	    return 100;
+	    break;
+	  case 2:
+	    //jewel
+	    return 500;
+	    break;
+	  default:
+	    //chest
+	    return 1000;
+	    break;
 	}
 }
 
