@@ -81,3 +81,5 @@ int findTreasureValue(Treasure* t)
 		return 500;
 	}
 }
+
+//spritework here
