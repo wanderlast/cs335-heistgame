@@ -71,7 +71,13 @@ int checkCollision()
 }
 
 //treasure collision and points
-int findValue()
+int findTreasureValue(Treasure* t)
 {	
-	
+	//if a 1. coin
+	if (t->type == 1) {
+		return 100;
+	} else {
+		//type is 2. jewel
+		return 500;
+	}
 }

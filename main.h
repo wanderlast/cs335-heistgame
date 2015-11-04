@@ -8,7 +8,7 @@ typedef struct t_grid {
 typedef struct t_treasure {
 	int status;
 	int pos[2];
-	int type;
+	int type; // coin = 1, jewel = 2
 } Treasure;
 
 extern int xres;
