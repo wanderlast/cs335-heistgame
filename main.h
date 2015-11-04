@@ -8,6 +8,7 @@ typedef struct t_grid {
 typedef struct t_treasure {
 	int status;
 	int pos[2];
+	int type;
 } Treasure;
 
 extern int xres;
@@ -19,3 +20,4 @@ extern int gridDim;
 extern int boardDim;
 extern int gameover;
 extern int winner;
+extern int score;

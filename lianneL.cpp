@@ -69,3 +69,9 @@ int checkCollision()
 		return 1;
 	}
 }
+
+//treasure collision and points
+int findValue()
+{	
+	
+}

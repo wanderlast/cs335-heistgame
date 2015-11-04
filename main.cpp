@@ -101,6 +101,7 @@ int gridDim;
 int boardDim;
 int gameover;
 int winner;
+int score;
 Ppmimage *heistImage;
 GLuint heistTexture;
 int nbuttons;
@@ -383,6 +384,7 @@ void resetGame(void)
 	initPlayer();
 	initTreasure();
 	gameover  = 0;
+	score = 0;
 	winner    = 0;
 }
 
