@@ -162,8 +162,7 @@ int main(int argc, char *argv[])
 			checkMouse(&e);
 			checkKeys(&e);
 		}
-	
-		//throw your start menu code here
+		startMenu();
 		glXSwapBuffers(dpy, win);
 	}
 	

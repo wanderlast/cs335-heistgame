@@ -6,6 +6,15 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include </usr/include/AL/alut.h>
+#include <X11/Xlib.h>
+#include <X11/keysym.h>
+#include <GL/glx.h>
+#include "log.h"
+#include "ppm.h"
+#include "main.h"
+extern "C"{
+	#include "fonts.h"
+}
 
 
 ALuint alSource;
@@ -66,3 +75,17 @@ for (int i=0; i<1; i++){
  alcCloseDevice(Device);
 
  }
+ 
+void startMenu() {
+  
+	glColor3f(0.5f, 0.5f, 0.5f);
+	glBegin(GL_QUADS);
+	glVertex2i(0, 0);
+	glVertex2i(0, yres);
+	glVertex2i(xres, yres);
+	glVertex2i(xres, 0);
+	glEnd();
+
+  
+  
+}
