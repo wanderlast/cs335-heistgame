@@ -1,5 +1,5 @@
 //cs335 Fall 2015 Project Component
-//author:
+//author: Thomas Espinoza
 //
 //This is a bootstrap code file to begin working off of.
 //Please remove any includes or files that are unnecessary

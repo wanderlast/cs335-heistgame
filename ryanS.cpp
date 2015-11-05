@@ -1,3 +1,4 @@
+//Author: Ryan Shephard
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

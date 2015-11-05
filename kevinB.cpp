@@ -1,3 +1,4 @@
+//Author: Kevin Boberg
 #include "kevinB.h"
 #include "main.h"
 #include "log.h"
