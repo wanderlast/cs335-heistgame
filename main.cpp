@@ -51,6 +51,7 @@ extern "C"{
 #include "lianneL.h"
 #include "kevinB.h"
 #include "ryanS.h"
+#include "thomasE.h"
 
 using namespace std;
 
@@ -78,7 +79,6 @@ void getGridCenter(const int i, const int j, int cent[2]);
 #define DIRECTION_LEFT  1
 #define DIRECTION_UP    2
 #define DIRECTION_RIGHT 3
-//
 #define MAX_GRID 80
 #define MAXBUTTONS 4
 typedef struct t_button {
@@ -186,6 +186,23 @@ int main(int argc, char *argv[])
 		render();
 		glXSwapBuffers(dpy, win);
 	}
+	
+	done = 0;
+	int randNumber = rand() % 100;
+	while(!done) {
+		while(XPending(dpy)) {
+			XEvent e;
+			XNextEvent(dpy, &e);
+			checkResize(&e);
+			checkMouse(&e);
+			checkKeys(&e);
+		}
+	
+		highScore(randNumber);
+		glXSwapBuffers(dpy, win);
+	}
+	
+	
 	cleanupXWindows();
 	cleanup_fonts();
 	logClose();
@@ -203,7 +220,7 @@ void setTitle(void)
 {
 	//Set the window title bar.
 	XMapWindow(dpy, win);
-	XStoreName(dpy, win, "CS335 - Heist Game");
+	XStoreName(dpy, win, "Press ESC to see High Score");
 }
 
 void setupScreenRes(const int w, const int h)
@@ -431,6 +448,8 @@ void checkKeys(XEvent *e)
 		case XK_Down:
 			movement(0);
 			break;
+		case XK_Escape:
+			done = 1;
 	}
 }
 

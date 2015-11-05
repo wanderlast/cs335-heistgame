@@ -21,3 +21,8 @@ extern int boardDim;
 extern int gameover;
 extern int winner;
 extern int score;
+
+//extern void checkResize(XEvent *e);
+//extern void checkMouse(XEvent *e);
+//extern void checkKeys(XEvent *e);
+//extern int done;
