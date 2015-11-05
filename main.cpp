@@ -97,6 +97,7 @@ int yres;
 Grid grid[MAX_GRID][MAX_GRID];
 Treasure treasure;
 int done;
+int start;
 int gridDim;
 int boardDim;
 int gameover;
@@ -133,11 +134,13 @@ int main(int argc, char *argv[])
 	xres = 800;
 	yres = 600;
 	done = 0;
+	start = 0;
 	gridDim = 40;
 	gameover = 0;
 	winner = 0;
 	nbuttons = 0;
 	heistImage=NULL;
+	
 	
 	if (argc) {}
 	if (argv[0]) {}
@@ -150,6 +153,20 @@ int main(int argc, char *argv[])
 	srand((unsigned int)time(NULL));
 	clock_gettime(CLOCK_REALTIME, &timePause);
 	clock_gettime(CLOCK_REALTIME, &timeStart);
+	
+	while(!start) {  //game has not started
+		while(XPending(dpy)) {
+			XEvent e;
+			XNextEvent(dpy, &e);
+			checkResize(&e);
+			checkMouse(&e);
+			checkKeys(&e);
+		}
+	
+		//throw your start menu code here
+		glXSwapBuffers(dpy, win);
+	}
+	
 	while(!done) {
 		while(XPending(dpy)) {
 			XEvent e;
@@ -450,6 +467,8 @@ void checkKeys(XEvent *e)
 			break;
 		case XK_Escape:
 			done = 1;
+		case XK_space:
+			start = 1;
 	}
 }
 
