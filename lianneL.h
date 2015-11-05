@@ -15,4 +15,5 @@ typedef struct t_player {
 extern Player player;
 
 extern void movement(int n);
-extern int checkCollision();
+extern int checkBorderCollision();
+extern void treasureGeneration();

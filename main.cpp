@@ -81,6 +81,7 @@ void getGridCenter(const int i, const int j, int cent[2]);
 #define DIRECTION_RIGHT 3
 #define MAX_GRID 80
 #define MAXBUTTONS 4
+#define MAX_TREASURE 15
 typedef struct t_button {
 	Rect r;
 	char text[32];
@@ -95,7 +96,7 @@ typedef struct t_button {
 int xres;
 int yres;
 Grid grid[MAX_GRID][MAX_GRID];
-Treasure treasure;
+Treasure treasure[MAX_TREASURE];
 int done;
 int start;
 int gridDim;
@@ -139,8 +140,7 @@ int main(int argc, char *argv[])
 	gameover = 0;
 	winner = 0;
 	nbuttons = 0;
-	heistImage=NULL;
-	
+	heistImage=NULL;	
 	
 	if (argc) {}
 	if (argv[0]) {}
@@ -348,10 +348,7 @@ void initPlayer(void)
 
 void initTreasure(void)
 {
-	//spawns treasure in an initial position
-	treasure.status = 1;
-	treasure.pos[0] = 25;
-	treasure.pos[1] = 2;
+	treasureGeneration();
 }
 
 void init(void)
@@ -741,14 +738,16 @@ void render(void)
 	//
 	//
 	//draw treasure...
-	getGridCenter(treasure.pos[1],treasure.pos[0],cent);
-	glColor3f(0.1, 0.1f, 0.0f);
-	glBegin(GL_QUADS);
-	glVertex2i(cent[0]-4, cent[1]-3);
-	glVertex2i(cent[0]-4, cent[1]+4);
-	glVertex2i(cent[0]+3, cent[1]+4);
-	glVertex2i(cent[0]+3, cent[1]-3);
-	glEnd();
+	for (int i = 0; i < MAX_TREASURE; i++) {
+		getGridCenter(treasure[i].pos[1],treasure[i].pos[0],cent);
+		glColor3f(0.1, 0.1f, 0.0f);
+		glBegin(GL_QUADS);
+		glVertex2i(cent[0]-4, cent[1]-3);
+		glVertex2i(cent[0]-4, cent[1]+4);
+		glVertex2i(cent[0]+3, cent[1]+4);
+		glVertex2i(cent[0]+3, cent[1]-3);
+		glEnd();
+	}
 	//
 	//
 	r.left   = xres/2;
