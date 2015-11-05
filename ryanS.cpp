@@ -1,4 +1,5 @@
 //Author: Ryan Shephard
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -11,6 +12,10 @@
 #include <GL/gl.h>
 #include <GL/glx.h>
 #include <GL/glu.h>
+#include "main.h"
+#include "thomasE.h"
+
+using namespace std;
 
 typedef float Flt;
 #define PI 3.1415926535897932384626433832795
@@ -121,9 +126,10 @@ void clock_animation()
 
 void clock_physics()
 {
-
-	bigHand -= handIncrement / 180.0; //THIS CHANGES THE TIME OF THE GAME
-
+	bigHand -= handIncrement / 15.0; //THIS CHANGES THE TIME OF THE GAME
+	//if((bigHand = -250.0)){
+	//done = 1;
+	//highScore(score);
 }
 
 //void render(void)

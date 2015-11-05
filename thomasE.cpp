@@ -33,6 +33,7 @@ int xres5=1300, yres5=800;
 
 void highScore(int score)
 {
+  if(done == 1){
 	unsigned int cref = 0x00ffffff; //white
 	
 	
@@ -65,6 +66,7 @@ void highScore(int score)
   
   
   return;
+  }
 }
 
 
