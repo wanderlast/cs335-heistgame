@@ -47,9 +47,6 @@ void physics(void)
   //Is it time to move the player?
 	//move the player segments...
 // 	int headpos[2];
-// 	//save the head position.
-// 	headpos[0] = player.pos[0][0];
-// 	headpos[1] = player.pos[0][1];
 
 	int loc[50];
 	// save
@@ -61,7 +58,7 @@ void physics(void)
 	    loc[i] = player.pos[0][0];
 		loc[i+1] = player.pos[0][1];
 	}
-	cout << "kb note: " << loc[5] << endl;
+// 	cout << "kb note: " << loc[5] << endl;
 	//player.direction:
 	//0=down
 	//1=left
@@ -75,31 +72,6 @@ void physics(void)
 	// }
 
 	//
-// 	//did the player get the treasure
-// 	if (headpos[0] == treasure.pos[0] && headpos[1] == treasure.pos[1]) {
-// 		//new position for treasure...
-// 		int collision=0;
-// 		int ntries=0;
-// 		while(1) {
-// 			treasure.pos[0] = rand() % gridDim;
-// 			//cout << treasure.pos[0] << endl;
-// 			treasure.pos[1] = rand() % gridDim;
-// 			//cout << treasure.pos[0] << endl;
-// 			collision=0;
-// 			createSound();
-// 			if (treasure.pos[0] == player.pos[0][0] &&
-// 					treasure.pos[1] == player.pos[0][1]) {
-// 					collision=1;
-// 					cleanupSound();
-// 					break;
-// 				}
-// 			if (!collision) break;
-// 			if (++ntries > 1000000) break;
-// 		}
-// 		Log("new treasure: %i %i\n",treasure.pos[0],treasure.pos[1]);
-// 		cout << "treasure collected KB" << endl;
-// 		return;
-// 	}
 
 	if (loc[0] == wall.here[0] && loc[1] == wall.here[1]) {
 		//new position for treasure...
@@ -204,5 +176,5 @@ for(int i=4; i<=40; i++) {
 		cout << "wall hit KB" << endl;  
 		return;
 	}
-	cout << "crash: " << i  << endl;
+// 	cout << "crash: " << i  << endl;
 }}
