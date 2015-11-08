@@ -767,7 +767,7 @@ void render(void)
 	
 	// draw wall
 	for(int i=4; i<26; i++) {
-	getGridCenter(wall.here[1],wall.here[0],cent);
+	getGridCenter(5, i, cent);
 	glColor3f(0.1, 0.1f, 0.0f);
 	glBegin(GL_QUADS);
 	glVertex2i(cent[0]-5, cent[1]-4);
