@@ -816,4 +816,89 @@ void render(void)
         r.center = 1;
         ggprint16(&r, 16, 0x00ffffff, "Heist Game");
         }
+        
+        for(int i=0; i<=26; i++) {
+        getGridCenter(20, i, cent);
+        glColor3f(0.1, 0.1f, 0.0f);
+        glBegin(GL_QUADS);
+        glVertex2i(cent[0]-5, cent[1]-4);
+        glVertex2i(cent[0]-5, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]-4);
+        glEnd();
+        //
+        //
+        r.left   = xres/2;
+        r.bot    = yres-100;
+        r.center = 1;
+        ggprint16(&r, 16, 0x00ffffff, "Heist Game");
+        }
+        
+        for(int i=0; i<=38; i++) {
+        getGridCenter(25, i, cent);
+        glColor3f(0.1, 0.1f, 0.0f);
+        glBegin(GL_QUADS);
+        glVertex2i(cent[0]-5, cent[1]-4);
+        glVertex2i(cent[0]-5, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]-4);
+        glEnd();
+        //
+        //
+        r.left   = xres/2;
+        r.bot    = yres-100;
+        r.center = 1;
+        ggprint16(&r, 16, 0x00ffffff, "Heist Game");
+        }
+
+        for(int i=3; i<=29; i++) {
+        getGridCenter(27, i, cent);
+        glColor3f(0.1, 0.1f, 0.0f);
+        glBegin(GL_QUADS);
+        glVertex2i(cent[0]-5, cent[1]-4);
+        glVertex2i(cent[0]-5, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]-4);
+        glEnd();
+        //
+        //
+        r.left   = xres/2;
+        r.bot    = yres-100;
+        r.center = 1;
+        ggprint16(&r, 16, 0x00ffffff, "Heist Game");
+        }
+
+        for(int i=2; i<=39; i++) {
+        getGridCenter(31, i, cent);
+        glColor3f(0.1, 0.1f, 0.0f);
+        glBegin(GL_QUADS);
+        glVertex2i(cent[0]-5, cent[1]-4);
+        glVertex2i(cent[0]-5, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]-4);
+        glEnd();
+        //
+        //
+        r.left   = xres/2;
+        r.bot    = yres-100;
+        r.center = 1;
+        ggprint16(&r, 16, 0x00ffffff, "Heist Game");
+        }
+
+        for(int i=7; i<=35; i++) {
+        getGridCenter(36, i, cent);
+        glColor3f(0.1, 0.1f, 0.0f);
+        glBegin(GL_QUADS);
+        glVertex2i(cent[0]-5, cent[1]-4);
+        glVertex2i(cent[0]-5, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]-4);
+        glEnd();
+        //
+        //
+        r.left   = xres/2;
+        r.bot    = yres-100;
+        r.center = 1;
+        ggprint16(&r, 16, 0x00ffffff, "Heist Game");
+        }
 }
