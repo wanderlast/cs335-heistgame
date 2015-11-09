@@ -24,12 +24,33 @@ using namespace std;
 //default player init
 void initPlayer(void)
 {
-	//spawns player in an initial position
-	player.status = 1;
-  player.type = 1;
-	player.pos[0][0] = 2;
-	player.pos[0][1] = 2;
-	player.direction = DIRECTION_RIGHT;
+    //spawns player in an initial position
+    player.status = 1;
+    player.type = 1;
+    player.pos[0][0] = 2;
+    player.pos[0][1] = 2;
+    player.direction = DIRECTION_RIGHT;
+}
+
+void initPlayer(int type)
+{
+    //spawns player in an initial position
+    player.status = 1;
+    player.type = type;
+    player.pos[0][0] = 2;
+    player.pos[0][1] = 2;
+    player.direction = DIRECTION_RIGHT;
+}
+
+void initPlayer(int type, int x, int y)
+{
+
+    //spawns player in an provided user position
+    player.status = 1;
+    player.type = type;
+    player.pos[0][0] = x;
+    player.pos[0][1] = y;
+    player.direction = DIRECTION_RIGHT;
 }
 
 //controls user movement, checking for collision with boundaries & treasure
@@ -101,20 +122,21 @@ int checkBorderCollision()
     }
 }
 
-void gameSelector(int selection){
-  
-  if(selection < 1 || selection > 3){
-    cout << "game selection error, value of " << selection << endl;
-  } else {
-    switch(selection) {
-      case 1:
-      initTreasure();
-      case 2:
-      initTreasure(25);
-      case 3:
-      initTreasure(1, 5);
+void gameSelector(int selection)
+{
+
+    if(selection < 1 || selection > 3) {
+        cout << "game selection error, value of " << selection << endl;
+    } else {
+        switch(selection) {
+        case 1:
+            initTreasure();
+        case 2:
+            initTreasure(25);
+        case 3:
+            initTreasure(1, 5);
+        }
     }
-  }
 }
 
 //generates treasure at the start of the game
@@ -131,7 +153,8 @@ void initTreasure(void)
 }
 
 //generates n treasures within the game
-void initTreasure(int n) {
+void initTreasure(int n)
+{
     //re-roll RNG
     srand(time(NULL));
 
@@ -143,16 +166,15 @@ void initTreasure(int n) {
 
 //generates "start" treasure to start
 //up to a max of end treasures at any given time
-void initTreasure(int start, int end){
-     //re-roll RNG
+void initTreasure(int start, int end)
+{
+    //re-roll RNG
     srand(time(NULL));
 
     //generate treasure
     for ( int i = 0; i < start; i++) {
         treasureGeneration(i);
     }
-    
-    
 }
 
 //generates a single treasure, checking for collision
@@ -206,8 +228,7 @@ void treasureGeneration(int i)
         }
 
         //this is i only if it passed all of the other tests
-        if ( test == 3 )
-        {
+        if ( test == 3 ) {
             treasure[i].status = 1; //generate the treasure, no collisions occurred
         }
     }
@@ -266,9 +287,9 @@ void treasureGeneration(int i, int type)
         }
 
         //this is i only if it passed all of the other tests
-        if ( test == 3 )
-        {
-            treasure[i].status = 1; //generate the treasure, no collisions occurred
+        if ( test == 3 ) {
+            //generate the treasure, no collisions occurred
+            treasure[i].status = 1;
         }
     }
 
@@ -290,11 +311,10 @@ void treasureCollision()
             createSound();
             cleanupSound();
 
-
             //new position for treasure...
             // int collision=0;
             // int ntries=0;
-            // while(1) {
+            // while(1){
             // treasure[i].pos[0] = rand() % gridDim;
             // //cout << "X " << treasure[i].pos[0] << endl;
             // treasure[i].pos[1] = rand() % gridDim;
@@ -308,13 +328,12 @@ void treasureCollision()
             // break;
             // }
             // if (!collision) break;
-            // if (++ntries > 1000000) break;
+            // if (++ntries > 1000000) break;}
         }
         Log("new treasure: %i %i\n",treasure[i].pos[0],treasure[i].pos[1]);
         cout << "treasure collected" << endl;
         return;
     }
-}
 
 }
 
