@@ -14,10 +14,17 @@ typedef struct t_player {
 
 extern Player player;
 
+extern void initPlayer();
+extern void initPlayer(int type);
 extern void initTreasure();
 extern void movement(int n);
 extern int checkBorderCollision();
+extern void gameSelector (int selection);
+extern void initTreasure();
+extern void initTreasure(int n);
+extern void initTreasure(int start, int end);
+
 extern void treasureGeneration(int i);
 extern void treasureGeneration(int i, int type);
 extern void treasureCollision();
-extern int findTreasureValue(Treasure *t);
+extern int findTreasureValue(int i);

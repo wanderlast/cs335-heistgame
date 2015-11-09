@@ -186,8 +186,6 @@ void treasureGeneration(int i)
         //generate a random position
         treasure[i].pos[0] = rand() % gridDim;
         treasure[i].pos[1] = rand() % gridDim;
-        cout << i << ": (" << treasure[i].pos[0] << ", " <<
-             treasure[i].pos[1] << ")";
 
         //check to see if it's overlapping with the player
         if (treasure[i].pos[0] == player.pos[0][0] &&
@@ -230,6 +228,8 @@ void treasureGeneration(int i)
         //this is i only if it passed all of the other tests
         if ( test == 3 ) {
             treasure[i].status = 1; //generate the treasure, no collisions occurred
+            cout << i << ": (" << treasure[i].pos[0] << ", " <<
+             treasure[i].pos[1] << ")";
         }
     }
 
@@ -245,8 +245,6 @@ void treasureGeneration(int i, int type)
         //generate a random position
         treasure[i].pos[0] = rand() % gridDim;
         treasure[i].pos[1] = rand() % gridDim;
-        cout << i << ": (" << treasure[i].pos[0] << ", " <<
-             treasure[i].pos[1] << ")";
 
         //check to see if it's overlapping with the player
         if (treasure[i].pos[0] == player.pos[0][0] &&
@@ -290,6 +288,8 @@ void treasureGeneration(int i, int type)
         if ( test == 3 ) {
             //generate the treasure, no collisions occurred
             treasure[i].status = 1;
+            cout << i << ": (" << treasure[i].pos[0] << ", " <<
+				treasure[i].pos[1] << ")";
         }
     }
 
