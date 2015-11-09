@@ -37,6 +37,45 @@ void highScore(int score)
   if(done == 1){
 	unsigned int cref = 0x00ffffff; //white
 	
+	/*--------- Take the value from the txt file and read it
+	char scoreNum[5];
+	int temp = 0;
+	string line;
+	
+	ifstream myfile ("highscore.txt");
+	if (myfile.is_open()) {
+		while ( getline (myfile, line) ){
+			scoreNum[tmp] = line;
+			tmp++;
+		}
+		myfile.close();
+	}
+	
+	stringstream scoreOne;
+    scoreOne << scoreNum[0];
+    string temp_str1 = scoreOne.str();
+    char* firstScore = (char*) temp_str1.c_str();
+    
+    stringstream scoreTwo;
+    scoreTwo << scoreNum[1];
+    string temp_str2 = scoreTwo.str();
+    char* secondScore = (char*) temp_str2.c_str();
+    
+    stringstream scoreThree;
+    scoreThree << scoreNum[2];
+    string temp_str3 = scoreThree.str();
+    char* thirdScore = (char*) temp_str3.c_str();
+    
+    stringstream scoreFour;
+    scoreFour << scoreNum[3];
+    string temp_str4 = scoreFour.str();
+    char* fourthScore = (char*) temp_str4.c_str();
+    
+    stringstream scoreFive;
+    scoreFive << scoreNum[4];
+    string temp_str5 = scoreFive.str();
+    char* fifthScore = (char*) temp_str5.c_str();
+	//-----------*/
 	
 	glColor3f(0, 0, 0);
 	glBegin(GL_QUADS);
@@ -64,6 +103,14 @@ void highScore(int score)
     char* testCheck2 = (char*) temp_str.c_str();
 
 	ggprint12(&finalScore, 0, cref, testCheck2);
+	
+	/*---- CHANGE FINAL SCORE TO A NEW RECT
+	ggprint12(&finalScore, 0, cref, firstScore);
+	ggprint12(&finalScore, 0, cref, secondScore);
+	ggprint12(&finalScore, 0, cref, thirdScore);
+	ggprint12(&finalScore, 0, cref, fourthScore);
+	ggprint12(&finalScore, 0, cref, fifthScore);
+	*/
   
   
   return;
