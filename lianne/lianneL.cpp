@@ -82,6 +82,7 @@ int checkBorderCollision()
 }
 
 //generates treasure at the start of the game
+//default version generates 15 random treasures
 void initTreasure(void)
 {
 	//re-roll RNG
@@ -89,6 +90,17 @@ void initTreasure(void)
 
 	//generate treasure
 	for ( int i = 0; i < MAX_TREASURE; i++){ 
+		treasureGeneration(i);
+	}
+}
+
+//generates n treasures within the game
+void initTreasure(int n){
+  	//re-roll RNG
+	srand(time(NULL));
+
+	//generate treasure
+	for ( int i = 0; i < n; i++){ 
 		treasureGeneration(i);
 	}
 }
@@ -109,16 +121,26 @@ void treasureGeneration(int i)
 		if (treasure[i].pos[0] == player.pos[0][0] &&
 				treasure[i].pos[1] == player.pos[0][1]) {
 			treasure[i].status = 0;
-			test = 1;
-		}
+		} else {
+      //not overlapping, check next
+      test = 1;
+    }
 		
 		if (test == 1) {
+      int x = treasure[i].pos[0];
+      int y = treasure[i].pos[1];
 			//check to see if it's overlapping with other treasure
 			for (int j = 0; j < i; j++){
-			  
+			  if (x == treasure[j].pos[0] && y == treasure[j].pos[1]){
+          //collision occurred
+          treasure[i].status = 0;
+          test = 0; //return to the first test
+          break;
+        }
 			}
-			treasure[i].status = 0;
-			test = 1;
+      if (test == 1){
+        test = 2;
+      }
 		}
 		
 		if (test == 2) {
@@ -128,10 +150,64 @@ void treasureGeneration(int i)
 		//this is i only if it passed all of the other tests
 		if ( test == 0 )
 		{
-			treasure[i].status = 1;
-		}	
+			treasure[i].status = 1; //generate the treasure, no collisions occurred
+		}
 	}
+  
 	treasure[i].type = rand()%3 + 1; //assigns it a type from 1-3
+}
+
+//generates a single treasure, but this time assigns a type
+void treasureGeneration(int i, int type)
+{
+	int test = 0;
+	//while the treasure hasn't been "generated"
+	while(treasure[i].status == 0){
+		//generate a random position
+		treasure[i].pos[0] = rand() % gridDim;
+		treasure[i].pos[1] = rand() % gridDim;
+		cout << i << ": (" << treasure[i].pos[0] << ", " <<
+			treasure[i].pos[1] << ")";
+			
+		//check to see if it's overlapping with the player
+		if (treasure[i].pos[0] == player.pos[0][0] &&
+				treasure[i].pos[1] == player.pos[0][1]) {
+			treasure[i].status = 0;
+		} else {
+      //not overlapping, check next
+      test = 1;
+    }
+		
+		if (test == 1) {
+      int x = treasure[i].pos[0];
+      int y = treasure[i].pos[1];
+			//check to see if it's overlapping with other treasure
+			for (int j = 0; j < i; j++){
+			  if (x == treasure[j].pos[0] && y == treasure[j].pos[1]){
+          //collision occurred
+          treasure[i].status = 0;
+          test = 0; //return to the first test
+          break;
+        }
+			}
+      if (test == 1){
+        test = 2;
+      }
+		}
+		
+		if (test == 2) {
+			//check for overlap with walls
+		} 
+		
+		//this is i only if it passed all of the other tests
+		if ( test == 0 )
+		{
+			treasure[i].status = 1; //generate the treasure, no collisions occurred
+		}
+	}
+  
+	treasure[i].type = type;
+  
 }
 
 void treasureCollision()
@@ -140,24 +216,32 @@ void treasureCollision()
 	for (int i = 0; i < MAX_TREASURE; i++){
 		if (player.pos[0][0] == treasure[i].pos[0] &&
 		  player.pos[0][1] == treasure[i].pos[1]) {
+        
+        treasureGeneration(i);
+        cout << "New position for treasure is : " << treasure[i].pos[0] 
+          << ", " << treasure[i].pos[1];
+        createSound();
+        cleanupSound();
+        
+        
 			//new position for treasure...
-			int collision=0;
-			int ntries=0;
-			while(1) {
-				treasure[i].pos[0] = rand() % gridDim;
-				//cout << treasure.pos[0] << endl;
-				treasure[i].pos[1] = rand() % gridDim;
-				//cout << treasure.pos[0] << endl;
-				collision=0;
-				createSound();
-				if (treasure[i].pos[0] == player.pos[0][0] &&
-						treasure[i].pos[1] == player.pos[0][1]) {
-						collision=1;
-						cleanupSound();
-						break;
-					}
-				if (!collision) break;
-				if (++ntries > 1000000) break;
+			// int collision=0;
+			// int ntries=0;
+			// while(1) {
+				// treasure[i].pos[0] = rand() % gridDim;
+				// //cout << "X " << treasure[i].pos[0] << endl;
+				// treasure[i].pos[1] = rand() % gridDim;
+				// //cout << "Y " << treasure[i].pos[1] << endl;
+				// collision=0;
+				// createSound();
+				// if (treasure[i].pos[0] == player.pos[0][0] &&
+						// treasure[i].pos[1] == player.pos[0][1]) {
+						// collision=1;
+						// cleanupSound();
+						// break;
+					// }
+				// if (!collision) break;
+				// if (++ntries > 1000000) break;
 			}
 			Log("new treasure: %i %i\n",treasure[i].pos[0],treasure[i].pos[1]);
 			cout << "treasure collected" << endl;
@@ -187,5 +271,3 @@ int findTreasureValue(Treasure* t)
 	    break;
 	}
 }
-
-//spritework here
