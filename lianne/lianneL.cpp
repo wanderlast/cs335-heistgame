@@ -21,6 +21,17 @@
 
 using namespace std;
 
+//default player init
+void initPlayer(void)
+{
+	//spawns player in an initial position
+	player.status = 1;
+  player.type = 1;
+	player.pos[0][0] = 2;
+	player.pos[0][1] = 2;
+	player.direction = DIRECTION_RIGHT;
+}
+
 //controls user movement, checking for collision with boundaries & treasure
 //wall collision is handled within the wall itself?
 void movement(int n)
@@ -90,6 +101,22 @@ int checkBorderCollision()
     }
 }
 
+void gameSelector(int selection){
+  
+  if(selection < 1 || selection > 3){
+    cout << "game selection error, value of " << selection << endl;
+  } else {
+    switch(selection) {
+      case 1:
+      initTreasure();
+      case 2:
+      initTreasure(25);
+      case 3:
+      initTreasure(1, 5);
+    }
+  }
+}
+
 //generates treasure at the start of the game
 //default version generates 15 random treasures
 void initTreasure(void)
@@ -112,6 +139,20 @@ void initTreasure(int n) {
     for ( int i = 0; i < n; i++) {
         treasureGeneration(i);
     }
+}
+
+//generates "start" treasure to start
+//up to a max of end treasures at any given time
+void initTreasure(int start, int end){
+     //re-roll RNG
+    srand(time(NULL));
+
+    //generate treasure
+    for ( int i = 0; i < start; i++) {
+        treasureGeneration(i);
+    }
+    
+    
 }
 
 //generates a single treasure, checking for collision
@@ -174,7 +215,7 @@ void treasureGeneration(int i)
     treasure[i].type = rand()%3 + 1; //assigns it a type from 1-3
 }
 
-//generates a single treasure, but this time assigns a type
+//generates a single treasure, but this time assigns a type as well
 void treasureGeneration(int i, int type)
 {
     int test = 0;

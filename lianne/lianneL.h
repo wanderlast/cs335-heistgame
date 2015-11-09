@@ -5,11 +5,11 @@ typedef struct t_player {
         //in the case we substitute a directionally facing sprite in
         
         int status; //whether it exists
-        //int length;
+        int type; //what game mode it is
         int pos[MAX_GRID*MAX_GRID][2];
         int direction;
-        double timer;
-        double delay;
+        //double timer;
+        //double delay;
 } Player;
 
 extern Player player;

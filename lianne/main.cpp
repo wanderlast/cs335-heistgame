@@ -335,17 +335,6 @@ void checkResize(XEvent *e)
 	}
 }
 
-void initPlayer(void)
-{
-	//spawns player in an initial position
-	player.status = 1;
-	player.delay = .15;
-	player.pos[0][0] = 2;
-	player.pos[0][1] = 2;
-	player.direction = DIRECTION_RIGHT;
-	//snake.timer = glfwGetTime() + 0.5;
-}
-
 void init(void)
 {
 	boardDim = gridDim * 10;
