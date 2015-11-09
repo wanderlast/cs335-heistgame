@@ -78,38 +78,14 @@ for (int i=0; i<1; i++){
  
 void startMenu() {
   
-   Rect r;
-  
-  	//start the opengl stuff
-	//set the viewing area on screen
-	glViewport(0, 0, xres, yres);
-	//clear color buffer
-	//glClearColor(0.1f, 0.2f, 0.3f, 0.0f);
-	//glClear(GL_COLOR_BUFFER_BIT);
-	//init matrices
-	glMatrixMode (GL_PROJECTION); glLoadIdentity();
-	glMatrixMode(GL_MODELVIEW); glLoadIdentity();
-	//this sets to 2D mode (no perspective)
-	glOrtho(0, xres, 0, yres, -1, 1);
-	//
-	//screen background
 	glColor3f(0.5f, 0.5f, 0.5f);
-	/*glBindTexture(GL_TEXTURE_2D, startTexture);
 	glBegin(GL_QUADS);
-		glTexCoord2f(0.0f, 0.0f); glVertex2i(0,      0);
-		glTexCoord2f(0.0f, 1.0f); glVertex2i(0,      yres);
-		glTexCoord2f(1.0f, 1.0f); glVertex2i(xres, yres);
-		glTexCoord2f(1.0f, 0.0f); glVertex2i(xres, 0);
+	glVertex2i(0, 0);
+	glVertex2i(0, yres);
+	glVertex2i(xres, yres);
+	glVertex2i(xres, 0);
 	glEnd();
-	glBindTexture(GL_TEXTURE_2D, 0);
-	*/
-	r.left   = xres/2;
-	r.bot    = yres-100;
-	r.center = 1;
-	ggprint16(&r, 16, 0x00ffffff, "Heist Game");
-	
-	r.left   = xres/2;
-	r.bot    = yres-300;
-	r.center = 1;
-	ggprint16(&r, 16, 0x00ffffff, "Press SPACE to start!");
+
+  
+  
 }

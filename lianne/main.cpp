@@ -93,7 +93,6 @@ typedef struct t_button {
 	unsigned int text_color;
 } Button;
 
-int x;
 int xres;
 int yres;
 Grid grid[MAX_GRID][MAX_GRID];
@@ -347,11 +346,6 @@ void initPlayer(void)
 	//snake.timer = glfwGetTime() + 0.5;
 }
 
-void initTreasure(void)
-{
-	treasureGeneration();
-}
-
 void init(void)
 {
 	boardDim = gridDim * 10;
@@ -452,24 +446,15 @@ void checkKeys(XEvent *e)
 			//~ break;
 		case XK_Left:
 			movement(1);
-			x=1;
-			movementWall(x);
 			break;
 		case XK_Right:
 			movement(3);
-			x=3;
-			movementWall(x);
 			break;
 		case XK_Up:
 			movement(2);
-			x=2;
-			movementWall(x);
-			
 			break;
 		case XK_Down:
 			movement(0);
-			x=0;
-			movementWall(x);
 			break;
 		case XK_Escape:
 			done = 1;
@@ -766,14 +751,13 @@ void render(void)
 	ggprint16(&r, 16, 0x00ffffff, "Heist Game");
 	
 	// draw wall
-	for(int i=4; i<26; i++) {
-	getGridCenter(5, i, cent);
+	getGridCenter(wall.here[1],wall.here[0],cent);
 	glColor3f(0.1, 0.1f, 0.0f);
 	glBegin(GL_QUADS);
-	glVertex2i(cent[0]-5, cent[1]-4);
-	glVertex2i(cent[0]-5, cent[1]+3);
-	glVertex2i(cent[0]+4, cent[1]+3);
-	glVertex2i(cent[0]+4, cent[1]-4);
+	glVertex2i(cent[0]-4, cent[1]-3);
+	glVertex2i(cent[0]-4, cent[1]+4);
+	glVertex2i(cent[0]+3, cent[1]+4);
+	glVertex2i(cent[0]+3, cent[1]-3);
 	glEnd();
 	//
 	//
@@ -781,5 +765,4 @@ void render(void)
 	r.bot    = yres-100;
 	r.center = 1;
 	ggprint16(&r, 16, 0x00ffffff, "Heist Game");
-	}
 }

@@ -9,7 +9,6 @@ using namespace std;
 #include <sstream>
 #include <string.h>
 #include <iostream>
-#include <fstream>
 #include <cstdlib>
 #include <cstring>
 #include <unistd.h>
@@ -34,7 +33,6 @@ int xres5=1300, yres5=800;
 
 void highScore(int score)
 {
-  if(done == 1){
 	unsigned int cref = 0x00ffffff; //white
 	
 	
@@ -67,55 +65,6 @@ void highScore(int score)
   
   
   return;
-  }
-}
-
-void calculateScore(int currentScore, int highScores[])
-{
-  for (int k = 1; k < 5; k++){
-    for (int i = 0; i < 4 - k; i++){
-      if (highScores[i] > highScores[i +1]){
-	  int sort = highScores[i];
-	  highScores[i] = highScores[i + 1];
-	  highScores[i + 1] = sort;
-      }
-    }
-  }
-  
-  for (int i = 0; i < 5; i++){
-    if(currentScore > highScores[i]){
-    
-    highScores[0] = currentScore;  
-      
-    for (int k = 1; k < 5; k++){
-      for (int i = 0; i < 4 - k; i++){
-	if (highScores[i] > highScores[i +1]){
-	  int sort = highScores[i];
-	  highScores[i] = highScores[i + 1];
-	  highScores[i + 1] = sort;
-      }
-    }
-  }
-      
-    }
-  }
-  if (currentScore > highScores[4]){
-    highScores[4] = currentScore;
-  }
-  
-}
-
-void scoreSheet(int highScores[])
-{
-  ofstream highscoreLog;
-  highscoreLog.open ("highscores.txt");
-
-  for (int i = 0; i < 5; i++){
-    highscoreLog << highScores[i] << endl;
-  }
-
-  highscoreLog.close();
-  
 }
 
 

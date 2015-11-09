@@ -17,6 +17,3 @@ typedef struct t_wall {
 extern Wall wall;
 extern void getGridCenter(const int i, const int j, int cent[2]);
 extern void physics(void);
-extern void initWall(void);
-extern void movementWall(int);
-extern int x;

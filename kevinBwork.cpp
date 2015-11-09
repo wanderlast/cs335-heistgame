@@ -12,8 +12,8 @@
 #define DIRECTION_UP    2
 #define DIRECTION_RIGHT 3
 bool myWall = false;
-//bool again = true;
-
+bool again = true;
+int x;
 using namespace std;
 
 void getGridCenter(const int i, const int j, int cent[2])
@@ -49,7 +49,7 @@ void getGridCenter(const int i, const int j, int cent[2])
 void physics(void)
 {
     initWall();
-        /*//
+        //
         //
         //Is it time to move the player?
         //move the player segments...
@@ -102,7 +102,7 @@ void physics(void)
 	again = false;
 		}
                 return;
-        }*/
+        }
 }
 
 void initWall(void)
@@ -119,7 +119,7 @@ void initWall(void)
 	}
 	//treasure.pos[0] = 4;
 	//treasure.pos[1] = 5;
-/*	for(int i=4; i<25; i+=2) {
+	for(int i=4; i<25; i+=2) {
                         while (treasure.pos[0] == wall.here[i] &&
                                         treasure.pos[1] == wall.here[i+1]) {
 			//	physics();
@@ -128,7 +128,7 @@ cout << "here" << endl;
                         //cout << treasure.pos[0] << endl;
                         treasure.pos[1] = rand() % gridDim;
 			}
-	}*/		
+	}		
         for(int i=4; i<=25; i+=2) {
                 if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
                         int collision=0;
@@ -148,16 +148,12 @@ cout << "here" << endl;
 				movementWall(x);	
                                                 break;
                                         }
-                                        if (!collision) {
-					   
+                                        if (!collision) { 
 					    myWall = true;
-					    movementWall(x);
 					    break;
 					}
-                                        if (++ntries > 1000000){
-					    
+                                        if (++ntries > 1000000){ 
 					    myWall = true;
-					    movementWall(x);
 					break;
 			}
 		//			myWall = false;
@@ -177,6 +173,7 @@ cout << "here" << endl;
                         {
                                 return 0;
                         }
+
                         else
                         {
                                 return 1;
@@ -204,21 +201,11 @@ cout << "here" << endl;
                                         if (wall.here[i] == player.pos[0][0] &&
                                         wall.here[i+1] == player.pos[0][1]) {
                                                 collision=1;
-						myWall = true;
-						movementWall(x);
                                                 //cleanupSound();
                                                 break;
                                         }
-                                        if (!collision) {
-					    myWall = true;
-					    movementWall(x);
-					    break;
-					}
-                                        if (++ntries > 1000000) {
-					    myWall = true;
-					    movementWall(x);
-					    break;
-					}
+                                        if (!collision) break;
+                                        if (++ntries > 1000000) break;
                         }
                 Log("new wall: %i %i\n",wall.here[i],wall.here[i+1]);
                 cout << "wall hit KB" << endl;  
@@ -362,46 +349,45 @@ void movementWall(int n)
 {
 	if(n == 0){
 	//    	if(myWall == false) {
-		//player.direction = DIRECTION_DOWN;
-		//player.pos[0][1] += 1;
+		player.direction = DIRECTION_DOWN;
+		player.pos[0][1] += 1;
 	//	}
 		if(myWall == true){
 		    cout << "here" << endl;
-		player.pos[0][1] -= 1;
+		player.pos[0][1] -= 2;
 			myWall = false;
 	//		return;
 		//	myWall = false;
-		
-		x=0;
 		}
+		x=0;
 		//if(initWall() == 0)
 		//cout << "(" << player.pos[0][0] << "," <<
 		// player.pos[0][1] << ")" << endl;
 	} else if (n == 1) {
-	//	player.direction = DIRECTION_LEFT;
-	//	player.pos[0][0] -= 1;
+		player.direction = DIRECTION_LEFT;
+		player.pos[0][0] -= 1;
 		if(myWall == true){
-			player.pos[0][0] += 1;
+			player.pos[0][0] += 2;
 			myWall = false;
 		}
 		x=1;
 	//	cout << "(" << player.pos[0][0] << "," <<
 	//	player.pos[0][1] << ")" << endl;
 	} else if (n == 2) {
-	//	player.direction = DIRECTION_UP;
-	//	player.pos[0][1] -= 1;
+		player.direction = DIRECTION_UP;
+		player.pos[0][1] -= 1;
 		if(myWall == true){
-			player.pos[0][1] += 1;
+			player.pos[0][1] += 2;
 			myWall = false;
 		}
 		x=2;
 	//	cout << "(" << player.pos[0][0] << "," <<
 	//	player.pos[0][1] << ")" << endl;
 	} else {
-	//	player.direction = DIRECTION_RIGHT;
-	//	player.pos[0][0] += 1;
+		player.direction = DIRECTION_RIGHT;
+		player.pos[0][0] += 1;
 		if(myWall == true){ // if(checkCollision() == 0) {
-			player.pos[0][0] -= 1;
+			player.pos[0][0] -= 2;
 			myWall = false;
 		}
 		x=3;
