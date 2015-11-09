@@ -21,11 +21,13 @@
 
 using namespace std;
 
-//controls user movement, checking for collision with boundaries
+//controls user movement, checking for collision with boundaries & treasure
+//wall collision is handled within the wall itself?
 void movement(int n)
 {
 	if(n == 0){
-		player.direction = DIRECTION_DOWN;
+		
+    player.direction = DIRECTION_DOWN;
 		player.pos[0][1] += 1;
 		if(!checkBorderCollision()){
 			player.pos[0][1] -= 1;
@@ -33,8 +35,10 @@ void movement(int n)
 		cout << "(" << player.pos[0][0] << "," <<
 		 player.pos[0][1] << ")" << endl;
 		treasureCollision();
+    
 	} else if (n == 1) {
-		player.direction = DIRECTION_LEFT;
+		
+    player.direction = DIRECTION_LEFT;
 		player.pos[0][0] -= 1;
 		if(!checkBorderCollision()){
 			player.pos[0][0] += 1;
@@ -42,8 +46,10 @@ void movement(int n)
 		cout << "(" << player.pos[0][0] << "," <<
 		player.pos[0][1] << ")" << endl;
 		treasureCollision();
+    
 	} else if (n == 2) {
-		player.direction = DIRECTION_UP;
+		
+    player.direction = DIRECTION_UP;
 		player.pos[0][1] -= 1;
 		if(!checkBorderCollision()){
 			player.pos[0][1] += 1;
@@ -51,8 +57,10 @@ void movement(int n)
 		cout << "(" << player.pos[0][0] << "," <<
 		player.pos[0][1] << ")" << endl;
 		treasureCollision();
+    
 	} else {
-		player.direction = DIRECTION_RIGHT;
+		
+    player.direction = DIRECTION_RIGHT;
 		player.pos[0][0] += 1;
 		if(!checkBorderCollision()){
 			player.pos[0][0] -= 1;
@@ -60,6 +68,7 @@ void movement(int n)
 		cout << "(" << player.pos[0][0] << "," <<
 		player.pos[0][1] << ")" << endl;
 		treasureCollision();
+    
 	}
 	
 	return;
@@ -131,7 +140,7 @@ void treasureGeneration(int i)
 		if (test == 1) {
       int x = treasure[i].pos[0];
       int y = treasure[i].pos[1];
-			for (int j = 0; j < i; j++){
+			for (int j = 0; j < MAX_TREASURE; j++){
 			  if (x == treasure[j].pos[0] && y == treasure[j].pos[1]){
           //collision occurred
           treasure[i].status = 0;
@@ -149,6 +158,10 @@ void treasureGeneration(int i)
 		if (test == 2) {
       int x = treasure[i].pos[0];
       int y = treasure[i].pos[1];
+      
+      for (int j = 0; j < MAX_TREASURE; j++){
+        //ASK KEVIN HOW HIS WALLS WORK ????????
+      }
 		} 
 		
 		//this is i only if it passed all of the other tests
@@ -177,34 +190,42 @@ void treasureGeneration(int i, int type)
 		if (treasure[i].pos[0] == player.pos[0][0] &&
 				treasure[i].pos[1] == player.pos[0][1]) {
 			treasure[i].status = 0;
+      test = -1;
 		} else {
       //not overlapping, check next
       test = 1;
     }
 		
+    //check to see if it's overlapping with other treasure
 		if (test == 1) {
       int x = treasure[i].pos[0];
       int y = treasure[i].pos[1];
-			//check to see if it's overlapping with other treasure
-			for (int j = 0; j < i; j++){
+			for (int j = 0; j < MAX_TREASURE; j++){
 			  if (x == treasure[j].pos[0] && y == treasure[j].pos[1]){
           //collision occurred
           treasure[i].status = 0;
-          test = 0; //return to the first test
+          test = -1; //return to the first test
           break;
         }
 			}
+      //so if it passed through all values without changing to -1
       if (test == 1){
         test = 2;
       }
 		}
-		
+    
+    //check for overlap with walls		
 		if (test == 2) {
-			//check for overlap with walls
+      int x = treasure[i].pos[0];
+      int y = treasure[i].pos[1];
+      
+      for (int j = 0; j < MAX_TREASURE; j++){
+        //ASK KEVIN HOW HIS WALLS WORK ????????
+      }
 		} 
 		
 		//this is i only if it passed all of the other tests
-		if ( test == 0 )
+		if ( test == 3 )
 		{
 			treasure[i].status = 1; //generate the treasure, no collisions occurred
 		}
@@ -214,6 +235,7 @@ void treasureGeneration(int i, int type)
   
 }
 
+//checks if player touched the treasure
 void treasureCollision()
 {
 	//did the player get the treasure
