@@ -164,7 +164,7 @@ cout << "here" << endl;
                         }
                 //      myWall = false;
                 Log("new wall: %i %i\n",wall.here[i],wall.here[i+1]);
-                cout << "wall hit KB" << endl; 
+                //cout << "wall hit KB" << endl; 
                //break;
                 //player.pos[0][1] -= -1;
                 //checkWall();
@@ -221,7 +221,7 @@ cout << "here" << endl;
                                         }
                         }
                 Log("new wall: %i %i\n",wall.here[i],wall.here[i+1]);
-                cout << "wall hit KB" << endl;  
+                //cout << "wall hit KB" << endl;  
         //      return;
                 }
         }
@@ -263,7 +263,7 @@ cout << "here" << endl;
                                         }
                         }
                 Log("new wall: %i %i\n",wall.here[i],wall.here[i+1]);
-                cout << "wall hit KB" << endl;  
+                //cout << "wall hit KB" << endl;  
         //      return;
                 }
         }
@@ -305,7 +305,7 @@ cout << "here" << endl;
                                         }
                         }
                 Log("new wall: %i %i\n",wall.here[i],wall.here[i+1]);
-                cout << "wall hit KB" << endl;  
+                //cout << "wall hit KB" << endl;  
         
         //        return;
                 }
@@ -349,7 +349,7 @@ cout << "here" << endl;
                                         }
                         }
                 Log("new wall: %i %i\n",wall.here[i],wall.here[i+1]);
-                cout << "wall hit KB" << endl;  
+                //cout << "wall hit KB" << endl;  
         //      return;
                 }
         }
@@ -391,7 +391,7 @@ cout << "here" << endl;
                                         }
                         }
                 Log("new wall: %i %i\n",wall.here[i],wall.here[i+1]);
-                cout << "wall hit KB" << endl;  
+                //cout << "wall hit KB" << endl;  
         //      return;
                 }
         }
@@ -406,8 +406,8 @@ void movementWall(int n)
                 //player.pos[0][1] += 1;
         //      }
                 if(myWall == true){
-                    cout << "here" << endl;
-                player.pos[0][1] -= 1;
+                  //  cout << "here" << endl;
+                        player.pos[0][1] -= 1;
                         myWall = false;
         //              return;
                 //      myWall = false;
