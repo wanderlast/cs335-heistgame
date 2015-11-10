@@ -111,6 +111,7 @@ int nbuttons;
 Button button[MAXBUTTONS];
 Player player;
 Wall wall;
+int treasureScore; // <- - - PUT TOTAL TREASURE VALUE HERE
 //-----------------------------------------------------------------------------
 //Setup timers
 const double physicsRate = 1.0 / 60.0;
@@ -206,6 +207,16 @@ int main(int argc, char *argv[])
 	
 	done = 0;
 	int randNumber = rand() % 100;
+	
+	int highScores[5];
+	/*highScores[0] = 4;
+	highScores[1] = 23;
+	highScores[2] = 45;
+	highScores[3] = 59;
+	highScores[4] = 80; //< - - - UNIT TESTING*/
+	readFile(highScores);
+	calculateScore(randNumber, highScores);
+	
 	while(!done) {
 		while(XPending(dpy)) {
 			XEvent e;
@@ -215,7 +226,8 @@ int main(int argc, char *argv[])
 			checkKeys(&e);
 		}
 	
-		highScore(randNumber);
+		highScore(randNumber, highScores);
+		scoreSheet(highScores);
 		glXSwapBuffers(dpy, win);
 	}
 	

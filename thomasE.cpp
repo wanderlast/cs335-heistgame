@@ -32,50 +32,10 @@ GLXContext glc;
 
 int xres5=1300, yres5=800;
 
-void highScore(int score)
+void highScore(int score, int highScores[])
 {
-  if(done == 1){
+  
 	unsigned int cref = 0x00ffffff; //white
-	
-	/*--------- Take the value from the txt file and read it
-	char scoreNum[5];
-	int temp = 0;
-	string line;
-	
-	ifstream myfile ("highscore.txt");
-	if (myfile.is_open()) {
-		while ( getline (myfile, line) ){
-			scoreNum[tmp] = line;
-			tmp++;
-		}
-		myfile.close();
-	}
-	
-	stringstream scoreOne;
-    scoreOne << scoreNum[0];
-    string temp_str1 = scoreOne.str();
-    char* firstScore = (char*) temp_str1.c_str();
-    
-    stringstream scoreTwo;
-    scoreTwo << scoreNum[1];
-    string temp_str2 = scoreTwo.str();
-    char* secondScore = (char*) temp_str2.c_str();
-    
-    stringstream scoreThree;
-    scoreThree << scoreNum[2];
-    string temp_str3 = scoreThree.str();
-    char* thirdScore = (char*) temp_str3.c_str();
-    
-    stringstream scoreFour;
-    scoreFour << scoreNum[3];
-    string temp_str4 = scoreFour.str();
-    char* fourthScore = (char*) temp_str4.c_str();
-    
-    stringstream scoreFive;
-    scoreFive << scoreNum[4];
-    string temp_str5 = scoreFive.str();
-    char* fifthScore = (char*) temp_str5.c_str();
-	//-----------*/
 	
 	glColor3f(0, 0, 0);
 	glBegin(GL_QUADS);
@@ -104,17 +64,68 @@ void highScore(int score)
 
 	ggprint12(&finalScore, 0, cref, testCheck2);
 	
-	/*---- CHANGE FINAL SCORE TO A NEW RECT
-	ggprint12(&finalScore, 0, cref, firstScore);
-	ggprint12(&finalScore, 0, cref, secondScore);
-	ggprint12(&finalScore, 0, cref, thirdScore);
-	ggprint12(&finalScore, 0, cref, fourthScore);
-	ggprint12(&finalScore, 0, cref, fifthScore);
-	*/
+	
+	// < - - - HIGH SCORES
+	Rect scoreOne;
+	scoreOne.bot = 350;
+	scoreOne.left = 135;
+	scoreOne.center = 150;
+	
+	Rect scoreTwo;
+	scoreTwo.bot = 325;
+	scoreTwo.left = 135;
+	scoreTwo.center = 150;
+	
+	Rect scoreThree;
+	scoreThree.bot = 300;
+	scoreThree.left = 135;
+	scoreThree.center = 150;
+	
+	Rect scoreFour;
+	scoreFour.bot = 275;
+	scoreFour.left = 135;
+	scoreFour.center = 150;
+	
+	Rect scoreFive;
+	scoreFive.bot = 250;
+	scoreFive.left = 135;
+	scoreFive.center = 150;
+	
+	stringstream strs1;
+    strs1 << highScores[0];
+    string tmp1 = strs1.str();
+    char* firstScore = (char*) tmp1.c_str();
+    
+    stringstream strs2;
+    strs2 << highScores[1];
+    string tmp2 = strs2.str();
+    char* secondScore = (char*) tmp2.c_str();
+    
+    stringstream strs3;
+    strs3 << highScores[2];
+    string tmp3 = strs3.str();
+    char* thirdScore = (char*) tmp3.c_str();
+    
+    stringstream strs4;
+    strs4 << highScores[3];
+    string tmp4 = strs4.str();
+    char* fourthScore = (char*) tmp4.c_str();
+    
+    stringstream strs5;
+    strs5 << highScores[4];
+    string tmp5 = strs5.str();
+    char* fifthScore = (char*) tmp5.c_str();
+	
+	ggprint12(&scoreOne, 0, cref, firstScore);
+	ggprint12(&scoreTwo, 0, cref, secondScore);
+	ggprint12(&scoreThree, 0, cref, thirdScore);
+	ggprint12(&scoreFour, 0, cref, fourthScore);
+	ggprint12(&scoreFive, 0, cref, fifthScore);
+	
   
   
   return;
-  }
+  
 }
 
 void calculateScore(int currentScore, int highScores[])
@@ -134,35 +145,67 @@ void calculateScore(int currentScore, int highScores[])
     
     highScores[0] = currentScore;  
       
-    for (int k = 1; k < 5; k++){
-      for (int i = 0; i < 4 - k; i++){
-	if (highScores[i] > highScores[i +1]){
-	  int sort = highScores[i];
-	  highScores[i] = highScores[i + 1];
-	  highScores[i + 1] = sort;
-      }
+    for (int k = 1; k < 6; k++){
+      for (int i = 0; i < 5 - k; i++){
+		if (highScores[i] > highScores[i +1]){
+			int sort = highScores[i];
+			highScores[i] = highScores[i + 1];
+			highScores[i + 1] = sort;
+			}
+		}
+	}
+	break;
     }
   }
-      
-    }
-  }
-  if (currentScore > highScores[4]){
-    highScores[4] = currentScore;
-  }
-  
 }
 
 void scoreSheet(int highScores[])
 {
-  ofstream highscoreLog;
-  highscoreLog.open ("highscores.txt");
+	ofstream highscoreLog;
+	highscoreLog.open ("highscores.txt");
 
-  for (int i = 0; i < 5; i++){
-    highscoreLog << highScores[i] << endl;
-  }
+	for (int i = 0; i < 5; i++){
+		highscoreLog << highScores[i] << endl;
+	}
 
-  highscoreLog.close();
-  
+	highscoreLog.close();  
+	return;
+}
+
+void readFile(int highScores[])
+{
+	
+	//--------- Take the value from the txt file and read it
+	string scoreNum[5];
+	int tmp = 0;
+	string line;
+	
+	ifstream myfile ("highscore.txt");
+	if (myfile.is_open()) {
+		while ( getline (myfile, line) ){
+			scoreNum[tmp] = line;
+			tmp++;
+		}
+		myfile.close();
+	}
+	
+	//LOOK UP THE FIN FUNCTION INSTEAD, YOU ARE PULLING INTS FROM THE FILE
+	istringstream scoreOne(scoreNum[0]);
+    scoreOne >> highScores[0];
+    
+    istringstream scoreTwo(scoreNum[1]);
+    scoreTwo >> highScores[1];
+    
+    istringstream scoreThree(scoreNum[2]);
+	scoreThree >> highScores[2];
+    
+    stringstream scoreFour(scoreNum[3]);
+	scoreFour >> highScores[3];
+    
+    stringstream scoreFive(scoreNum[4]);
+    scoreFive >> highScores[4];
+	
+	return;
 }
 
 
