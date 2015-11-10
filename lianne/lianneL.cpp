@@ -22,7 +22,7 @@
 using namespace std;
 
 //default player init
-void initPlayer(void)
+void initPlayer()
 {
     //spawns player in an initial position
     player.status = 1;
@@ -34,7 +34,7 @@ void initPlayer(void)
 
 void initPlayer(int type)
 {
-    //spawns player in an initial position
+    //spawns player in an initial position but with a certain game mode
     player.status = 1;
     player.type = type;
     player.pos[0][0] = 2;
@@ -122,6 +122,7 @@ int checkBorderCollision()
     }
 }
 
+//allows variable treasure generation patterns
 void gameSelector(int selection)
 {
 
@@ -191,6 +192,7 @@ void treasureGeneration(int i)
         if (treasure[i].pos[0] == player.pos[0][0] &&
                 treasure[i].pos[1] == player.pos[0][1]) {
             treasure[i].status = 0;
+            cout << "treasure spawned on top of player, rerolling pos";
             test = -1;
         } else {
             //not overlapping, check next
@@ -205,6 +207,7 @@ void treasureGeneration(int i)
                 if (x == treasure[j].pos[0] && y == treasure[j].pos[1]) {
                     //collision occurred
                     treasure[i].status = 0;
+                    cout << "treasure spawned on another treasure, rerolling";
                     test = -1; //return to the first test
                     break;
                 }
@@ -215,21 +218,31 @@ void treasureGeneration(int i)
             }
         }
 
-        //check for overlap with walls
         if (test == 2) {
             int x = treasure[i].pos[0];
             int y = treasure[i].pos[1];
 
-            for (int j = 0; j < MAX_TREASURE; j++) {
-                //ASK KEVIN HOW HIS WALLS WORK ????????
+            for (int j = 0; j < MAX_TREASURE; j+=2) {
+                if (x == wall.here[j] && y == wall.here[j+1]){
+                  //collision occurred
+                  treasure[i].status = 0;
+                  cout << "treasure spawned on wall, rerolling";
+                  test = -1;
+                }
+            }
+            
+            //so if it was never changed, there was no collisions
+            if (test == 2){
+              test = 3;
             }
         }
 
         //this is i only if it passed all of the other tests
         if ( test == 3 ) {
-            treasure[i].status = 1; //generate the treasure, no collisions occurred
+            //generate the treasure, no collisions occurred
+            treasure[i].status = 1;
             cout << i << ": (" << treasure[i].pos[0] << ", " <<
-             treasure[i].pos[1] << ")";
+				treasure[i].pos[1] << ")";
         }
     }
 
@@ -265,7 +278,6 @@ void treasureGeneration(int i, int type)
                     //collision occurred
                     treasure[i].status = 0;
                     test = -1; //return to the first test
-                    break;
                 }
             }
             //so if it passed through all values without changing to -1
@@ -279,8 +291,17 @@ void treasureGeneration(int i, int type)
             int x = treasure[i].pos[0];
             int y = treasure[i].pos[1];
 
-            for (int j = 0; j < MAX_TREASURE; j++) {
-                //ASK KEVIN HOW HIS WALLS WORK ????????
+            for (int j = 0; j < MAX_TREASURE; j+=2) {
+                if (x == wall.here[j] && y == wall.here[j+1]){
+                  //collision occurred
+                  treasure[i].status = 0;
+                  test = -1;
+                }
+            }
+            
+            //so if it was never changed, there was no collisions
+            if (test == 2){
+              test = 3;
             }
         }
 
