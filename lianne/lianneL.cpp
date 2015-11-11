@@ -368,10 +368,12 @@ int findTreasureValue(int i)
         //coin
         return 100;
         break;
+        
     case 2:
         //jewel
         return 500;
         break;
+        
     default:
         //chest
         return 1000;
