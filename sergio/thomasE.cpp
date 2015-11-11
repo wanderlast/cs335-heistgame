@@ -10,12 +10,11 @@ using namespace std;
 #include <string.h>
 #include <iostream>
 #include <fstream>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 #include <unistd.h>
 #include <ctime>
 #include <cmath>
-#include <math.h>
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
 #include <GL/glx.h>
@@ -34,7 +33,8 @@ GLXContext glc;
 int xres5=1300, yres5=800;
 
 void highScore(int score, int highScores[])
-{ 
+{
+  
 	unsigned int cref = 0x00ffffff; //white
 	
 	glColor3f(0, 0, 0);
@@ -125,11 +125,12 @@ void highScore(int score, int highScores[])
   
   
   return;
+  
 }
 
 void calculateScore(int currentScore, int highScores[])
 {
-  for (int k = 1; k < 5; k++){ //sort all scores before checking, in case of custom values
+  for (int k = 1; k < 5; k++){
     for (int i = 0; i < 4 - k; i++){
       if (highScores[i] > highScores[i +1]){
 	  int sort = highScores[i];
@@ -139,7 +140,7 @@ void calculateScore(int currentScore, int highScores[])
     }
   }
   
-  for (int i = 0; i < 5; i++){ //check if high score was made then sort
+  for (int i = 0; i < 5; i++){
     if(currentScore > highScores[i]){
     
     highScores[0] = currentScore;  
@@ -175,18 +176,20 @@ void readFile(int highScores[])
 {
 	
 	//--------- Take the value from the txt file and read it
-	//string scoreNum[5];
-	//int tmp = 0;
-	//string line;
+	string scoreNum[5];
+	int tmp = 0;
+	string line;
 	
-	ifstream highscoreLog;
-	highscoreLog.open("highscore.txt");
-	for(int i = 0; i < 6; i++){
-		highscoreLog >> highScores[i];
+	ifstream myfile ("highscore.txt");
+	if (myfile.is_open()) {
+		while ( getline (myfile, line) ){
+			scoreNum[tmp] = line;
+			tmp++;
+		}
+		myfile.close();
 	}
-	highscoreLog.close();
 	
-	/*LOOK UP THE FIN FUNCTION INSTEAD, YOU ARE PULLING INTS FROM THE FILE
+	//LOOK UP THE FIN FUNCTION INSTEAD, YOU ARE PULLING INTS FROM THE FILE
 	istringstream scoreOne(scoreNum[0]);
     scoreOne >> highScores[0];
     
@@ -200,39 +203,9 @@ void readFile(int highScores[])
 	scoreFour >> highScores[3];
     
     stringstream scoreFive(scoreNum[4]);
-    scoreFive >> highScores[4];*/
+    scoreFive >> highScores[4];
 	
 	return;
-}
-
-void checkSKeys(XEvent *e)
-{
-	static int shift=0;
-	int key = XLookupKeysym(&e->xkey, 0);
-	if (e->type == KeyRelease) {
-		if (key == XK_Shift_L || key == XK_Shift_R)
-			shift=0;
-		return;
-	}
-	if (e->type == KeyPress) {
-		if (key == XK_Shift_L || key == XK_Shift_R) {
-			shift=1;
-			return;
-		}
-	} else {
-		return;
-	}
-	if (shift){}
-
-	switch(key) {
-		case XK_r:
-			level = 1;
-			resetGame();
-			break;
-		case XK_Escape:
-			done = 1;
-			level = 1;
-	}
 }
 
 
