@@ -102,11 +102,13 @@ Treasure treasure[MAX_TREASURE];
 int done;
 int level;
 int start;
+int info;
 int gridDim;
 int boardDim;
 int gameover;
 int winner;
 int score;
+int soundNum;
 Ppmimage *heistImage;
 GLuint heistTexture;
 int nbuttons;
@@ -151,7 +153,6 @@ int main(int argc, char *argv[])
 	logOpen();
 	initXWindows();
 	initOpengl();
-//	initSound();
 	init();
 	initialize_fonts();
 	srand((unsigned int)time(NULL));
@@ -167,8 +168,25 @@ int main(int argc, char *argv[])
 			checkKeys(&e);
 		}
 		startMenu();
+		// soundNum = 1;
+		//createSound(soundNum);
 		glXSwapBuffers(dpy, win);
-	}
+
+	if(level == 0 && info == 1) {
+	while (info == 1 && !start){
+			while(XPending(dpy)) {
+			XEvent e;
+			XNextEvent(dpy, &e);
+			checkResize(&e);
+			checkMouse(&e);
+			checkKeys(&e);
+		}
+		infoMenu();
+		glXSwapBuffers(dpy, win);
+}     
+}
+}
+   
 	
 	level = 1;
 	while(!done) {	
@@ -180,7 +198,7 @@ int main(int argc, char *argv[])
 				checkMouse(&e);
 				checkKeys(&e);
 			}
-			//
+			
 			//Below is a process to apply physics at a consistent rate.
 			//1. Get the time right now.
 			clock_gettime(CLOCK_REALTIME, &timeCurrent);
@@ -381,8 +399,8 @@ void init(void)
 	//size and position
 	button[nbuttons].r.width = 140;
 	button[nbuttons].r.height = 60;
-	button[nbuttons].r.left = 20;
-	button[nbuttons].r.bot = 320;
+	button[nbuttons].r.left = 30;
+	button[nbuttons].r.bot = 220;
 	button[nbuttons].r.right =
 	   button[nbuttons].r.left + button[nbuttons].r.width;
 	button[nbuttons].r.top =
@@ -396,7 +414,7 @@ void init(void)
 	button[nbuttons].click = 0;
 	button[nbuttons].color[0] = 0.4f;
 	button[nbuttons].color[1] = 0.4f;
-	button[nbuttons].color[2] = 0.7f;
+	button[nbuttons].color[2] = 0.4f;
 	button[nbuttons].dcolor[0] = button[nbuttons].color[0] * 0.5f;
 	button[nbuttons].dcolor[1] = button[nbuttons].color[1] * 0.5f;
 	button[nbuttons].dcolor[2] = button[nbuttons].color[2] * 0.5f;
@@ -404,8 +422,8 @@ void init(void)
 	nbuttons++;
 	button[nbuttons].r.width = 140;
 	button[nbuttons].r.height = 60;
-	button[nbuttons].r.left = 20;
-	button[nbuttons].r.bot = 160;
+	button[nbuttons].r.left = 630;
+	button[nbuttons].r.bot = 220;
 	button[nbuttons].r.right =
 	   button[nbuttons].r.left + button[nbuttons].r.width;
 	button[nbuttons].r.top = button[nbuttons].r.bot +
@@ -414,12 +432,12 @@ void init(void)
 	   button[nbuttons].r.right) / 2;
 	button[nbuttons].r.centery = (button[nbuttons].r.bot +
 	   button[nbuttons].r.top) / 2;
-	strcpy(button[nbuttons].text, "Give Up");
+	strcpy(button[nbuttons].text, "I Quit");
 	button[nbuttons].down = 0;
 	button[nbuttons].click = 0;
-	button[nbuttons].color[0] = 0.3f;
-	button[nbuttons].color[1] = 0.3f;
-	button[nbuttons].color[2] = 0.6f;
+	button[nbuttons].color[0] = 0.4f;
+	button[nbuttons].color[1] = 0.4f;
+	button[nbuttons].color[2] = 0.4f;
 	button[nbuttons].dcolor[0] = button[nbuttons].color[0] * 0.5f;
 	button[nbuttons].dcolor[1] = button[nbuttons].color[1] * 0.5f;
 	button[nbuttons].dcolor[2] = button[nbuttons].color[2] * 0.5f;
@@ -542,6 +560,8 @@ void checkKeys(XEvent *e)
 			level = 2;
 		case XK_space:
 			start = 1;
+		case XK_Return:
+			info = 1;
 	}
 }
 
