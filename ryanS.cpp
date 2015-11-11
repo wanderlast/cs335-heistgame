@@ -25,6 +25,7 @@ typedef float Flt;
 //Function prototypes
 void clock_physics();
 void clock_animation();
+int gameOverMan();
 
 //X Windows variables
 //GLXContext glc;
@@ -126,11 +127,29 @@ void clock_animation()
 
 void clock_physics()
 {
-	bigHand -= handIncrement / 15.0; //THIS CHANGES THE TIME OF THE GAME
+    bigHand -= handIncrement / 15.0; //THIS CHANGES THE TIME OF THE GAME
+    
+
 	//if((bigHand = -250.0)){
 	//done = 1;
 	//highScore(score);
 }
+
+int gameOverMan(){
+    //cout << "This clock is going so fast..." << clock() << endl;
+    clock_t t = clock();
+
+    cout << CLOCKS_PER_SEC/10 << endl;
+
+    double seconds = (t/CLOCKS_PER_SEC);
+
+    //cout << seconds << endl;
+    if(seconds == 15){
+	done = 1;
+    }
+    return done;
+}
+   
 
 //void render(void)
 //{
