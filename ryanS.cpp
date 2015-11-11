@@ -5,7 +5,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <math.h>
-#include <time.h>
+#include <ctime>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/keysym.h>
@@ -25,7 +25,7 @@ typedef float Flt;
 //Function prototypes
 void clock_physics();
 void clock_animation();
-int gameOverMan();
+void gameOverMan();
 
 //X Windows variables
 //GLXContext glc;
@@ -135,19 +135,16 @@ void clock_physics()
 	//highScore(score);
 }
 
-int gameOverMan(){
+void gameOverMan(){
+    
     //cout << "This clock is going so fast..." << clock() << endl;
-    clock_t t = clock();
-
-    cout << CLOCKS_PER_SEC/10 << endl;
-
-    double seconds = (t/CLOCKS_PER_SEC);
-
-    //cout << seconds << endl;
-    if(seconds == 15){
-	done = 1;
-    }
-    return done;
+    //double diff = clock() - t1;
+    int seconds = clock() / (CLOCKS_PER_SEC*.25);
+    cout << seconds << endl;
+    	if(seconds == 15){
+		done = 1;
+    	}
+  //return done;
 }
    
 
