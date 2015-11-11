@@ -1,39 +1,46 @@
-//Author: Kevin Boberg
-#include "kevinB.h"
-#include "main.h"
-#include "log.h"
-#include "sergioA.h"
-#include "cstdlib"
-#include <iostream>
-#include "lianneL.h"
-#include "ryanS.h"
+#include"kevinB.h"
+//#include"lianneL.h"
+#include"main.h"
+#include"log.h"
+#include"sergioA.h"
+#include"cstdlib"
+#include<iostream>
+#include"lianneL.h"
+
+#define DIRECTION_DOWN  0
+#define DIRECTION_LEFT  1
+#define DIRECTION_UP    2
+#define DIRECTION_RIGHT 3
+bool myWall = false;
+//bool again = true;
+
 using namespace std;
 
 void getGridCenter(const int i, const int j, int cent[2])
 {
-	//This function can be optimized, and made more generic.
-	int b2 = boardDim/2;
-	int screenCenter[2] = {xres/2, yres/2};
-	int s0 = screenCenter[0];
-	int s1 = screenCenter[1];
-	int bq;
-	//quad upper-left corner
-	int quad[2];
-	//bq is the width of one grid section
-	
-	//map();
-	bq = (boardDim / gridDim);
+        //This function can be optimized, and made more generic.
+        int b2 = boardDim/2;
+        int screenCenter[2] = {xres/2, yres/2};
+        int s0 = screenCenter[0];
+        int s1 = screenCenter[1];
+        int bq;
+        //quad upper-left corner
+        int quad[2];
+        //bq is the width of one grid section
+
+        //map();
+        bq = (boardDim / gridDim);
 
 
-	//-------------------------------------
-	//because y dimension is bottom-to-top in OpenGL.
-	int i1 = gridDim - i - 1;
-	quad[0] = s0-b2;
-	quad[1] = s1-b2;
-	cent[0] = quad[0] + bq/2;
-	cent[1] = quad[1] + bq/2;
-	cent[0] += (bq * j);
-	cent[1] += (bq * i1);
+        //-------------------------------------
+        //because y dimension is bottom-to-top in OpenGL.
+        int i1 = gridDim - i - 1;
+        quad[0] = s0-b2;
+        quad[1] = s1-b2;
+        cent[0] = quad[0] + bq/2;
+        cent[1] = quad[1] + bq/2;
+        cent[0] += (bq * j);
+        cent[1] += (bq * i1);
 }
 
 
@@ -41,140 +48,938 @@ void getGridCenter(const int i, const int j, int cent[2])
 
 void physics(void)
 {
-	//
-	//
-	clock_physics();
-  //Is it time to move the player?
-	//move the player segments...
-// 	int headpos[2];
+    initWall();
+        /*//
+        //
+        //Is it time to move the player?
+        //move the player segments...
+        int headpos[2];
+        //save the head position.
+        headpos[0] = player.pos[0][0];
+        headpos[1] = player.pos[0][1];
 
-	int loc[50];
-	// save
-	loc[0] = player.pos[0][0];
-	loc[1] = player.pos[0][1];
-	loc[2] = player.pos[0][0];
-	loc[3] = player.pos[0][1];
-	for(int i=4; i<=40; i++) {
-	    loc[i] = player.pos[0][0];
-		loc[i+1] = player.pos[0][1];
-	}
-// 	cout << "kb note: " << loc[5] << endl;
-	//player.direction:
-	//0=down
-	//1=left
-	//2=up
-	//3=right
-	// switch(player.direction) {
-		// case DIRECTION_DOWN:  player.pos[0][1] += 1; break;
-		// case DIRECTION_LEFT:  player.pos[0][0] -= 1; break;
-		// case DIRECTION_UP:    player.pos[0][1] -= 1; break;
-		// case DIRECTION_RIGHT: player.pos[0][0] += 1; break;
-	// }
+        // save
+        //player.direction:
+        //0=down
+        //1=left
+        //2=up
+        //3=right
+        // switch(player.direction) {
+                // case DIRECTION_DOWN:  player.pos[0][1] += 1; break;
+                // case DIRECTION_LEFT:  player.pos[0][0] -= 1; break;
+                // case DIRECTION_UP:    player.pos[0][1] -= 1; break;
+                // case DIRECTION_RIGHT: player.pos[0][0] += 1; break;
+        // }
 
-	//
 
-	if (loc[0] == wall.here[0] && loc[1] == wall.here[1]) {
-		//new position for treasure...
-		int collision=0;
-		int ntries=0;
-		while(1) {
-			//wall.here[0] = 30;
-			//wall.here[1] = 20;
+        //
+        //did the player get the treasure
+        if (headpos[0] == treasure.pos[0] && headpos[1] == treasure.pos[1]) {
+                //new position for treasure...
+                int collision=0;
+                int ntries=0;
+                while(1) {
+                        treasure.pos[0] = rand() % gridDim;
+                        //cout << treasure.pos[0] << endl;
+                        treasure.pos[1] = rand() % gridDim;
+                        //cout << treasure.pos[0] << endl;
+                        collision=0;
+                        createSound();
+                        if (treasure.pos[0] == player.pos[0][0] &&
+                                        treasure.pos[1] == player.pos[0][1]) {
+                                        collision=1;
+                                        cleanupSound();
+                                        break;
+                                }
+                        if (!collision) break;
+                        if (++ntries > 1000000) break;
+                }
+                Log("new treasure: %i %i\n",treasure.pos[0],treasure.pos[1]);
+                cout << "treasure collected KB" << endl;
+                if(again == true) {
+        treasure.pos[0] = 6;
+        treasure.pos[1] = 5;
+        again = false;
+                }
+                return;
+        }*/
+}
 
-			//wall.here[2] = 30;
-			//wall.here[3] = 20;
+void initWall(void)
+{
+        int loc[50];
+        for(int i=4; i<=25; i+=2) {
+                loc[i] = player.pos[0][0];
+                loc[i+1] = player.pos[0][1];
+        }
 
-			wall.here[0] = 9;
-			wall.here[1] = 10;
-			//wall.here[0] = 11;
-			//wall.here[1] = 12;
-			//wall.here[2] = 11;
-		//wall.here[3] = 12;
+        for(int i=4; i<=25; i+=2) {
+                wall.here[i] = i;
+                wall.here[i+1] = 5;
+        }
+        //treasure.pos[0] = 4;
+        //treasure.pos[1] = 5;
+/*      for(int i=4; i<25; i+=2) {
+                        while (treasure.pos[0] == wall.here[i] &&
+                                        treasure.pos[1] == wall.here[i+1]) {
+                        //      physics();
+cout << "here" << endl;
+                        treasure.pos[0] = rand() % gridDim;
+                        //cout << treasure.pos[0] << endl;
+                        treasure.pos[1] = rand() % gridDim;
+                        }
+        }*/
+        for(int i=4; i<=25; i+=2) {
+                if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
+                        int collision=0;
+                //      myWall = false;
+                        int ntries=0;
+                        while(1) {
+                                collision=0;
+                                //createSound();
+                                        if (wall.here[i] == player.pos[0][0] &&
+                                        wall.here[i+1] == player.pos[0][1]) {
+                                                collision=1;
+                                                //cleanupSound();
+                                        myWall = true;
+                                //      if(myWall == true)
+                                //      player.pos[0][1] = -1;
+                                //myWall = false;
+                                movementWall(x);
+                                                break;
+                                        }
+                                        if (!collision) {
+                                           
+                                            myWall = true;
+                                            movementWall(x);
+                                            break;
+                                        }
+                                        if (++ntries > 1000000){
+                                            
+                                            myWall = true;
+                                            movementWall(x);
+                                        break;
+                        }
+                //                      myWall = false;
+                        }
+                //      myWall = false;
+                Log("new wall: %i %i\n",wall.here[i],wall.here[i+1]);
+                //cout << "wall hit KB" << endl; 
+               //break;
+                //player.pos[0][1] -= -1;
+                //checkWall();
+        //      return;
+/*
+                        if (player.pos[0][0] < 0 ||
+                        player.pos[0][0] > gridDim-1 ||
+                        player.pos[0][1] < 0 ||
+                        player.pos[0][1] > gridDim-1)
+                        {
+                                return 0;
+                        }
+                        else
+                        {
+                                return 1;
+                        }
+              */  }
+        }
 
-			collision=0;
-			//collision=0;
-			//collision=0;
-			//createSound();
-			if (wall.here[0] == player.pos[0][0] &&
-					wall.here[1] == player.pos[0][1]) {
-					collision=1;
-			//		cleanupSound();
-					break;
-				}
-			if (!collision) break;
-			if (++ntries > 1000000) break;
-		}
-		Log("new wall: %i %i\n",wall.here[0],wall.here[1]);
-		cout << "wall hit KB" << endl;
-		return;
-	}
+        for(int i=5; i<=26; i+=2) {
+                loc[i] = player.pos[0][0];
+                loc[i+1] = player.pos[0][1];
+        }
 
-	if (loc[2] == wall.here[2] && loc[3] == wall.here[3]) {
-		//new position for treasure...
-		int collision=0;
-		int ntries=0;
-		while(1) {
-			//wall.here[0] = 30;
-			//wall.here[1] = 20;
+        for(int i=5; i<=26; i+=2) {
+                wall.here[i] = i;
+                wall.here[i+1] = 5;
+        }
 
-			//wall.here[2] = 30;
-			//wall.here[3] = 20;
+        for(int i=5; i<=26; i+=2) {
+                if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
+                        int collision=0;
+                        int ntries=0;
+                        while(1) {
+                                collision=0;
+                                //createSound();
+                                        if (wall.here[i] == player.pos[0][0] &&
+                                        wall.here[i+1] == player.pos[0][1]) {
+                                                collision=1;
+                                                myWall = true;
+                                                movementWall(x);
+                                                //cleanupSound();
+                                                break;
+                                        }
+                                        if (!collision) {
+                                            myWall = true;
+                                            movementWall(x);
+                                            break;
+                                        }
+                                        if (++ntries > 1000000) {
+                                            myWall = true;
+                                            movementWall(x);
+                                            break;
+                                        }
+                        }
+                Log("new wall: %i %i\n",wall.here[i],wall.here[i+1]);
+                //cout << "wall hit KB" << endl;  
+        //      return;
+                }
+        }
 
-			wall.here[2] = 11;
-			wall.here[3] = 12;
-			//wall.here[2] = 11;
-		//wall.here[3] = 12;
-			
-			collision=0;
-			//collision=0;
-			//collision=0;
-			//createSound();
-			if (wall.here[2] == player.pos[0][0] &&
-					wall.here[3] == player.pos[0][1]) {
-					collision=1;
-			//		cleanupSound();
-					break;
-				}
-			if (!collision) break;
-			if (++ntries > 1000000) break;
-		}
-		Log("new wall: %i %i\n",wall.here[2],wall.here[3]);
-		cout << "wall hit KB" << endl;  
-		return;
-	}
-for(int i=4; i<=40; i++) {
-	if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
-		//new position for treasure...
-		int collision=0;
-		int ntries=0;
-		while(1) {
-			//wall.here[0] = 30;
-			//wall.here[1] = 20;
+        for(int i=5; i<=25; i+=2) {
+                loc[i] = player.pos[0][0];
+                loc[i+1] = player.pos[0][1];
+        }
 
-			//wall.here[2] = 30;
-			//wall.here[3] = 20;
+        for(int i=5; i<=25; i+=2) {
+                wall.here[i] = i;
+                wall.here[i+1] = 9;
+        }
 
-			wall.here[i] = 11+i;
-			wall.here[i+1] = 12+i;
-			//wall.here[2] = 11;
-		//wall.here[3] = 12;
-			
-			collision=0;
-			//collision=0;
-			//collision=0;
-			//createSound();
-			if (wall.here[i] == player.pos[0][0] &&
-					wall.here[i+1] == player.pos[0][1]) {
-					collision=1;
-			//		cleanupSound();
-					break;
-				}
-			if (!collision) break;
-			if (++ntries > 1000000) break;
-		}
-		Log("new wall: %i %i\n",wall.here[i],wall.here[i+1]);
-		cout << "wall hit KB" << endl;  
-		return;
-	}
-// 	cout << "crash: " << i  << endl;
-}}
+        for(int i=5; i<=25; i+=2) {
+                if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
+                        int collision=0;
+                        int ntries=0;
+                        while(1) {
+                                collision=0;
+                                //createSound();
+                                        if (wall.here[i] == player.pos[0][0] &&
+                                        wall.here[i+1] == player.pos[0][1]) {
+                                                collision=1;
+                                                myWall = true;
+                                                movementWall(x);
+                                                //cleanupSound();
+                                                break;
+                                        }
+                                        if (!collision) {
+                                            myWall = true;
+                                            movementWall(x);
+                                            break;
+                                        }
+                                        if (++ntries > 1000000) {
+                                            myWall = true;
+                                            movementWall(x);
+                                            break;
+                                        }
+                        }
+                Log("new wall: %i %i\n",wall.here[i],wall.here[i+1]);
+                //cout << "wall hit KB" << endl;  
+        //      return;
+                }
+        }
+
+        for(int i=4; i<=26; i+=2) {
+                loc[i] = player.pos[0][0];
+                loc[i+1] = player.pos[0][1];
+        }
+
+        for(int i=4; i<=26; i+=2) {
+                wall.here[i] = i;
+                wall.here[i+1] = 9;
+        }
+
+        for(int i=4; i<=26; i+=2) {
+                if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
+                        int collision=0;
+                        int ntries=0;
+                        while(1) {
+                                collision=0;
+                                //createSound();
+                                        if (wall.here[i] == player.pos[0][0] &&
+                                        wall.here[i+1] == player.pos[0][1]) {
+                                                collision=1;
+                                                myWall = true;
+                                                movementWall(x);
+                                                //cleanupSound();
+                                                break;
+                                        }
+                                        if (!collision) {
+                                            myWall = true;
+                                            movementWall(x);
+                                            break;
+                                        }
+                                        if (++ntries > 1000000) {
+                                            myWall = true;
+                                            movementWall(x);
+                                            break;
+                                        }
+                        }
+                Log("new wall: %i %i\n",wall.here[i],wall.here[i+1]);
+                //cout << "wall hit KB" << endl;  
+        
+        //        return;
+                }
+        }
+
+
+        for(int i=1; i<=25; i+=2) {
+                loc[i] = player.pos[0][0];
+                loc[i+1] = player.pos[0][1];
+        }
+
+        for(int i=1; i<=25; i+=2) {
+                wall.here[i] = i;
+                wall.here[i+1] = 15;
+        }
+
+        for(int i=1; i<=25; i+=2) {
+                if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
+                        int collision=0;
+                        int ntries=0;
+                        while(1) {
+                                collision=0;
+                                //createSound();
+                                        if (wall.here[i] == player.pos[0][0] &&
+                                        wall.here[i+1] == player.pos[0][1]) {
+                                                collision=1;
+                                                //cleanupSound();
+                                                myWall = true;
+                                                movementWall(x);
+                                                break;
+                                        }
+                                        if (!collision) {
+                                            myWall = true;
+                                            movementWall(x);
+                                            break;
+                                        }
+                                        if (++ntries > 1000000) {
+                                            myWall = true;
+                                            movementWall(x);
+                                            break;
+                                        }
+                        }
+                Log("new wall: %i %i\n",wall.here[i],wall.here[i+1]);
+                //cout << "wall hit KB" << endl;  
+        //      return;
+                }
+        }
+
+        for(int i=0; i<=26; i+=2) {
+                loc[i] = player.pos[0][0];
+                loc[i+1] = player.pos[0][1];
+        }
+
+        for(int i=0; i<=26; i+=2) {
+                wall.here[i] = i;
+                wall.here[i+1] = 15;
+        }
+
+        for(int i=0; i<=26; i+=2) {
+                if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
+                        int collision=0;
+                        int ntries=0;
+                        while(1) {
+                                collision=0;
+                                //createSound();
+                                        if (wall.here[i] == player.pos[0][0] &&
+                                        wall.here[i+1] == player.pos[0][1]) {
+                                                collision=1;
+                                                //cleanupSound();
+                                                myWall = true;
+                                                movementWall(x);
+                                                break;
+                                        }
+                                        if (!collision) {
+                                            myWall = true;
+                                            movementWall(x);
+                                            break;
+                                        }
+                                        if (++ntries > 1000000) {
+                                            myWall = true;
+                                            movementWall(x);
+                                            break;
+                                        }
+                        }
+                Log("new wall: %i %i\n",wall.here[i],wall.here[i+1]);
+                //cout << "wall hit KB" << endl;  
+        //      return;
+                }
+        }
+
+// 20
+        for(int i=1; i<=25; i+=2) {
+                loc[i] = player.pos[0][0];
+                loc[i+1] = player.pos[0][1];
+        }
+
+        for(int i=1; i<=25; i+=2) {
+                wall.here[i] = i;
+                wall.here[i+1] = 20;
+        }
+
+        for(int i=1; i<=25; i+=2) {
+                if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
+                        int collision=0;
+                        int ntries=0;
+                        while(1) {
+                                collision=0;
+                                //createSound();
+                                        if (wall.here[i] == player.pos[0][0] &&
+                                        wall.here[i+1] == player.pos[0][1]) {
+                                                collision=1;
+                                                //cleanupSound();
+                                                myWall = true;
+                                                movementWall(x);
+                                                break;
+                                        }
+                                        if (!collision) {
+                                            myWall = true;
+                                            movementWall(x);
+                                            break;
+                                        }
+                                        if (++ntries > 1000000) {
+                                            myWall = true;
+                                            movementWall(x);
+                                            break;
+                                        }
+                        }
+                Log("new wall: %i %i\n",wall.here[i],wall.here[i+1]);
+                //cout << "wall hit KB" << endl;  
+        //      return;
+                }
+        }
+
+        for(int i=0; i<=26; i+=2) {
+                loc[i] = player.pos[0][0];
+                loc[i+1] = player.pos[0][1];
+        }
+
+        for(int i=0; i<=26; i+=2) {
+                wall.here[i] = i;
+                wall.here[i+1] = 20;
+        }
+
+        for(int i=0; i<=26; i+=2) {
+                if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
+                        int collision=0;
+                        int ntries=0;
+                        while(1) {
+                                collision=0;
+                                //createSound();
+                                        if (wall.here[i] == player.pos[0][0] &&
+                                        wall.here[i+1] == player.pos[0][1]) {
+                                                collision=1;
+                                                //cleanupSound();
+                                                myWall = true;
+                                                movementWall(x);
+                                                break;
+                                        }
+                                        if (!collision) {
+                                            myWall = true;
+                                            movementWall(x);
+                                            break;
+                                        }
+                                        if (++ntries > 1000000) {
+                                            myWall = true;
+                                            movementWall(x);
+                                            break;
+                                        }
+                        }
+                Log("new wall: %i %i\n",wall.here[i],wall.here[i+1]);
+                //cout << "wall hit KB" << endl;  
+        //      return;
+                }
+        }
+
+        // 25
+        for(int i=1; i<=37; i+=2) {
+                loc[i] = player.pos[0][0];
+                loc[i+1] = player.pos[0][1];
+        }
+
+        for(int i=1; i<=37; i+=2) {
+                wall.here[i] = i;
+                wall.here[i+1] = 25;
+        }
+
+        for(int i=1; i<=37; i+=2) {
+                if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
+                        int collision=0;
+                        int ntries=0;
+                        while(1) {
+                                collision=0;
+                                //createSound();
+                                        if (wall.here[i] == player.pos[0][0] &&
+                                        wall.here[i+1] == player.pos[0][1]) {
+                                                collision=1;
+                                                //cleanupSound();
+                                                myWall = true;
+                                                movementWall(x);
+                                                break;
+                                        }
+                                        if (!collision) {
+                                            myWall = true;
+                                            movementWall(x);
+                                            break;
+                                        }
+                                        if (++ntries > 1000000) {
+                                            myWall = true;
+                                            movementWall(x);
+                                            break;
+                                        }
+                        }
+                Log("new wall: %i %i\n",wall.here[i],wall.here[i+1]);
+                //cout << "wall hit KB" << endl;  
+        //      return;
+                }
+        }
+
+        for(int i=0; i<=38; i+=2) {
+                loc[i] = player.pos[0][0];
+                loc[i+1] = player.pos[0][1];
+        }
+
+        for(int i=0; i<=38; i+=2) {
+                wall.here[i] = i;
+                wall.here[i+1] = 25;
+        }
+
+        for(int i=0; i<=38; i+=2) {
+                if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
+                        int collision=0;
+                        int ntries=0;
+                        while(1) {
+                                collision=0;
+                                //createSound();
+                                        if (wall.here[i] == player.pos[0][0] &&
+                                        wall.here[i+1] == player.pos[0][1]) {
+                                                collision=1;
+                                                //cleanupSound();
+                                                myWall = true;
+                                                movementWall(x);
+                                                break;
+                                        }
+                                        if (!collision) {
+                                            myWall = true;
+                                            movementWall(x);
+                                            break;
+                                        }
+                                        if (++ntries > 1000000) {
+                                            myWall = true;
+                                            movementWall(x);
+                                            break;
+                                        }
+                        }
+                Log("new wall: %i %i\n",wall.here[i],wall.here[i+1]);
+                //cout << "wall hit KB" << endl;  
+        //      return;
+                }
+        }
+// 27
+        for(int i=3; i<=29; i+=2) {
+                loc[i] = player.pos[0][0];
+                loc[i+1] = player.pos[0][1];
+        }
+
+        for(int i=3; i<=29; i+=2) {
+                wall.here[i] = i;
+                wall.here[i+1] = 27;
+        }
+
+        for(int i=3; i<=29; i+=2) {
+                if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
+                        int collision=0;
+                        int ntries=0;
+                        while(1) {
+                                collision=0;
+                                //createSound();
+                                        if (wall.here[i] == player.pos[0][0] &&
+                                        wall.here[i+1] == player.pos[0][1]) {
+                                                collision=1;
+                                                //cleanupSound();
+                                                myWall = true;
+                                                movementWall(x);
+                                                break;
+                                        }
+                                        if (!collision) {
+                                            myWall = true;
+                                            movementWall(x);
+                                            break;
+                                        }
+                                        if (++ntries > 1000000) {
+                                            myWall = true;
+                                            movementWall(x);
+                                            break;
+                                        }
+                        }
+                Log("new wall: %i %i\n",wall.here[i],wall.here[i+1]);
+                //cout << "wall hit KB" << endl;  
+        //      return;
+                }
+        }
+
+        for(int i=4; i<=28; i+=2) {
+                loc[i] = player.pos[0][0];
+                loc[i+1] = player.pos[0][1];
+        }
+
+        for(int i=4; i<=28; i+=2) {
+                wall.here[i] = i;
+                wall.here[i+1] = 27;
+        }
+
+        for(int i=4; i<=28; i+=2) {
+                if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
+                        int collision=0;
+                        int ntries=0;
+                        while(1) {
+                                collision=0;
+                                //createSound();
+                                        if (wall.here[i] == player.pos[0][0] &&
+                                        wall.here[i+1] == player.pos[0][1]) {
+                                                collision=1;
+                                                //cleanupSound();
+                                                myWall = true;
+                                                movementWall(x);
+                                                break;
+                                        }
+                                        if (!collision) {
+                                            myWall = true;
+                                            movementWall(x);
+                                            break;
+                                        }
+                                        if (++ntries > 1000000) {
+                                            myWall = true;
+                                            movementWall(x);
+                                            break;
+                                        }
+                        }
+                Log("new wall: %i %i\n",wall.here[i],wall.here[i+1]);
+                //cout << "wall hit KB" << endl;  
+        //      return;
+                }
+        }
+
+// 31 2-39
+        for(int i=3; i<=39; i+=2) {
+                loc[i] = player.pos[0][0];
+                loc[i+1] = player.pos[0][1];
+        }
+
+        for(int i=3; i<=39; i+=2) {
+                wall.here[i] = i;
+                wall.here[i+1] = 31;
+        }
+
+        for(int i=3; i<=39; i+=2) {
+                if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
+                        int collision=0;
+                        int ntries=0;
+                        while(1) {
+                                collision=0;
+                                //createSound();
+                                        if (wall.here[i] == player.pos[0][0] &&
+                                        wall.here[i+1] == player.pos[0][1]) {
+                                                collision=1;
+                                                //cleanupSound();
+                                                myWall = true;
+                                                movementWall(x);
+                                                break;
+                                        }
+                                        if (!collision) {
+                                            myWall = true;
+                                            movementWall(x);
+                                            break;
+                                        }
+                                        if (++ntries > 1000000) {
+                                            myWall = true;
+                                            movementWall(x);
+                                            break;
+                                        }
+                        }
+                Log("new wall: %i %i\n",wall.here[i],wall.here[i+1]);
+                //cout << "wall hit KB" << endl;  
+        //      return;
+                }
+        }
+
+        for(int i=2; i<=38; i+=2) {
+                loc[i] = player.pos[0][0];
+                loc[i+1] = player.pos[0][1];
+        }
+
+        for(int i=2; i<=38; i+=2) {
+                wall.here[i] = i;
+                wall.here[i+1] = 31;
+        }
+
+        for(int i=2; i<=38; i+=2) {
+                if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
+                        int collision=0;
+                        int ntries=0;
+                        while(1) {
+                                collision=0;
+                                //createSound();
+                                        if (wall.here[i] == player.pos[0][0] &&
+                                        wall.here[i+1] == player.pos[0][1]) {
+                                                collision=1;
+                                                //cleanupSound();
+                                                myWall = true;
+                                                movementWall(x);
+                                                break;
+                                        }
+                                        if (!collision) {
+                                            myWall = true;
+                                            movementWall(x);
+                                            break;
+                                        }
+                                        if (++ntries > 1000000) {
+                                            myWall = true;
+                                            movementWall(x);
+                                            break;
+                                        }
+                        }
+                Log("new wall: %i %i\n",wall.here[i],wall.here[i+1]);
+                //cout << "wall hit KB" << endl;  
+        //      return;
+                }
+        }
+// 36 7-35
+        for(int i=7; i<=35; i+=2) {
+                loc[i] = player.pos[0][0];
+                loc[i+1] = player.pos[0][1];
+        }
+
+        for(int i=7; i<=35; i+=2) {
+                wall.here[i] = i;
+                wall.here[i+1] = 36;
+        }
+
+        for(int i=7; i<=35; i+=2) {
+                if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
+                        int collision=0;
+                        int ntries=0;
+                        while(1) {
+                                collision=0;
+                                //createSound();
+                                        if (wall.here[i] == player.pos[0][0] &&
+                                        wall.here[i+1] == player.pos[0][1]) {
+                                                collision=1;
+                                                //cleanupSound();
+                                                myWall = true;
+                                                movementWall(x);
+                                                break;
+                                        }
+                                        if (!collision) {
+                                            myWall = true;
+                                            movementWall(x);
+                                            break;
+                                        }
+                                        if (++ntries > 1000000) {
+                                            myWall = true;
+                                            movementWall(x);
+                                            break;
+                                        }
+                        }
+                Log("new wall: %i %i\n",wall.here[i],wall.here[i+1]);
+                //cout << "wall hit KB" << endl;  
+        //      return;
+                }
+        }
+
+        for(int i=8; i<=34; i+=2) {
+                loc[i] = player.pos[0][0];
+                loc[i+1] = player.pos[0][1];
+        }
+
+        for(int i=8; i<=34; i+=2) {
+                wall.here[i] = i;
+                wall.here[i+1] = 36;
+        }
+
+        for(int i=8; i<=34; i+=2) {
+                if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
+                        int collision=0;
+                        int ntries=0;
+                        while(1) {
+                                collision=0;
+                                //createSound();
+                                        if (wall.here[i] == player.pos[0][0] &&
+                                        wall.here[i+1] == player.pos[0][1]) {
+                                                collision=1;
+                                                //cleanupSound();
+                                                myWall = true;
+                                                movementWall(x);
+                                                break;
+                                        }
+                                        if (!collision) {
+                                            myWall = true;
+                                            movementWall(x);
+                                            break;
+                                        }
+                                        if (++ntries > 1000000) {
+                                            myWall = true;
+                                            movementWall(x);
+                                            break;
+                                        }
+                        }
+                Log("new wall: %i %i\n",wall.here[i],wall.here[i+1]);
+                //cout << "wall hit KB" << endl;  
+        //      return;
+                }
+        }
+
+}
+
+void movementWall(int n)
+{
+        if(n == 0){
+        //      if(myWall == false) {
+                //player.direction = DIRECTION_DOWN;
+                //player.pos[0][1] += 1;
+        //      }
+                if(myWall == true){
+                  //  cout << "here" << endl;
+                        player.pos[0][1] -= 1;
+                        myWall = false;
+        //              return;
+                //      myWall = false;
+
+                x=0;
+                }
+                //if(initWall() == 0)
+                //cout << "(" << player.pos[0][0] << "," <<
+                // player.pos[0][1] << ")" << endl;
+        } else if (n == 1) {
+        //      player.direction = DIRECTION_LEFT;
+        //      player.pos[0][0] -= 1;
+                if(myWall == true){
+                        player.pos[0][0] += 1;
+                        myWall = false;
+                }
+                x=1;
+        //      cout << "(" << player.pos[0][0] << "," <<
+        //      player.pos[0][1] << ")" << endl;
+        } else if (n == 2) {
+        //      player.direction = DIRECTION_UP;
+        //      player.pos[0][1] -= 1;
+                if(myWall == true){
+                        player.pos[0][1] += 1;
+                        myWall = false;
+                }
+                x=2;
+        //      cout << "(" << player.pos[0][0] << "," <<
+        //      player.pos[0][1] << ")" << endl;
+        } else {
+        //      player.direction = DIRECTION_RIGHT;
+        //      player.pos[0][0] += 1;
+                if(myWall == true){ // if(checkCollision() == 0) {
+                        player.pos[0][0] -= 1;
+                        myWall = false;
+                }
+                x=3;
+        //      cout << "(" << player.pos[0][0] << "," <<
+        //      player.pos[0][1] << ")" << endl;
+        }
+
+        //return;
+}
+
+//Checks to see if the player will collide with a boundary if moved in
+//the direction the player asks for. Currently only checks against
+//game grid boundaries. 
+//
+//
+//bool checkWall()
+//{
+    //if(a == 0) return 1;
+        //if (player.pos[0][0] < 0 ||
+        //      player.pos[0][0] > gridDim-1 ||
+        //      player.pos[0][1] < 0 ||
+        //      player.pos[0][1] > gridDim-1) {
+  //    if(myWall==false)
+//          return 1;
+//      else return 0;
+        //} else {
+        //      return 1;
+        //}
+//}
+//
+//
+      /*  for(int i=0; i<=26; i++) {
+        getGridCenter(20, i, cent);
+        glColor3f(0.1, 0.1f, 0.0f);
+        glBegin(GL_QUADS);
+        glVertex2i(cent[0]-5, cent[1]-4);
+        glVertex2i(cent[0]-5, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]-4);
+        glEnd();
+        //
+        //
+        r.left   = xres/2;
+        r.bot    = yres-100;
+        r.center = 1;
+        ggprint16(&r, 16, 0x00ffffff, "Heist Game");
+        }
+        
+        for(int i=0; i<=38; i++) {
+        getGridCenter(25, i, cent);
+        glColor3f(0.1, 0.1f, 0.0f);
+        glBegin(GL_QUADS);
+        glVertex2i(cent[0]-5, cent[1]-4);
+        glVertex2i(cent[0]-5, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]-4);
+        glEnd();
+        //
+        //
+        r.left   = xres/2;
+        r.bot    = yres-100;
+        r.center = 1;
+        ggprint16(&r, 16, 0x00ffffff, "Heist Game");
+        }
+
+        for(int i=3; i<=29; i++) {
+        getGridCenter(27, i, cent);
+        glColor3f(0.1, 0.1f, 0.0f);
+        glBegin(GL_QUADS);
+        glVertex2i(cent[0]-5, cent[1]-4);
+        glVertex2i(cent[0]-5, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]-4);
+        glEnd();
+        //
+        //
+        r.left   = xres/2;
+        r.bot    = yres-100;
+        r.center = 1;
+        ggprint16(&r, 16, 0x00ffffff, "Heist Game");
+        }
+
+
+
+        for(int i=2; i<=39; i++) {
+        getGridCenter(31, i, cent);
+        glColor3f(0.1, 0.1f, 0.0f);
+        glBegin(GL_QUADS);
+        glVertex2i(cent[0]-5, cent[1]-4);
+        glVertex2i(cent[0]-5, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]-4);
+        glEnd();
+        //
+        //
+        r.left   = xres/2;
+        r.bot    = yres-100;
+        r.center = 1;
+        ggprint16(&r, 16, 0x00ffffff, "Heist Game");
+        }
+
+        for(int i=7; i<=35; i++) {
+        getGridCenter(36, i, cent);
+        glColor3f(0.1, 0.1f, 0.0f);
+        glBegin(GL_QUADS);
+        glVertex2i(cent[0]-5, cent[1]-4);
+        glVertex2i(cent[0]-5, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]-4);
+        glEnd();
+        //
+        //
+        r.left   = xres/2;
+        r.bot    = yres-100;
+        r.center = 1;
+        ggprint16(&r, 16, 0x00ffffff, "Heist Game");
+        }
+}*/

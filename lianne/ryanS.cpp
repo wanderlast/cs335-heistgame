@@ -1,16 +1,21 @@
 //Author: Ryan Shephard
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <math.h>
-#include <time.h>
+#include <ctime>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/keysym.h>
 #include <GL/gl.h>
 #include <GL/glx.h>
 #include <GL/glu.h>
+#include "main.h"
+#include "thomasE.h"
+
+using namespace std;
 
 typedef float Flt;
 #define PI 3.1415926535897932384626433832795
@@ -20,6 +25,7 @@ typedef float Flt;
 //Function prototypes
 void clock_physics();
 void clock_animation();
+void gameOverMan();
 
 //X Windows variables
 //GLXContext glc;
@@ -121,10 +127,26 @@ void clock_animation()
 
 void clock_physics()
 {
+    bigHand -= handIncrement / 15.0; //THIS CHANGES THE TIME OF THE GAME
+    
 
-	bigHand -= handIncrement / 180.0; //THIS CHANGES THE TIME OF THE GAME
-
+	//if((bigHand = -250.0)){
+	//done = 1;
+	//highScore(score);
 }
+
+void gameOverMan(){
+    
+    //cout << "This clock is going so fast..." << clock() << endl;
+    //double diff = clock() - t1;
+    int seconds = clock() / (CLOCKS_PER_SEC*.25);
+    cout << seconds << endl;
+    	if(seconds == 15){
+		done = 1;
+    	}
+  //return done;
+}
+   
 
 //void render(void)
 //{
