@@ -1,6 +1,9 @@
 //lianneL.cpp
 //author: Lianne Louie
 //CS335 game file
+//This file deals with initializing player and treasure states, handles the
+//movement and collision of players with treasure and boundaries, and generates
+//treasure.
 
 #include <iostream>
 #include <stdio.h>
@@ -13,7 +16,8 @@
 #include "lianneL.h"
 #include "kevinB.h"
 
-enum gameModes{ scoreAttack, timeAttack, scoreAttackHard, timeAttackHard };
+enum gameModes{ scoreAttackEasy, timeAttackEasy, scoreAttack,
+  timeAttack, scoreAttackHard, timeAttackHard };
 
 #define DIRECTION_DOWN  0
 #define DIRECTION_LEFT  1
@@ -48,22 +52,35 @@ int findTreasureValue(int i)
 
     switch (value) {
     case 1:
-	//coin
-	return 100;
-	break;
+      //coin
+      return 100;
+      break;
 	
     case 2:
-	//jewel
-	return 500;
-	break;
+      //jewel
+      return 500;
+      break;
 	
     default:
-	//chest
-	return 1000;
-	break;
+      //chest
+      return 1000;
+      break;
     }
 }
 
+void gameTypeSelector(int select)
+{
+  switch(select){
+    case scoreAttackEasy:
+      initPlayer();
+      initTreasure();
+      break;
+    case timeAttackEasy:
+      initPlayer(0);
+      initTreasure();
+      break;   
+  }
+}
 
 //default initplayer
 //spawns the player at (2,2)
@@ -308,6 +325,8 @@ void treasureCollision()
 			cout << endl;
 			//add it to our score
 			treasureScore += findTreasureValue(i);
+			cout << "+" << findTreasureValue(i) << "!" << endl;
+			cout << "score is: " << treasureScore << endl;
 			
 			//delete the physical presence of the treasure
 			treasure[i].status = 0;
@@ -320,8 +339,8 @@ void treasureCollision()
 				treasure[i].pos[0]	 << ", " << treasure[i].pos[1];
 				cout << endl;
 			}
-	    //~ createSound(2);
-	    //~ cleanupSound();
+			//~ createSound(2);
+			//~ cleanupSound();
 			Log("new treasure: %i %i\n",treasure[i].pos[0],treasure[i].pos[1]);
 			cout << "treasure collected" << endl;
 	}
