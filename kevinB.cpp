@@ -1,3 +1,7 @@
+// Kevin Boberg
+// cs335
+// final project
+
 #include"kevinB.h"
 //#include "lianneL.h"
 #include"main.h"
