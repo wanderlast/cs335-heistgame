@@ -12,7 +12,7 @@
 #define DIRECTION_UP    2
 #define DIRECTION_RIGHT 3
 bool myWall = false;
-//bool again = true;
+bool again = true;
 
 using namespace std;
 
@@ -33,18 +33,21 @@ void initWall(void)
                 wall.here[i] = i;
                 wall.here[i+1] = 5;
         }
-        //treasure.pos[0] = 4;
-        //treasure.pos[1] = 5;
-/*      for(int i=4; i<25; i+=2) {
-                        while (treasure.pos[0] == wall.here[i] &&
-                                        treasure.pos[1] == wall.here[i+1]) {
+//if(again == true) {
+  //      treasure[0].pos[0] = 4;
+    //    treasure[0].pos[1] = 5;
+//      again = false;
+//}
+      for(int i=4; i<25; i+=2) {
+                        while (treasure[i-4].pos[0] == wall.here[i] &&
+                                        treasure[i-4].pos[1] == wall.here[i+1]) {
                         //      physics();
 cout << "here" << endl;
-                        treasure.pos[0] = rand() % gridDim;
+                        treasure[i-4].pos[0] = rand() % gridDim;
                         //cout << treasure.pos[0] << endl;
-                        treasure.pos[1] = rand() % gridDim;
+                        treasure[i-4].pos[1] = rand() % gridDim;
                         }
-        }*/
+        }
 
         for(int i=4; i<=25; i+=2) {
                 if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
@@ -76,7 +79,7 @@ cout << "here" << endl;
                                             myWall = true;
                                             movementWall(x);
                                         break;
-                        		}
+                                        }
                 //                      myWall = false;
                         }
                 //      myWall = false;
@@ -86,7 +89,7 @@ cout << "here" << endl;
                 //player.pos[0][1] -= -1;
                 //checkWall();
         //      return;
-	      	}
+                }
         }
 
         for(int i=5; i<=26; i+=2) {
