@@ -230,7 +230,7 @@ int main(int argc, char *argv[])
 	
 	if(level == 2){
 		done = 0;
-		int randNumber = rand() % 100;
+		//int randNumber = rand() % 100;
 		
 		int highScores[5];
 		/*highScores[0] = 4;
@@ -239,7 +239,7 @@ int main(int argc, char *argv[])
 		highScores[3] = 59;
 		highScores[4] = 80; //< - - - UNIT TESTING*/
 		readFile(highScores);
-		calculateScore(randNumber, highScores);
+		calculateScore(treasureScore, highScores);
 		
 		while(level == 2) {
 			while(XPending(dpy)) {
@@ -249,7 +249,7 @@ int main(int argc, char *argv[])
 				checkSKeys(&e);
 			}
 		
-			highScore(randNumber, highScores);
+			highScore(treasureScore, highScores);
 			scoreSheet(highScores);
 			glXSwapBuffers(dpy, win);
 		}
@@ -385,8 +385,8 @@ void init(void)
 	//size and position
 	button[nbuttons].r.width = 140;
 	button[nbuttons].r.height = 60;
-	button[nbuttons].r.left = 30;
-	button[nbuttons].r.bot = 220;
+	button[nbuttons].r.left = 630;
+	button[nbuttons].r.bot = 140;
 	button[nbuttons].r.right =
 	   button[nbuttons].r.left + button[nbuttons].r.width;
 	button[nbuttons].r.top =
@@ -409,7 +409,7 @@ void init(void)
 	button[nbuttons].r.width = 140;
 	button[nbuttons].r.height = 60;
 	button[nbuttons].r.left = 630;
-	button[nbuttons].r.bot = 220;
+	button[nbuttons].r.bot = 230;
 	button[nbuttons].r.right =
 	   button[nbuttons].r.left + button[nbuttons].r.width;
 	button[nbuttons].r.top = button[nbuttons].r.bot +
@@ -418,7 +418,7 @@ void init(void)
 	   button[nbuttons].r.right) / 2;
 	button[nbuttons].r.centery = (button[nbuttons].r.bot +
 	   button[nbuttons].r.top) / 2;
-	strcpy(button[nbuttons].text, "I Quit");
+	strcpy(button[nbuttons].text, "Quit");
 	button[nbuttons].down = 0;
 	button[nbuttons].click = 0;
 	button[nbuttons].color[0] = 0.4f;
@@ -753,7 +753,7 @@ void render(void)
 		}
 	}
 	//draw the main game board in middle of screen
-	glColor3f(0.6f, 0.5f, 0.2f);
+	glColor3f(0.4f, 0.4f, 0.4f);
 	glBegin(GL_QUADS);
 		glVertex2i(s0-b2, s1-b2);
 		glVertex2i(s0-b2, s1+b2);
@@ -838,7 +838,7 @@ void render(void)
 	r.left   = xres/2;
 	r.bot    = yres-100;
 	r.center = 1;
-	ggprint16(&r, 16, 0x00ffffff, "Heist Game");
+	ggprint16(&r, 16, 0x00ffffff, "Zeitheist");
 	
 	// draw wall
 	for(int i=4; i<26; i++) {
@@ -855,7 +855,7 @@ void render(void)
 	r.left   = xres/2;
 	r.bot    = yres-100;
 	r.center = 1;
-	ggprint16(&r, 16, 0x00ffffff, "Heist Game");
+	ggprint16(&r, 16, 0x00ffffff, "Zeitheist");
 	}
 	
 	for(int i=4; i<=26; i++) {
@@ -872,7 +872,7 @@ void render(void)
         r.left   = xres/2;
         r.bot    = yres-100;
         r.center = 1;
-        ggprint16(&r, 16, 0x00ffffff, "Heist Game");
+        ggprint16(&r, 16, 0x00ffffff, "Zeitheist");
         }
 
         for(int i=0; i<=26; i++) {
@@ -889,7 +889,7 @@ void render(void)
         r.left   = xres/2;
         r.bot    = yres-100;
         r.center = 1;
-        ggprint16(&r, 16, 0x00ffffff, "Heist Game");
+        ggprint16(&r, 16, 0x00ffffff, "Zeitheist");
         }
         
         for(int i=0; i<=26; i++) {
@@ -906,7 +906,7 @@ void render(void)
         r.left   = xres/2;
         r.bot    = yres-100;
         r.center = 1;
-        ggprint16(&r, 16, 0x00ffffff, "Heist Game");
+        ggprint16(&r, 16, 0x00ffffff, "Zeitheist");
         }
         
         for(int i=0; i<=38; i++) {
@@ -923,7 +923,7 @@ void render(void)
         r.left   = xres/2;
         r.bot    = yres-100;
         r.center = 1;
-        ggprint16(&r, 16, 0x00ffffff, "Heist Game");
+        ggprint16(&r, 16, 0x00ffffff, "Zeitheist");
         }
 
         for(int i=3; i<=29; i++) {
@@ -940,7 +940,7 @@ void render(void)
         r.left   = xres/2;
         r.bot    = yres-100;
         r.center = 1;
-        ggprint16(&r, 16, 0x00ffffff, "Heist Game");
+        ggprint16(&r, 16, 0x00ffffff, "Zeitheist");
         }
 
         for(int i=2; i<=39; i++) {
@@ -957,7 +957,7 @@ void render(void)
         r.left   = xres/2;
         r.bot    = yres-100;
         r.center = 1;
-        ggprint16(&r, 16, 0x00ffffff, "Heist Game");
+        ggprint16(&r, 16, 0x00ffffff, "Zeitheist");
         }
 
         for(int i=7; i<=35; i++) {
@@ -974,6 +974,6 @@ void render(void)
         r.left   = xres/2;
         r.bot    = yres-100;
         r.center = 1;
-        ggprint16(&r, 16, 0x00ffffff, "Heist Game");
+        ggprint16(&r, 16, 0x00ffffff, "Zeitheist");
         }
 }

@@ -226,6 +226,7 @@ void checkSKeys(XEvent *e)
 
 	switch(key) {
 		case XK_r:
+			treasureScore = 0;
 			level = 1;
 			resetGame();
 			break;
