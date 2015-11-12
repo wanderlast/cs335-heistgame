@@ -83,7 +83,7 @@ void clock_animation()
 		glTranslatef(x, y, 0.0);
 		glRotatef((360.0/12.0)*(float)i, 0.0, 0.0, 1.0);
 		glTranslatef(xres2/4.0+20.0, 0.0, 0.0);
-		glColor3ub(0,0,20);
+		glColor3ub(119,119,119);
 		glBegin(GL_QUADS);
 			glVertex2i(-12, -12);
 			glVertex2i(-12,  12);

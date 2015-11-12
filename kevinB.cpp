@@ -11,37 +11,48 @@
 #include<iostream>
 #include"lianneL.h"
 
+// character directions
 #define DIRECTION_DOWN  0
 #define DIRECTION_LEFT  1
 #define DIRECTION_UP    2
 #define DIRECTION_RIGHT 3
+
+// assigned to true when character hits wall then assigned back to false after moved from wall
 bool myWall = false;
-bool again = true;
+//bool again = true;
 
 using namespace std;
 
+// to call initWall(void) in main function
 void physics(void)
 {
     initWall();
 }
 
+// spawns walls for character to move around
 void initWall(void)
 {
         int loc[50];
+        
+        // arrays to recognize character position
         for(int i=4; i<=25; i+=2) {
                 loc[i] = player.pos[0][0];
                 loc[i+1] = player.pos[0][1];
         }
 
+        // assignes walls to certain squares
         for(int i=4; i<=25; i+=2) {
                 wall.here[i] = i;
                 wall.here[i+1] = 5;
         }
+        
 //if(again == true) {
   //      treasure[0].pos[0] = 4;
     //    treasure[0].pos[1] = 5;
 //      again = false;
 //}
+        
+        // respawns treasure if spawns in wall
       for(int i=4; i<25; i+=2) {
                         while (treasure[i-4].pos[0] == wall.here[i] &&
                                         treasure[i-4].pos[1] == wall.here[i+1]) {
@@ -53,6 +64,7 @@ cout << "here" << endl;
                         }
         }
 
+        // to detect if character hits into wall
         for(int i=4; i<=25; i+=2) {
                 if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
                         int collision=0;
@@ -733,13 +745,17 @@ cout << "here" << endl;
 
 }
 
+// to restrict character from going through wall
 void movementWall(int n)
 {
+        // when character goes down
         if(n == 0){
         //      if(myWall == false) {
                 //player.direction = DIRECTION_DOWN;
                 //player.pos[0][1] += 1;
         //      }
+                
+                // moves character back if walks into wall
                 if(myWall == true){
                   //  cout << "here" << endl;
                         player.pos[0][1] -= 1;
@@ -752,6 +768,8 @@ void movementWall(int n)
                 //if(initWall() == 0)
                 //cout << "(" << player.pos[0][0] << "," <<
                 // player.pos[0][1] << ")" << endl;
+                
+                // when character goes left
         } else if (n == 1) {
         //      player.direction = DIRECTION_LEFT;
         //      player.pos[0][0] -= 1;
