@@ -25,7 +25,6 @@ typedef float Flt;
 //Function prototypes
 void clock_physics();
 void clock_animation();
-void gameOverMan();
 
 //X Windows variables
 //GLXContext glc;
@@ -78,7 +77,8 @@ void clock_animation()
 	//clock face
 	//
 	//Numeral spots
-	for (i=0; i<12; i++) {
+	for (i=0; i<12; i++) 
+	{
 		glPushMatrix();
 		glTranslatef(x, y, 0.0);
 		glRotatef((360.0/12.0)*(float)i, 0.0, 0.0, 1.0);
@@ -117,7 +117,8 @@ void clock_animation()
 	glPushMatrix();
 	glTranslatef(x, y, 0.0);
 	glBegin(GL_TRIANGLE_FAN);
-	for (i=0; i<12; i++) {
+	for (i=0; i<12; i++) 
+	{
 		ang = (float)i * (PI/6.0);
 		glVertex2f(cos(ang) * 10.0f, sin(ang) * 10.0f);
 	}
@@ -127,33 +128,10 @@ void clock_animation()
 
 void clock_physics()
 {
-    bigHand -= handIncrement / 15.0; //THIS CHANGES THE TIME OF THE GAME
-    
-
-	//if((bigHand = -250.0)){
-	//done = 1;
+    int seconds = (bigHand -= (handIncrement / 60.0)); //THIS CHANGES THE TIME OF THE GAME
+	if(seconds == -255)
+	{
+	done = 1;
 	//highScore(score);
+	}
 }
-
-void gameOverMan(){
-    
-    //cout << "This clock is going so fast..." << clock() << endl;
-    //double diff = clock() - t1;
-    int seconds = clock() / (CLOCKS_PER_SEC*.25);
-    cout << seconds << endl;
-    	if(seconds == 15){
-		done = 1;
-    	}
-  //return done;
-}
-   
-
-//void render(void)
-//{
-	//Rect r;
-	//glClear(GL_COLOR_BUFFER_BIT);
-	//clock_animation();
-	//r.left=8;
-	//r.bot=yres-30;
-	//r.center=0;
-//}
