@@ -63,17 +63,20 @@ int findTreasureValue(int i)
 //allows variable treasure generation patterns
 void gameSelector(int selection)
 {
-
+    
     if(selection < 1 || selection > 3) {
         cout << "game selection error, value of " << selection << endl;
     } else {
         switch(selection) {
         case 1:
+            initPlayer();
             initTreasure(); //spawns 15 all at once
         case 2:
+            initPlayer(1, 0, 0);
             initTreasure(10); //spawns 10 all at once
         case 3:
-            initTreasure(1, 5); //creates 1
+            initPlayer()
+            initTreasure(1, 2); //creates 1, spawns 2 more
         }
     }
 }
@@ -81,33 +84,113 @@ void gameSelector(int selection)
 //default player init
 void initPlayer()
 {
+    //re-roll RNG
+    srand(time(NULL));
+  
     //spawns player in an initial position
     player.status = 1;
     player.type = 1;
     player.pos[0][0] = 2;
     player.pos[0][1] = 2;
-    player.direction = DIRECTION_RIGHT;
+    
+    //just for fun, spawn them in a random direction
+    int dir = rand()%4;
+    switch (dir){
+      case 0: 
+      player.direction = DIRECTION_DOWN;
+      break;
+      
+      case 1:
+      player.direction = DIRECTION_LEFT;
+      break;
+      
+      case 2:
+      player.direction = DIRECTION_UP;
+      break;
+      
+      case 3:
+      player.direction = DIRECTION_RIGHT;
+      break;
+      
+      default:
+      //in the case of an error, just default to right
+      player.direction = DIRECTION_RIGHT;
+      break;
+    }
 }
 
 void initPlayer(int type)
 {
+    //re-roll RNG
+    srand(time(NULL));
+  
     //spawns player in an initial position but with a certain game mode
     player.status = 1;
     player.type = type;
     player.pos[0][0] = 2;
     player.pos[0][1] = 2;
-    player.direction = DIRECTION_RIGHT;
+    
+    //just for fun, spawn them in a random direction
+    int dir = rand()%4;
+    switch (dir){
+      case 0: 
+      player.direction = DIRECTION_DOWN;
+      break;
+      
+      case 1:
+      player.direction = DIRECTION_LEFT;
+      break;
+      
+      case 2:
+      player.direction = DIRECTION_UP;
+      break;
+      
+      case 3:
+      player.direction = DIRECTION_RIGHT;
+      break;
+      
+      default:
+      //in the case of an error, just default to right
+      player.direction = DIRECTION_RIGHT;
+      break;
+    }
 }
 
 void initPlayer(int type, int x, int y)
 {
-
+    //re-roll RNG
+    srand(time(NULL));
+    
     //spawns player in an provided user position
     player.status = 1;
     player.type = type;
     player.pos[0][0] = x;
     player.pos[0][1] = y;
-    player.direction = DIRECTION_RIGHT;
+     
+    //just for fun, spawn them in a random direction
+    int dir = rand()%4;
+    switch (dir){
+      case 0: 
+      player.direction = DIRECTION_DOWN;
+      break;
+      
+      case 1:
+      player.direction = DIRECTION_LEFT;
+      break;
+      
+      case 2:
+      player.direction = DIRECTION_UP;
+      break;
+      
+      case 3:
+      player.direction = DIRECTION_RIGHT;
+      break;
+      
+      default:
+      //in the case of an error, just default to right
+      player.direction = DIRECTION_RIGHT;
+      break;
+    }
 }
 
 //generates treasure at the start of the game
@@ -327,10 +410,10 @@ void treasureGeneration(int i)
 
         //this is i only if it passed all of the other tests
         if ( test == 3 ) {
-            //generate the treasure, no collisions occurred
-            treasure[i].status = 1;
-            cout << i << ": (" << treasure[i].pos[0] << ", " <<
-				treasure[i].pos[1] << ")";
+          //generate the treasure, no collisions occurred
+          treasure[i].status = 1;
+          cout << i << ": (" << treasure[i].pos[0] << ", " <<
+          treasure[i].pos[1] << ")";
         }
     }
 
