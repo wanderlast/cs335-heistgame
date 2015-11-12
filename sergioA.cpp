@@ -19,7 +19,9 @@ extern "C"{
 ALuint alSource;
 ALuint alBuffer;
 
-int createSound(int soundNum){
+int createSound(int soundNum)
+{
+
 int loop = 0;
 
  //Get started right here.
@@ -42,7 +44,7 @@ int loop = 0;
 
   switch(soundNum) {
 	case 1 :loop = 1;  
-			alBuffer = alutCreateBufferFromFile("./theme.wav");
+		alBuffer = alutCreateBufferFromFile("./theme.wav");
 	  	break;
 	case 2 :  alBuffer = alutCreateBufferFromFile("./cha-ching.wav");
 		break;
@@ -60,18 +62,24 @@ int loop = 0;
  if (alGetError() != AL_NO_ERROR) {
  	printf("ERROR: setting source\n");
  }
-while((loop = 1)) {
-for (int i=0; i<1; i++) {
-	 alSourcePlay(alSource);
-	 usleep(900000);
- }
-}
 
+ if((loop = 1)) {
+ for (int i=0; i<1; i++) {
+	 alSourcePlay(alSource);
+	 usleep(9900000);
+ }
+ }
+
+ else { 
+     for (int i=0; i<1; i++)
+	 alSourcePlay(alSource);
+ }
 
 return 0;
 }
 
-void cleanupSound() {
+void cleanupSound()
+{
 
         // First delete the source.
  alDeleteSources(1, &alSource);
@@ -91,7 +99,8 @@ void cleanupSound() {
 
 }
  
-void startMenu() {
+void startMenu()
+{
   
   Ppmimage *startImage;
   startImage=NULL;
@@ -131,8 +140,6 @@ void startMenu() {
   //set the viewing area on screen
   glViewport(0, 0, xres, yres);
   //clear color buffer
-  //glClearColor(0.1f, 0.2f, 0.3f, 0.0f);
-  //glClear(GL_COLOR_BUFFER_BIT);
   //init matrices
   glMatrixMode (GL_PROJECTION); glLoadIdentity();
   glMatrixMode(GL_MODELVIEW); glLoadIdentity();
@@ -169,7 +176,8 @@ void startMenu() {
 
 }
 
-void infoMenu() {
+void infoMenu()
+{
   
   Ppmimage *startImage;
   startImage=NULL;
@@ -209,9 +217,6 @@ void infoMenu() {
   //set the viewing area on screen
   glViewport(0, 0, xres, yres);
   //clear color buffer
-  //glClearColor(0.1f, 0.2f, 0.3f, 0.0f);
-  //glClear(GL_COLOR_BUFFER_BIT);
-  //init matrices
   glMatrixMode (GL_PROJECTION); glLoadIdentity();
   glMatrixMode(GL_MODELVIEW); glLoadIdentity();
   //this sets to 2D mode (no perspective)
