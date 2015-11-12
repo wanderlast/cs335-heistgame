@@ -502,7 +502,7 @@ void treasureGeneration(int i, int type)
 	}
     }
 
-    treasure[i].type = types; //assigns it a specific type
+    treasure[i].type = type; //assigns it a specific type
     cout << "treasure type is now: " << treasure[i].type << endl;
     
     return;
