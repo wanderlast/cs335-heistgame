@@ -8,8 +8,9 @@ typedef struct t_grid {
 typedef struct t_treasure {
 	int status; //whether it has spawned
 	int pos[2]; //position (x,y)
-  int increase; //how many treasures should spawn next
+  int maxCount; //max # of treasures to spawn
   int maxRate; //max treasure spawn rate
+  int increase; //how many treasures should spawn next
 	int type; // coin = 1, jewel = 2
 } Treasure;
 

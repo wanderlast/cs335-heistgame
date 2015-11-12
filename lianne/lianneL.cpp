@@ -69,9 +69,9 @@ void gameSelector(int selection)
     } else {
         switch(selection) {
         case 1:
-            initTreasure(); //spawns 15
+            initTreasure(); //spawns 15 all at once
         case 2:
-            initTreasure(25); //spawns 25
+            initTreasure(10); //spawns 10 all at once
         case 3:
             initTreasure(1, 5); //creates 1
         }
@@ -129,28 +129,48 @@ void initTreasure(int n)
     //re-roll RNG
     srand(time(NULL));
 
-    //generate treasure
+    //generate n treasure one at a time
     for ( int i = 0; i < n; i++) {
         treasureGeneration(i);
     }
 }
 
-//generates "start" treasure to start
+//generates "n" treasure to start
 //sends a value to treasure that will cause
 //treasure generation to increase more than by 1
-void initTreasure(int start, int generate)
+void initTreasure(int n, int generate)
 {
     //re-roll RNG
     srand(time(NULL));
 
-    //generate treasure
-    for ( int i = 0; i < start; i++) {
+    //generate n treasure one at a time
+    for ( int i = 0; i < n; i++) {
         treasureGeneration(i);
     }
     
-    for (int i = 0; i < MAX_TREASURE; i++){
-      treasure[i].increase = generate;
+    for (int i = 0; i < n; i++){
+      treasure[i].maxRate = generate;
     }
+}
+
+//normal initTreasure spawns all treasure at once
+//this will set a max rate and a max # of treasure to spawn
+//then as the game plays through, the game will spawn treasure based
+//on the rate up until the max count given
+void initTreasure2()
+{
+  //re-roll RNG
+  srand(time(NULL));
+  
+  for (int i = 0; i < MAX_TREASURE; i++){
+    treasure[i].maxRate = 5;
+    treasure[i].maxCount = MAX_TREASURE;
+    treasure[i].increase = 2;
+  }
+  
+  treasureGeneration(0);
+  
+  
 }
 
 //controls user movement, checking for collision with boundaries & treasure
