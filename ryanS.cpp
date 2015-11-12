@@ -128,10 +128,21 @@ void clock_animation()
 
 void clock_physics()
 {
-    int seconds = (bigHand -= (handIncrement / 60.0)); //THIS CHANGES THE TIME OF THE GAME
+  int seconds;
+    if(level != 1)
+    {
+      bigHand = 90;
+      //seconds = 90;
+    }
+    else
+    {
+    seconds = (bigHand -= (handIncrement / 10.0)); //THIS CHANGES THE TIME OF THE GAME
+	//cout << seconds << endl;
 	if(seconds == -255)
 	{
-	done = 1;
+	bigHand = 90;
+	level = 2;
 	//highScore(score);
 	}
+    }
 }
