@@ -9,6 +9,7 @@ typedef struct t_treasure {
 	int status; //whether it has spawned
 	int pos[2]; //position (x,y)
   int increase; //how many treasures should spawn next
+  int maxRate; //max treasure spawn rate
 	int type; // coin = 1, jewel = 2
 } Treasure;
 
