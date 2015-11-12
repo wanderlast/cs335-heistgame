@@ -21,6 +21,63 @@
 
 using namespace std;
 
+//Checks to see if the player will collide with a boundary if moved in
+//the direction the player asks for. Currently only checks against
+//game grid boundaries.
+int checkBorderCollision()
+{
+    if (player.pos[0][0] < 0 ||
+            player.pos[0][0] > gridDim-1 ||
+            player.pos[0][1] < 0 ||
+            player.pos[0][1] > gridDim-1) {
+        //collision with window boundaries occurred
+        return 0;
+    } else {
+        return 1; //collision did not occur
+    }
+}
+
+//treasure collision and points
+int findTreasureValue(int i)
+{
+    int value = treasure[i].type;
+
+    switch (value) {
+    case 1:
+        //coin
+        return 100;
+        break;
+        
+    case 2:
+        //jewel
+        return 500;
+        break;
+        
+    default:
+        //chest
+        return 1000;
+        break;
+    }
+}
+
+//allows variable treasure generation patterns
+void gameSelector(int selection)
+{
+
+    if(selection < 1 || selection > 3) {
+        cout << "game selection error, value of " << selection << endl;
+    } else {
+        switch(selection) {
+        case 1:
+            initTreasure(); //spawns 15
+        case 2:
+            initTreasure(25); //spawns 25
+        case 3:
+            initTreasure(1, 5); //creates 1
+        }
+    }
+}
+
 //default player init
 void initPlayer()
 {
@@ -51,6 +108,49 @@ void initPlayer(int type, int x, int y)
     player.pos[0][0] = x;
     player.pos[0][1] = y;
     player.direction = DIRECTION_RIGHT;
+}
+
+//generates treasure at the start of the game
+//default version generates 15 random treasures
+void initTreasure()
+{
+    //re-roll RNG
+    srand(time(NULL));
+
+    //generate treasure
+    for ( int i = 0; i < MAX_TREASURE; i++) {
+        treasureGeneration(i);
+    }
+}
+
+//generates n treasures within the game
+void initTreasure(int n)
+{
+    //re-roll RNG
+    srand(time(NULL));
+
+    //generate treasure
+    for ( int i = 0; i < n; i++) {
+        treasureGeneration(i);
+    }
+}
+
+//generates "start" treasure to start
+//sends a value to treasure that will cause
+//treasure generation to increase more than by 1
+void initTreasure(int start, int generate)
+{
+    //re-roll RNG
+    srand(time(NULL));
+
+    //generate treasure
+    for ( int i = 0; i < start; i++) {
+        treasureGeneration(i);
+    }
+    
+    for (int i = 0; i < MAX_TREASURE; i++){
+      treasure[i].increase = generate;
+    }
 }
 
 //controls user movement, checking for collision with boundaries & treasure
@@ -106,76 +206,44 @@ void movement(int n)
     return;
 }
 
-//Checks to see if the player will collide with a boundary if moved in
-//the direction the player asks for. Currently only checks against
-//game grid boundaries.
-int checkBorderCollision()
+//checks if player touched the treasure
+void treasureCollision()
 {
-    if (player.pos[0][0] < 0 ||
-            player.pos[0][0] > gridDim-1 ||
-            player.pos[0][1] < 0 ||
-            player.pos[0][1] > gridDim-1) {
-        //collision with window boundaries occurred
-        return 0;
-    } else {
-        return 1; //collision did not occur
-    }
-}
+    //did the player get the treasure
+    for (int i = 0; i < MAX_TREASURE; i++) {
+        if (player.pos[0][0] == treasure[i].pos[0] &&
+                player.pos[0][1] == treasure[i].pos[1]) {
 
-//allows variable treasure generation patterns
-void gameSelector(int selection)
-{
+            treasureGeneration(i);
+            cout << "New position for treasure is : " << treasure[i].pos[0]
+                 << ", " << treasure[i].pos[1];
+            createSound();
+            cleanupSound();
 
-    if(selection < 1 || selection > 3) {
-        cout << "game selection error, value of " << selection << endl;
-    } else {
-        switch(selection) {
-        case 1:
-            initTreasure();
-        case 2:
-            initTreasure(25);
-        case 3:
-            initTreasure(1, 5);
+            //new position for treasure...
+            // int collision=0;
+            // int ntries=0;
+            // while(1){
+            // treasure[i].pos[0] = rand() % gridDim;
+            // //cout << "X " << treasure[i].pos[0] << endl;
+            // treasure[i].pos[1] = rand() % gridDim;
+            // //cout << "Y " << treasure[i].pos[1] << endl;
+            // collision=0;
+            // createSound();
+            // if (treasure[i].pos[0] == player.pos[0][0] &&
+            // treasure[i].pos[1] == player.pos[0][1]) {
+            // collision=1;
+            // cleanupSound();
+            // break;
+            // }
+            // if (!collision) break;
+            // if (++ntries > 1000000) break;}
         }
+        Log("new treasure: %i %i\n",treasure[i].pos[0],treasure[i].pos[1]);
+        cout << "treasure collected" << endl;
+        return;
     }
-}
 
-//generates treasure at the start of the game
-//default version generates 15 random treasures
-void initTreasure(void)
-{
-    //re-roll RNG
-    srand(time(NULL));
-
-    //generate treasure
-    for ( int i = 0; i < MAX_TREASURE; i++) {
-        treasureGeneration(i);
-    }
-}
-
-//generates n treasures within the game
-void initTreasure(int n)
-{
-    //re-roll RNG
-    srand(time(NULL));
-
-    //generate treasure
-    for ( int i = 0; i < n; i++) {
-        treasureGeneration(i);
-    }
-}
-
-//generates "start" treasure to start
-//up to a max of end treasures at any given time
-void initTreasure(int start, int end)
-{
-    //re-roll RNG
-    srand(time(NULL));
-
-    //generate treasure
-    for ( int i = 0; i < start; i++) {
-        treasureGeneration(i);
-    }
 }
 
 //generates a single treasure, checking for collision
@@ -315,68 +383,4 @@ void treasureGeneration(int i, int type)
     }
 
     treasure[i].type = type;
-
-}
-
-//checks if player touched the treasure
-void treasureCollision()
-{
-    //did the player get the treasure
-    for (int i = 0; i < MAX_TREASURE; i++) {
-        if (player.pos[0][0] == treasure[i].pos[0] &&
-                player.pos[0][1] == treasure[i].pos[1]) {
-
-            treasureGeneration(i);
-            cout << "New position for treasure is : " << treasure[i].pos[0]
-                 << ", " << treasure[i].pos[1];
-            createSound();
-            cleanupSound();
-
-            //new position for treasure...
-            // int collision=0;
-            // int ntries=0;
-            // while(1){
-            // treasure[i].pos[0] = rand() % gridDim;
-            // //cout << "X " << treasure[i].pos[0] << endl;
-            // treasure[i].pos[1] = rand() % gridDim;
-            // //cout << "Y " << treasure[i].pos[1] << endl;
-            // collision=0;
-            // createSound();
-            // if (treasure[i].pos[0] == player.pos[0][0] &&
-            // treasure[i].pos[1] == player.pos[0][1]) {
-            // collision=1;
-            // cleanupSound();
-            // break;
-            // }
-            // if (!collision) break;
-            // if (++ntries > 1000000) break;}
-        }
-        Log("new treasure: %i %i\n",treasure[i].pos[0],treasure[i].pos[1]);
-        cout << "treasure collected" << endl;
-        return;
-    }
-
-}
-
-//treasure collision and points
-int findTreasureValue(int i)
-{
-    int value = treasure[i].type;
-
-    switch (value) {
-    case 1:
-        //coin
-        return 100;
-        break;
-        
-    case 2:
-        //jewel
-        return 500;
-        break;
-        
-    default:
-        //chest
-        return 1000;
-        break;
-    }
 }
