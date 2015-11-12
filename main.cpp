@@ -827,7 +827,7 @@ void render(void)
 			glVertex2i(cent[0]-4, cent[1]-3);
 			glVertex2i(cent[0]-4, cent[1]+4);
 			glVertex2i(cent[0]+3, cent[1]+4);
-			glVertex2i(cent[0]+3, cent[1]-3);
+			glVertex2i(cent[0]+3, cent[1]-		3);
 			glEnd();
 		}
 	}

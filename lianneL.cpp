@@ -186,6 +186,56 @@ void initTreasure()
     }
 }
 
+//generates n treasures within the game
+void initTreasure(int n)
+{
+    //re-roll RNG
+    srand(time(NULL));
+
+    //generate n treasure one at a time
+    for ( int i = 0; i < n; i++) {
+        treasureGeneration(i);
+    }
+}
+
+//generates "n" treasure to start
+//sends a value to treasure that will cause
+//treasure generation to increase more than by 1
+void initTreasure(int n, int generate)
+{
+    //re-roll RNG
+    srand(time(NULL));
+
+    //generate n treasure one at a time
+    for ( int i = 0; i < n; i++) {
+        treasureGeneration(i);
+    }
+    
+    for (int i = 0; i < n; i++){
+      treasure[i].maxRate = generate;
+    }
+}
+
+//normal initTreasure spawns all treasure at once
+//this will set a max rate and a max # of treasure to spawn
+//then as the game plays through, the game will spawn treasure based
+//on the rate up until the max count given
+void initTreasure2()
+{
+  //re-roll RNG
+  srand(time(NULL));
+  
+  for (int i = 0; i < MAX_TREASURE; i++){
+    treasure[i].maxRate = 5;
+    treasure[i].maxCount = MAX_TREASURE;
+    treasure[i].increase = 2;
+  }
+  
+  treasureGeneration(0);
+  
+  
+}
+
 //controls user movement, checking for collision with boundaries & treasure
 //wall collision is handled within the wall itself?
 void movement(int n)
@@ -246,13 +296,25 @@ void treasureCollision()
     for (int i = 0; i < MAX_TREASURE; i++) {
         if (player.pos[0][0] == treasure[i].pos[0] &&
                 player.pos[0][1] == treasure[i].pos[1]) {
-			cout << player.pos[0][0] << "," << player.pos [0][1] << endl;
-			cout << treasure[i].pos[0] << "," <<treasure[i].pos[1] << endl;
+			//we got treasure!
+			cout << player.pos[0][0] << "," << player.pos [0][1];
+			cout << endl;
+			cout << treasure[i].pos[0] << "," << treasure[i].pos[1];
+			cout << endl;
+			//add it to our score
+			treasureScore += findTreasureValue(i);
+			
+			//delete the physical presence of the treasure
 			treasure[i].status = 0;
-			if(player.
-            treasureGeneration(i);
-            cout << "New position for treasure is : " << treasure[i].pos[0]
-                 << ", " << treasure[i].pos[1] << endl;
+			
+			//player type 1 asks for respawning treasure
+			if(player.type == 1){
+				//so generate new treasure
+				treasureGeneration(i);
+				cout << "New position for treasure is : " <<
+				 treasure[i].pos[0]	 << ", " << treasure[i].pos[1];
+				cout << endl;
+			 }
             //~ createSound(2);
             //~ cleanupSound();
 			Log("new treasure: %i %i\n",treasure[i].pos[0],treasure[i].pos[1]);
@@ -271,7 +333,7 @@ void treasureGeneration(int i)
     while (treasure[i].status == 0) {
         //generate a random position
         treasure[i].pos[0] = rand() % gridDim;
-        treasure[i].pos[1] = rand() % gridDim;gi
+        treasure[i].pos[1] = rand() % gridDim;
         cout << "new treasure loc : ";
         cout << treasure[i].pos[0] << "," << treasure[i].pos[1];
         cout << endl;
@@ -349,4 +411,72 @@ void treasureGeneration(int i)
     cout << "treasure type is now: " << treasure[i].type << endl;
     
     return;
+}
+
+//generates a single treasure, but this time assigns a type as well
+void treasureGeneration(int i, int type)
+{
+    int test = 0;
+    //while the treasure hasn't been "generated"
+    while (treasure[i].status == 0) {
+        //generate a random position
+        treasure[i].pos[0] = rand() % gridDim;
+        treasure[i].pos[1] = rand() % gridDim;
+
+        //check to see if it's overlapping with the player
+        if (treasure[i].pos[0] == player.pos[0][0] &&
+                treasure[i].pos[1] == player.pos[0][1]) {
+            treasure[i].status = 0;
+            test = -1;
+        } else {
+            //not overlapping, check next
+            test = 1;
+        }
+
+        //check to see if it's overlapping with other treasure
+        if (test == 1) {
+            int x = treasure[i].pos[0];
+            int y = treasure[i].pos[1];
+            for (int j = 0; j < MAX_TREASURE; j++) {
+                if (x == treasure[j].pos[0] && y == treasure[j].pos[1]) {
+                    //collision occurred
+                    treasure[i].status = 0;
+                    test = -1; //return to the first test
+                }
+            }
+            //so if it passed through all values without changing to -1
+            if (test == 1) {
+                test = 2;
+            }
+        }
+
+        //check for overlap with walls
+        if (test == 2) {
+            int x = treasure[i].pos[0];
+            int y = treasure[i].pos[1];
+
+            for (int j = 0; j < MAX_TREASURE; j+=2) {
+                if (x == wall.here[j] && y == wall.here[j+1]){
+                  //collision occurred
+                  treasure[i].status = 0;
+                  test = -1;
+                }
+            }
+            
+            //so if it was never changed, there was no collisions
+            if (test == 2){
+              test = 3;
+            }
+        }
+
+        //this is i only if it passed all of the other tests
+        if ( test == 3 ) {
+            //generate the treasure, no collisions occurred
+            treasure[i].status = 1;
+            cout << i << ": (" << treasure[i].pos[0] << ", " <<
+				treasure[i].pos[1] << ")";
+        }
+    }
+
+    treasure[i].type = type;
 }

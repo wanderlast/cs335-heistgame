@@ -1,6 +1,7 @@
 //lianneL.cpp
 //author: Lianne Louie
-//CS335 game file
+//CS335 game file handling player/treasure generation and movement
+//as well as collision detection for game boundaries + treasure
 
 #include <iostream>
 #include <stdio.h>
