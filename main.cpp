@@ -219,6 +219,7 @@ int main(int argc, char *argv[])
 			//           Apply no physics this frame.
 			while(physicsCountdown >= physicsRate) {
 				//6. Apply physics
+				clock_physics();
 				physics();
 				//7. Reduce the countdown by our physics-rate
 				physicsCountdown -= physicsRate;
