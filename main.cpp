@@ -371,28 +371,12 @@ void checkResize(XEvent *e)
 	}
 }
 
-void initPlayer(void)
-{
-	//spawns player in an initial position
-	player.status = 1;
-	player.delay = .15;
-	player.pos[0][0] = 2;
-	player.pos[0][1] = 2;
-	player.direction = DIRECTION_RIGHT;
-	//snake.timer = glfwGetTime() + 0.5;
-}
-
-void initTreasure(void)
-{
-	treasureGeneration();
-}
-
 void init(void)
 {
 	boardDim = gridDim * 10;
 	//
 	initPlayer();
-	initTreasure();
+	initTreasure(); 
 	//
 	//initialize buttons...
 	nbuttons=0;
@@ -836,14 +820,16 @@ void render(void)
 	//
 	//draw treasure...
 	for (int i = 0; i < MAX_TREASURE; i++) {
-		getGridCenter(treasure[i].pos[1],treasure[i].pos[0],cent);
-		glColor3f(0.1, 0.1f, 0.0f);
-		glBegin(GL_QUADS);
-		glVertex2i(cent[0]-4, cent[1]-3);
-		glVertex2i(cent[0]-4, cent[1]+4);
-		glVertex2i(cent[0]+3, cent[1]+4);
-		glVertex2i(cent[0]+3, cent[1]-3);
-		glEnd();
+		if(treasure[i].status == 1){
+			getGridCenter(treasure[i].pos[1],treasure[i].pos[0],cent);
+			glColor3f(0.1, 0.1f, 0.0f);
+			glBegin(GL_QUADS);
+			glVertex2i(cent[0]-4, cent[1]-3);
+			glVertex2i(cent[0]-4, cent[1]+4);
+			glVertex2i(cent[0]+3, cent[1]+4);
+			glVertex2i(cent[0]+3, cent[1]-3);
+			glEnd();
+		}
 	}
 	//
 	//

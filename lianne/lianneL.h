@@ -16,14 +16,14 @@ extern Player player;
 
 extern void initPlayer();
 extern void initPlayer(int type);
-extern void initTreasure();
+extern void initPlayer(int type, int x, int y);
 extern void movement(int n);
 extern int checkBorderCollision();
 extern void gameSelector (int selection);
 extern void initTreasure();
 extern void initTreasure(int n);
-extern void initTreasure(int start, int end);
-
+extern void initTreasure(int n, int generate);
+extern void initTreasure2();
 extern void treasureGeneration(int i);
 extern void treasureGeneration(int i, int type);
 extern void treasureCollision();
