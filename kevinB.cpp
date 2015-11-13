@@ -19,7 +19,7 @@
 
 // assigned to true when character hits wall then assigned back to false after moved from wall
 bool myWall = false;
-//bool again = true;
+bool again = true;
 
 using namespace std;
 
@@ -46,26 +46,29 @@ void initWall(void)
                 wall.here[i+1] = 5;
         }
         
-//if(again == true) {
-  //      treasure[0].pos[0] = 4;
-    //    treasure[0].pos[1] = 5;
-//      again = false;
-//}
+if(again == true) {
+        treasure[0].pos[0] = 4;
+        treasure[0].pos[1] = 5;
+      again = false;
+}
         
         // respawns treasure if spawns in wall
-      for(int i=4; i<25; i+=2) {
-                        while (treasure[i-4].pos[0] == wall.here[i] &&
-                                        treasure[i-4].pos[1] == wall.here[i+1]) {
-                        //      physics();
-cout << "here" << endl;
-                        treasure[i-4].pos[0] = rand() % gridDim;
-                        //cout << treasure.pos[0] << endl;
-                        treasure[i-4].pos[1] = rand() % gridDim;
-                        }
-        }
+    
+       
 
         // to detect if character hits into wall
         for(int i=4; i<=25; i+=2) {
+
+                        for(int j=0; j<15; j++) {
+                        while (treasure[j].pos[0] == wall.here[i] &&
+                                        treasure[j].pos[1] == wall.here[i+1]) {
+                        //      physics();
+cout << "hereakdsfnuinqao[;;;beniisetuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuutvrrrrrenwoooooovtutirtfjkdfjdkfjdkjdkjfdkfdjfdkfjdkfdjkjdjdkfdkfjdkfdjfdkjdkfdkjfdkjkdjkdjfkdjfkdjdjfkdjfkdjfkdjfkdjkfj" << endl;
+                        treasure[j].pos[0] = rand() % gridDim;
+                        //cout << treasure.pos[0] << endl;
+                        treasure[j].pos[1] = rand() % gridDim;
+                        }
+                        }
                 if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
                         int collision=0;
                 //      myWall = false;
@@ -119,6 +122,17 @@ cout << "here" << endl;
         }
 
         for(int i=5; i<=26; i+=2) {
+
+                        for(int j=0; j<15; j++) {
+                        while (treasure[j].pos[0] == wall.here[i] &&
+                                        treasure[j].pos[1] == wall.here[i+1]) {
+                        //      physics();
+cout << "hereakdsfnuinqao[;;;beniisetuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuutvrrrrrenwoooooovtutirtfjkdfjdkfjdkjdkjfdkfdjfdkfjdkfdjkjdjdkfdkfjdkfdjfdkjdkfdkjfdkjkdjkdjfkdjfkdjdjfkdjfkdjfkdjfkdjkfj" << endl;
+                        treasure[j].pos[0] = rand() % gridDim;
+                        //cout << treasure.pos[0] << endl;
+                        treasure[j].pos[1] = rand() % gridDim;
+                        }
+                        }
                 if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
                         int collision=0;
                         int ntries=0;
@@ -161,6 +175,17 @@ cout << "here" << endl;
         }
 
         for(int i=5; i<=25; i+=2) {
+
+                        for(int j=0; j<15; j++) {
+                        while (treasure[j].pos[0] == wall.here[i] &&
+                                        treasure[j].pos[1] == wall.here[i+1]) {
+                        //      physics();
+cout << "hereakdsfnuinqao[;;;beniisetuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuutvrrrrrenwoooooovtutirtfjkdfjdkfjdkjdkjfdkfdjfdkfjdkfdjkjdjdkfdkfjdkfdjfdkjdkfdkjfdkjkdjkdjfkdjfkdjdjfkdjfkdjfkdjfkdjkfj" << endl;
+                        treasure[j].pos[0] = rand() % gridDim;
+                        //cout << treasure.pos[0] << endl;
+                        treasure[j].pos[1] = rand() % gridDim;
+                        }
+                        }
                 if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
                         int collision=0;
                         int ntries=0;
@@ -203,6 +228,17 @@ cout << "here" << endl;
         }
 
         for(int i=4; i<=26; i+=2) {
+
+                        for(int j=0; j<15; j++) {
+                        while (treasure[j].pos[0] == wall.here[i] &&
+                                        treasure[j].pos[1] == wall.here[i+1]) {
+                        //      physics();
+cout << "hereakdsfnuinqao[;;;beniisetuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuutvrrrrrenwoooooovtutirtfjkdfjdkfjdkjdkjfdkfdjfdkfjdkfdjkjdjdkfdkfjdkfdjfdkjdkfdkjfdkjkdjkdjfkdjfkdjdjfkdjfkdjfkdjfkdjkfj" << endl;
+                        treasure[j].pos[0] = rand() % gridDim;
+                        //cout << treasure.pos[0] << endl;
+                        treasure[j].pos[1] = rand() % gridDim;
+                        }
+                        }
                 if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
                         int collision=0;
                         int ntries=0;
@@ -247,6 +283,17 @@ cout << "here" << endl;
         }
 
         for(int i=1; i<=25; i+=2) {
+
+                        for(int j=0; j<15; j++) {
+                        while (treasure[j].pos[0] == wall.here[i] &&
+                                        treasure[j].pos[1] == wall.here[i+1]) {
+                        //      physics();
+cout << "hereakdsfnuinqao[;;;beniisetuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuutvrrrrrenwoooooovtutirtfjkdfjdkfjdkjdkjfdkfdjfdkfjdkfdjkjdjdkfdkfjdkfdjfdkjdkfdkjfdkjkdjkdjfkdjfkdjdjfkdjfkdjfkdjfkdjkfj" << endl;
+                        treasure[j].pos[0] = rand() % gridDim;
+                        //cout << treasure.pos[0] << endl;
+                        treasure[j].pos[1] = rand() % gridDim;
+                        }
+                        }
                 if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
                         int collision=0;
                         int ntries=0;
@@ -289,6 +336,17 @@ cout << "here" << endl;
         }
 
         for(int i=0; i<=26; i+=2) {
+
+                        for(int j=0; j<15; j++) {
+                        while (treasure[j].pos[0] == wall.here[i] &&
+                                        treasure[j].pos[1] == wall.here[i+1]) {
+                        //      physics();
+cout << "hereakdsfnuinqao[;;;beniisetuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuutvrrrrrenwoooooovtutirtfjkdfjdkfjdkjdkjfdkfdjfdkfjdkfdjkjdjdkfdkfjdkfdjfdkjdkfdkjfdkjkdjkdjfkdjfkdjdjfkdjfkdjfkdjfkdjkfj" << endl;
+                        treasure[j].pos[0] = rand() % gridDim;
+                        //cout << treasure.pos[0] << endl;
+                        treasure[j].pos[1] = rand() % gridDim;
+                        }
+                        }
                 if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
                         int collision=0;
                         int ntries=0;
@@ -332,6 +390,17 @@ cout << "here" << endl;
         }
 
         for(int i=1; i<=25; i+=2) {
+
+                        for(int j=0; j<15; j++) {
+                        while (treasure[j].pos[0] == wall.here[i] &&
+                                        treasure[j].pos[1] == wall.here[i+1]) {
+                        //      physics();
+cout << "hereakdsfnuinqao[;;;beniisetuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuutvrrrrrenwoooooovtutirtfjkdfjdkfjdkjdkjfdkfdjfdkfjdkfdjkjdjdkfdkfjdkfdjfdkjdkfdkjfdkjkdjkdjfkdjfkdjdjfkdjfkdjfkdjfkdjkfj" << endl;
+                        treasure[j].pos[0] = rand() % gridDim;
+                        //cout << treasure.pos[0] << endl;
+                        treasure[j].pos[1] = rand() % gridDim;
+                        }
+                        }
                 if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
                         int collision=0;
                         int ntries=0;
@@ -374,6 +443,18 @@ cout << "here" << endl;
         }
 
         for(int i=0; i<=26; i+=2) {
+
+                        for(int j=0; j<15; j++) {
+
+                        while (treasure[j].pos[0] == wall.here[i] &&
+                                        treasure[j].pos[1] == wall.here[i+1]) {
+                        //      physics();
+cout << "hereakdsfnuinqao[;;;beniisetuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuutvrrrrrenwoooooovtutirtfjkdfjdkfjdkjdkjfdkfdjfdkfjdkfdjkjdjdkfdkfjdkfdjfdkjdkfdkjfdkjkdjkdjfkdjfkdjdjfkdjfkdjfkdjfkdjkfj" << endl;
+                        treasure[j].pos[0] = rand() % gridDim;
+                        //cout << treasure.pos[0] << endl;
+                        treasure[j].pos[1] = rand() % gridDim;
+                        }
+                        }
                 if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
                         int collision=0;
                         int ntries=0;
@@ -417,6 +498,17 @@ cout << "here" << endl;
         }
 
         for(int i=1; i<=37; i+=2) {
+
+                        for(int j=0; j<15; j++) {
+                        while (treasure[j].pos[0] == wall.here[i] &&
+                                        treasure[j].pos[1] == wall.here[i+1]) {
+                        //      physics();
+cout << "hereakdsfnuinqao[;;;beniisetuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuutvrrrrrenwoooooovtutirtfjkdfjdkfjdkjdkjfdkfdjfdkfjdkfdjkjdjdkfdkfjdkfdjfdkjdkfdkjfdkjkdjkdjfkdjfkdjdjfkdjfkdjfkdjfkdjkfj" << endl;
+                        treasure[j].pos[0] = rand() % gridDim;
+                        //cout << treasure.pos[0] << endl;
+                        treasure[j].pos[1] = rand() % gridDim;
+                        }
+                        }
                 if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
                         int collision=0;
                         int ntries=0;
@@ -459,6 +551,17 @@ cout << "here" << endl;
         }
 
         for(int i=0; i<=38; i+=2) {
+
+                        for(int j=0; j<15; j++) {
+                        while (treasure[j].pos[0] == wall.here[i] &&
+                                        treasure[j].pos[1] == wall.here[i+1]) {
+                        //      physics();
+cout << "hereakdsfnuinqao[;;;beniisetuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuutvrrrrrenwoooooovtutirtfjkdfjdkfjdkjdkjfdkfdjfdkfjdkfdjkjdjdkfdkfjdkfdjfdkjdkfdkjfdkjkdjkdjfkdjfkdjdjfkdjfkdjfkdjfkdjkfj" << endl;
+                        treasure[j].pos[0] = rand() % gridDim;
+                        //cout << treasure.pos[0] << endl;
+                        treasure[j].pos[1] = rand() % gridDim;
+                        }
+                        }
                 if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
                         int collision=0;
                         int ntries=0;
@@ -501,6 +604,17 @@ cout << "here" << endl;
         }
 
         for(int i=3; i<=29; i+=2) {
+
+                        for(int j=0; j<15; j++) {
+                        while (treasure[j].pos[0] == wall.here[i] &&
+                                        treasure[j].pos[1] == wall.here[i+1]) {
+                        //      physics();
+cout << "hereakdsfnuinqao[;;;beniisetuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuutvrrrrrenwoooooovtutirtfjkdfjdkfjdkjdkjfdkfdjfdkfjdkfdjkjdjdkfdkfjdkfdjfdkjdkfdkjfdkjkdjkdjfkdjfkdjdjfkdjfkdjfkdjfkdjkfj" << endl;
+                        treasure[j].pos[0] = rand() % gridDim;
+                        //cout << treasure.pos[0] << endl;
+                        treasure[j].pos[1] = rand() % gridDim;
+                        }
+                        }
                 if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
                         int collision=0;
                         int ntries=0;
@@ -543,6 +657,17 @@ cout << "here" << endl;
         }
 
         for(int i=4; i<=28; i+=2) {
+
+                        for(int j=0; j<15; j++) {
+                        while (treasure[j].pos[0] == wall.here[i] &&
+                                        treasure[j].pos[1] == wall.here[i+1]) {
+                        //      physics();
+cout << "hereakdsfnuinqao[;;;beniisetuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuutvrrrrrenwoooooovtutirtfjkdfjdkfjdkjdkjfdkfdjfdkfjdkfdjkjdjdkfdkfjdkfdjfdkjdkfdkjfdkjkdjkdjfkdjfkdjdjfkdjfkdjfkdjfkdjkfj" << endl;
+                        treasure[j].pos[0] = rand() % gridDim;
+                        //cout << treasure.pos[0] << endl;
+                        treasure[j].pos[1] = rand() % gridDim;
+                        }
+                        }
                 if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
                         int collision=0;
                         int ntries=0;
@@ -586,6 +711,17 @@ cout << "here" << endl;
         }
 
         for(int i=3; i<=39; i+=2) {
+
+                        for(int j=0; j<15; j++) {
+                        while (treasure[j].pos[0] == wall.here[i] &&
+                                        treasure[j].pos[1] == wall.here[i+1]) {
+                        //      physics();
+cout << "hereakdsfnuinqao[;;;beniisetuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuutvrrrrrenwoooooovtutirtfjkdfjdkfjdkjdkjfdkfdjfdkfjdkfdjkjdjdkfdkfjdkfdjfdkjdkfdkjfdkjkdjkdjfkdjfkdjdjfkdjfkdjfkdjfkdjkfj" << endl;
+                        treasure[j].pos[0] = rand() % gridDim;
+                        //cout << treasure.pos[0] << endl;
+                        treasure[j].pos[1] = rand() % gridDim;
+                        }
+                        }
                 if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
                         int collision=0;
                         int ntries=0;
@@ -628,6 +764,17 @@ cout << "here" << endl;
         }
 
         for(int i=2; i<=38; i+=2) {
+
+                        for(int j=0; j<15; j++) {
+                        while (treasure[j].pos[0] == wall.here[i] &&
+                                        treasure[j].pos[1] == wall.here[i+1]) {
+                        //      physics();
+cout << "hereakdsfnuinqao[;;;beniisetuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuutvrrrrrenwoooooovtutirtfjkdfjdkfjdkjdkjfdkfdjfdkfjdkfdjkjdjdkfdkfjdkfdjfdkjdkfdkjfdkjkdjkdjfkdjfkdjdjfkdjfkdjfkdjfkdjkfj" << endl;
+                        treasure[j].pos[0] = rand() % gridDim;
+                        //cout << treasure.pos[0] << endl;
+                        treasure[j].pos[1] = rand() % gridDim;
+                        }
+                        }
                 if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
                         int collision=0;
                         int ntries=0;
@@ -670,6 +817,17 @@ cout << "here" << endl;
         }
 
         for(int i=7; i<=35; i+=2) {
+
+                        for(int j=0; j<15; j++) {
+                        while (treasure[j].pos[0] == wall.here[i] &&
+                                        treasure[j].pos[1] == wall.here[i+1]) {
+                        //      physics();
+cout << "hereakdsfnuinqao[;;;beniisetuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuutvrrrrrenwoooooovtutirtfjkdfjdkfjdkjdkjfdkfdjfdkfjdkfdjkjdjdkfdkfjdkfdjfdkjdkfdkjfdkjkdjkdjfkdjfkdjdjfkdjfkdjfkdjfkdjkfj" << endl;
+                        treasure[j].pos[0] = rand() % gridDim;
+                        //cout << treasure.pos[0] << endl;
+                        treasure[j].pos[1] = rand() % gridDim;
+                        }
+                        }
                 if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
                         int collision=0;
                         int ntries=0;
@@ -694,6 +852,8 @@ cout << "here" << endl;
                                             movementWall(x);
                                             break;
                                         }
+
+
                         }
                 Log("new wall: %i %i\n",wall.here[i],wall.here[i+1]);
                 //cout << "wall hit KB" << endl;  
@@ -712,6 +872,17 @@ cout << "here" << endl;
         }
 
         for(int i=8; i<=34; i+=2) {
+
+                        for(int j=0; j<15; j++) {
+                        while (treasure[j].pos[0] == wall.here[i] &&
+                                        treasure[j].pos[1] == wall.here[i+1]) {
+                        //      physics();
+cout << "hereakdsfnuinqao[;;;beniisetuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuutvrrrrrenwoooooovtutirtfjkdfjdkfjdkjdkjfdkfdjfdkfjdkfdjkjdjdkfdkfjdkfdjfdkjdkfdkjfdkjkdjkdjfkdjfkdjdjfkdjfkdjfkdjfkdjkfj" << endl;
+                        treasure[j].pos[0] = rand() % gridDim;
+                        //cout << treasure.pos[0] << endl;
+                        treasure[j].pos[1] = rand() % gridDim;
+                        }
+                        }
                 if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
                         int collision=0;
                         int ntries=0;
@@ -736,15 +907,28 @@ cout << "here" << endl;
                                             movementWall(x);
                                             break;
                                         }
+
+
                         }
                 Log("new wall: %i %i\n",wall.here[i],wall.here[i+1]);
                 //cout << "wall hit KB" << endl;  
         //      return;
                 }
         }
+/*for(int i=0; i<40; i++) {
 
+                        for(int j=0; j<15; j++) {
+                        while (treasure[j].pos[0] == wall.here[i] &&
+                                        treasure[j].pos[1] == wall.here[i+1]) {
+                        //      physics();
+cout << "hereakdsfnuinqao[;;;beniisetuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuutvrrrrrenwoooooovtutirtfjkdfjdkfjdkjdkjfdkfdjfdkfjdkfdjkjdjdkfdkfjdkfdjfdkjdkfdkjfdkjkdjkdjfkdjfkdjdjfkdjfkdjfkdjfkdjkfj" << endl;
+                        treasure[j].pos[0] = rand() % gridDim;
+                        //cout << treasure.pos[0] << endl;
+                        treasure[j].pos[1] = rand() % gridDim;
+                        }
+                        }
+}*/
 }
-
 // to restrict character from going through wall
 void movementWall(int n)
 {
