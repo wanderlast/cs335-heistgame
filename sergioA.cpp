@@ -16,13 +16,15 @@ extern "C"{
 	#include "fonts.h"
 }
 
+#define MAXBUTTONS 4
+
 ALuint alSource;
 ALuint alBuffer;
 
 int createSound(int soundNum)
 {
 
-int loop = 0;
+int loop;
 
  //Get started right here.
  alutInit(0, NULL);
@@ -43,9 +45,10 @@ int loop = 0;
  //alBuffer[0] = alutCreateBufferFromFile("./theme.wav");
 
   switch(soundNum) {
-	case 1 :loop = 1;  
+	case 1 :loop = 1;
 		alBuffer = alutCreateBufferFromFile("./theme.wav");
-	  	break;
+		break;
+		loop = 0;
 	case 2 :  alBuffer = alutCreateBufferFromFile("./cha-ching.wav");
 		break;
   }
@@ -54,7 +57,39 @@ int loop = 0;
 	// // Generate a source, and store it in a buffer.
  alGenSources(1, &alSource);
  alSourcei(alSource, AL_BUFFER, alBuffer);
-	
+ 
+ if(loop == 1){
+   
+ alSourcef(alSource, AL_GAIN, 1.0f);
+ alSourcef(alSource, AL_PITCH, 1.0f);
+ alSourcei(alSource, AL_LOOPING, AL_TRUE);
+ if (alGetError() != AL_NO_ERROR) {
+ 	printf("ERROR: setting source\n");
+ }
+	if (level == 1) {
+	alSourcePlay(alSource);
+	 usleep(99999999);
+	}
+ } 
+
+  if(loop == 0){
+   
+ alSourcef(alSource, AL_GAIN, 1.0f);
+ alSourcef(alSource, AL_PITCH, 1.0f);
+ alSourcei(alSource, AL_LOOPING, AL_FALSE);
+ if (alGetError() != AL_NO_ERROR) {
+ 	printf("ERROR: setting source\n");
+ }
+ 
+	 alSourcePlay(alSource);
+	 usleep(90000);
+
+  } 
+
+ 
+ 
+ 
+/*
 	// // Set volume and pitch to normal, no looping of sound.
  alSourcef(alSource, AL_GAIN, 1.0f);
  alSourcef(alSource, AL_PITCH, 1.0f);
@@ -62,18 +97,18 @@ int loop = 0;
  if (alGetError() != AL_NO_ERROR) {
  	printf("ERROR: setting source\n");
  }
-
+ 
+(
  if((loop = 1)) {
  for (int i=0; i<1; i++) {
 	 alSourcePlay(alSource);
-	 usleep(9900000);
+	 usleep(999900);
  }
  }
-
- else { 
-     for (int i=0; i<1; i++)
-	 alSourcePlay(alSource);
- }
+ */
+ 
+	 //alSourcePlay(alSource);
+	 //usleep(900000);
 
 return 0;
 }
@@ -249,7 +284,179 @@ void infoMenu()
   r.center = 1;
   ggprint16(&r, 16, 0x00ffffff, "R: restart");
 
+}
 
+void gamestateMenu()
+{
+  typedef struct t_button {
+	Rect r;
+	char text[32];
+	int over;
+	int down;
+	int click;
+	float color[3];
+	float dcolor[3];
+	unsigned int text_color;
+} Button;
+
+  
+  Ppmimage *startImage;
+  startImage=NULL;
+  GLuint startTexture;
+  Rect r;
+  
+  int nbuttons, i;
+  Button button[MAXBUTTONS];
+  
+  //OpenGL initialization
+  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+  glClearDepth(1.0f);
+  glClear(GL_COLOR_BUFFER_BIT);
+  glEnable(GL_COLOR_MATERIAL);
+  //
+  //choose one of these
+  //glShadeModel(GL_FLAT);
+  glShadeModel(GL_SMOOTH);
+  glDisable(GL_LIGHTING);
+  glBindTexture(GL_TEXTURE_2D, 0);
+  //
+  glEnable(GL_TEXTURE_2D);
+  //marble_texture = loadBMP("marble.bmp");
+  glBindTexture(GL_TEXTURE_2D, 0);
+  //
+  //load the image file into a ppm structure.
+  //
+  startImage = ppm6GetImage("./images/start.ppm");
+  //
+  //create opengl texture elements
+  glGenTextures(1, &startTexture);
+  glBindTexture(GL_TEXTURE_2D, startTexture);
+  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+  glTexImage2D(GL_TEXTURE_2D, 0, 3,
+	startImage->width, startImage->height,
+	0, GL_RGB, GL_UNSIGNED_BYTE, startImage->data);
+
+  //start the opengl stuff
+  //set the viewing area on screen
+  glViewport(0, 0, xres, yres);
+  //clear color buffer
+  //init matrices
+  glMatrixMode (GL_PROJECTION); glLoadIdentity();
+  glMatrixMode(GL_MODELVIEW); glLoadIdentity();
+  //this sets to 2D mode (no perspective)
+  glOrtho(0, xres, 0, yres, -1, 1);
+  //
+
+  //screen background
+  glColor3f(0.5f, 0.5f, 0.5f);
+  glBindTexture(GL_TEXTURE_2D, startTexture);
+  glBegin(GL_QUADS);
+	glTexCoord2f(0.0f, 0.0f); glVertex2i(0,      0);
+	glTexCoord2f(0.0f, 1.0f); glVertex2i(0,      yres);
+	glTexCoord2f(1.0f, 1.0f); glVertex2i(xres, yres);
+  	glTexCoord2f(1.0f, 0.0f); glVertex2i(xres, 0);
+  glEnd();
+  glBindTexture(GL_TEXTURE_2D, 0);
+	
+  r.left   = xres/2;
+  r.bot    = yres-100;
+  r.center = 1;
+  ggprint16(&r, 16, 0x00ffffff, "Heist Game");
+	
+  r.left   = xres/2;
+  r.bot    = yres-300;
+  r.center = 1;
+  ggprint16(&r, 16, 0x00ffffff, "Choose A Game Mode!");
+  
+	nbuttons = 0;
+  
+  	button[nbuttons].r.width = 140;
+	button[nbuttons].r.height = 60;
+	button[nbuttons].r.left = 200;
+	button[nbuttons].r.bot = 160;
+	button[nbuttons].r.right =
+	   button[nbuttons].r.left + button[nbuttons].r.width;
+	button[nbuttons].r.top = button[nbuttons].r.bot +
+	   button[nbuttons].r.height;
+	button[nbuttons].r.centerx = (button[nbuttons].r.left +
+	   button[nbuttons].r.right) / 2;
+	button[nbuttons].r.centery = (button[nbuttons].r.bot +
+	   button[nbuttons].r.top) / 2;
+	strcpy(button[nbuttons].text, "Score Challange");
+	button[nbuttons].down = 0;
+	button[nbuttons].click = 0;
+	button[nbuttons].color[0] = 0.4f;
+	button[nbuttons].color[1] = 0.4f;
+	button[nbuttons].color[2] = 0.4f;
+	button[nbuttons].dcolor[0] = button[nbuttons].color[0] * 0.5f;
+	button[nbuttons].dcolor[1] = button[nbuttons].color[1] * 0.5f;
+	button[nbuttons].dcolor[2] = button[nbuttons].color[2] * 0.5f;
+	button[nbuttons].text_color = 0x00ffffff;
+	nbuttons++;
+	
+	button[nbuttons].r.width = 140;
+	button[nbuttons].r.height = 60;
+	button[nbuttons].r.left = 20;
+	button[nbuttons].r.bot = 160;
+	button[nbuttons].r.right =
+	   button[nbuttons].r.left + button[nbuttons].r.width;
+	button[nbuttons].r.top = button[nbuttons].r.bot +
+	   button[nbuttons].r.height;
+	button[nbuttons].r.centerx = (button[nbuttons].r.left +
+	   button[nbuttons].r.right) / 2;
+	button[nbuttons].r.centery = (button[nbuttons].r.bot +
+	   button[nbuttons].r.top) / 2;
+	strcpy(button[nbuttons].text, "Time Trial");
+	button[nbuttons].down = 0;
+	button[nbuttons].click = 0;
+	button[nbuttons].color[0] = 0.4f;
+	button[nbuttons].color[1] = 0.4f;
+	button[nbuttons].color[2] = 0.4f;
+	button[nbuttons].dcolor[0] = button[nbuttons].color[0] * 0.5f;
+	button[nbuttons].dcolor[1] = button[nbuttons].color[1] * 0.5f;
+	button[nbuttons].dcolor[2] = button[nbuttons].color[2] * 0.5f;
+	button[nbuttons].text_color = 0x00ffffff;
+	nbuttons++;
+	
+	//draw all buttons
+	for (i=0; i<2; i++) {
+		if (button[i].over) {
+			int w=2;
+			glColor3f(1.0f, 1.0f, 0.0f);
+			//draw a highlight around button
+			glLineWidth(3);
+			glBegin(GL_LINE_LOOP);
+				glVertex2i(button[i].r.left-w,  button[i].r.bot-w);
+				glVertex2i(button[i].r.left-w,  button[i].r.top+w);
+				glVertex2i(button[i].r.right+w, button[i].r.top+w);
+				glVertex2i(button[i].r.right+w, button[i].r.bot-w);
+				glVertex2i(button[i].r.left-w,  button[i].r.bot-w);
+			glEnd();
+			glLineWidth(1);
+		}
+		if (button[i].down) {
+			glColor3fv(button[i].dcolor);
+		} else {
+			glColor3fv(button[i].color);
+		}
+		glBegin(GL_QUADS);
+			glVertex2i(button[i].r.left,  button[i].r.bot);
+			glVertex2i(button[i].r.left,  button[i].r.top);
+			glVertex2i(button[i].r.right, button[i].r.top);
+			glVertex2i(button[i].r.right, button[i].r.bot);
+		glEnd();
+		r.left = button[i].r.centerx;
+		r.bot  = button[i].r.centery-8;
+		r.center = 1;
+		if (button[i].down) {
+			ggprint16(&r, 0, button[i].text_color, "Pressed!");
+		} else {
+			ggprint16(&r, 0, button[i].text_color, button[i].text);
+		}
+	}
+  
+ 
 }
 
 
