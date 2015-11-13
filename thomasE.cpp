@@ -45,7 +45,57 @@ void highScore(int score, int highScores[])
 	glVertex2i(xres5, 0);
 	glEnd();
 
-	Rect titleScore;
+	
+
+	
+	
+	
+	 Ppmimage *startImage;
+	startImage=NULL;
+	GLuint startTexture;
+  
+	//OpenGL initialization
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearDepth(1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+	glEnable(GL_COLOR_MATERIAL);
+	//
+	//choose one of these
+	//glShadeModel(GL_FLAT);
+	glShadeModel(GL_SMOOTH);
+	glDisable(GL_LIGHTING);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	//
+	glEnable(GL_TEXTURE_2D);
+	//marble_texture = loadBMP("marble.bmp");
+	glBindTexture(GL_TEXTURE_2D, 0);
+	//
+	//load the image file into a ppm structure.
+	//
+	startImage = ppm6GetImage("./images/start.ppm");
+	//
+	//create opengl texture elements
+	glGenTextures(1, &startTexture);
+	glBindTexture(GL_TEXTURE_2D, startTexture);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, 3,
+	startImage->width, startImage->height,
+	0, GL_RGB, GL_UNSIGNED_BYTE, startImage->data);
+	
+	//screen background
+  glColor3f(0.5f, 0.5f, 0.5f);
+  glBindTexture(GL_TEXTURE_2D, startTexture);
+  glBegin(GL_QUADS);
+	glTexCoord2f(0.0f, 0.0f); glVertex2i(0,      0);
+	glTexCoord2f(0.0f, 1.0f); glVertex2i(0,      yres);
+	glTexCoord2f(1.0f, 1.0f); glVertex2i(xres, yres);
+  	glTexCoord2f(1.0f, 0.0f); glVertex2i(xres, 0);
+  glEnd();
+  glBindTexture(GL_TEXTURE_2D, 0);
+  
+  
+  Rect titleScore;
 	titleScore.bot = 500;
 	titleScore.left = 135;
 	titleScore.center = 150;
@@ -57,12 +107,12 @@ void highScore(int score, int highScores[])
 	finalScore.left = 135;
 	finalScore.center = 150;
 	
-    stringstream strs;
+	stringstream strs;
     strs << score;
     string temp_str = strs.str();
     char* testCheck2 = (char*) temp_str.c_str();
-
-	ggprint12(&finalScore, 0, cref, testCheck2);
+    ggprint12(&finalScore, 0, cref, testCheck2);
+	
 	
 	
 	// < - - - HIGH SCORES
@@ -175,18 +225,18 @@ void readFile(int highScores[])
 {
 	
 	//--------- Take the value from the txt file and read it
-	//string scoreNum[5];
+	string scoreNum[5];
 	//int tmp = 0;
 	//string line;
 	
-	ifstream highscoreLog;
+	fstream highscoreLog;
 	highscoreLog.open("highscore.txt");
 	for(int i = 0; i < 6; i++){
-		highscoreLog >> highScores[i];
+		highscoreLog >> scoreNum[i];
 	}
 	highscoreLog.close();
 	
-	/*LOOK UP THE FIN FUNCTION INSTEAD, YOU ARE PULLING INTS FROM THE FILE
+	//LOOK UP THE FIN FUNCTION INSTEAD, YOU ARE PULLING INTS FROM THE FILE
 	istringstream scoreOne(scoreNum[0]);
     scoreOne >> highScores[0];
     
@@ -200,7 +250,7 @@ void readFile(int highScores[])
 	scoreFour >> highScores[3];
     
     stringstream scoreFive(scoreNum[4]);
-    scoreFive >> highScores[4];*/
+    scoreFive >> highScores[4];
 	
 	return;
 }
@@ -235,5 +285,57 @@ void checkSKeys(XEvent *e)
 			level = 1;
 	}
 }
+
+/*void highScoreTexture()
+{
+  
+  Ppmimage *startImage;
+  startImage=NULL;
+  GLuint startTexture;
+  Rect r;
+  
+  //OpenGL initialization
+  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+  glClearDepth(1.0f);
+  glClear(GL_COLOR_BUFFER_BIT);
+  glEnable(GL_COLOR_MATERIAL);
+  //
+  //choose one of these
+  //glShadeModel(GL_FLAT);
+  glShadeModel(GL_SMOOTH);
+  glDisable(GL_LIGHTING);
+  glBindTexture(GL_TEXTURE_2D, 0);
+  //
+  glEnable(GL_TEXTURE_2D);
+  //marble_texture = loadBMP("marble.bmp");
+  glBindTexture(GL_TEXTURE_2D, 0);
+  //
+  //load the image file into a ppm structure.
+  //
+  startImage = ppm6GetImage("./images/start.ppm");
+  //
+  //create opengl texture elements
+  glGenTextures(1, &startTexture);
+  glBindTexture(GL_TEXTURE_2D, startTexture);
+  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+  glTexImage2D(GL_TEXTURE_2D, 0, 3,
+	startImage->width, startImage->height,
+	0, GL_RGB, GL_UNSIGNED_BYTE, startImage->data);
+
+  //start the opengl stuff
+  //set the viewing area on screen
+  glViewport(0, 0, xres, yres);
+  //clear color buffer
+  glMatrixMode (GL_PROJECTION); glLoadIdentity();
+  glMatrixMode(GL_MODELVIEW); glLoadIdentity();
+  //this sets to 2D mode (no perspective)
+  glOrtho(0, xres, 0, yres, -1, 1);
+  //
+
+  
+
+
+}8?*/
 
 
