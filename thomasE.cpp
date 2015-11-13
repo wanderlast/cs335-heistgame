@@ -48,7 +48,7 @@ void highScore(int score, int highScores[])
 	
 
 	
-	
+	//===================
 	
 	 Ppmimage *startImage;
 	startImage=NULL;
@@ -93,6 +93,8 @@ void highScore(int score, int highScores[])
   	glTexCoord2f(1.0f, 0.0f); glVertex2i(xres, 0);
   glEnd();
   glBindTexture(GL_TEXTURE_2D, 0);
+  
+	//=========
   
   
   Rect titleScore;
@@ -285,57 +287,5 @@ void checkSKeys(XEvent *e)
 			level = 1;
 	}
 }
-
-/*void highScoreTexture()
-{
-  
-  Ppmimage *startImage;
-  startImage=NULL;
-  GLuint startTexture;
-  Rect r;
-  
-  //OpenGL initialization
-  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-  glClearDepth(1.0f);
-  glClear(GL_COLOR_BUFFER_BIT);
-  glEnable(GL_COLOR_MATERIAL);
-  //
-  //choose one of these
-  //glShadeModel(GL_FLAT);
-  glShadeModel(GL_SMOOTH);
-  glDisable(GL_LIGHTING);
-  glBindTexture(GL_TEXTURE_2D, 0);
-  //
-  glEnable(GL_TEXTURE_2D);
-  //marble_texture = loadBMP("marble.bmp");
-  glBindTexture(GL_TEXTURE_2D, 0);
-  //
-  //load the image file into a ppm structure.
-  //
-  startImage = ppm6GetImage("./images/start.ppm");
-  //
-  //create opengl texture elements
-  glGenTextures(1, &startTexture);
-  glBindTexture(GL_TEXTURE_2D, startTexture);
-  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
-  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-  glTexImage2D(GL_TEXTURE_2D, 0, 3,
-	startImage->width, startImage->height,
-	0, GL_RGB, GL_UNSIGNED_BYTE, startImage->data);
-
-  //start the opengl stuff
-  //set the viewing area on screen
-  glViewport(0, 0, xres, yres);
-  //clear color buffer
-  glMatrixMode (GL_PROJECTION); glLoadIdentity();
-  glMatrixMode(GL_MODELVIEW); glLoadIdentity();
-  //this sets to 2D mode (no perspective)
-  glOrtho(0, xres, 0, yres, -1, 1);
-  //
-
-  
-
-
-}8?*/
 
 
