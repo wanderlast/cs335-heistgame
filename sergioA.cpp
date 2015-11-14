@@ -1,4 +1,6 @@
 //Author: Sergio Alvarado
+//Description: This cpp holds the sound functions, the start menu,
+//the controls page, and the gamestate menu. 
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
@@ -72,23 +74,21 @@ int loop;
 	}
  } 
 
-  if(loop == 0){
-   
+  if(!loop){
+	  
  alSourcef(alSource, AL_GAIN, 1.0f);
  alSourcef(alSource, AL_PITCH, 1.0f);
  alSourcei(alSource, AL_LOOPING, AL_FALSE);
  if (alGetError() != AL_NO_ERROR) {
  	printf("ERROR: setting source\n");
  }
- 
+ for(int i=0; i<1; i++){
 	 alSourcePlay(alSource);
-	 usleep(90000);
+	 usleep(900000);
+ }
 
   } 
-
- 
- 
- 
+  
 /*
 	// // Set volume and pitch to normal, no looping of sound.
  alSourcef(alSource, AL_GAIN, 1.0f);
@@ -157,11 +157,10 @@ void startMenu()
   glEnable(GL_TEXTURE_2D);
   //marble_texture = loadBMP("marble.bmp");
   glBindTexture(GL_TEXTURE_2D, 0);
-  //
+  
   //load the image file into a ppm structure.
-  //
   startImage = ppm6GetImage("./images/start.ppm");
-  //
+  
   //create opengl texture elements
   glGenTextures(1, &startTexture);
   glBindTexture(GL_TEXTURE_2D, startTexture);
@@ -174,13 +173,13 @@ void startMenu()
   //start the opengl stuff
   //set the viewing area on screen
   glViewport(0, 0, xres, yres);
+  
   //clear color buffer
-  //init matrices
   glMatrixMode (GL_PROJECTION); glLoadIdentity();
   glMatrixMode(GL_MODELVIEW); glLoadIdentity();
+  
   //this sets to 2D mode (no perspective)
   glOrtho(0, xres, 0, yres, -1, 1);
-  //
 
   //screen background
   glColor3f(0.5f, 0.5f, 0.5f);
@@ -299,12 +298,10 @@ void gamestateMenu()
 	unsigned int text_color;
 } Button;
 
-  
   Ppmimage *startImage;
   startImage=NULL;
   GLuint startTexture;
   Rect r;
-  
   int nbuttons, i;
   Button button[MAXBUTTONS];
   
@@ -368,12 +365,13 @@ void gamestateMenu()
   r.bot    = yres-300;
   r.center = 1;
   ggprint16(&r, 16, 0x00ffffff, "Choose A Game Mode!");
-  
+
+	//initalize buttons
 	nbuttons = 0;
-  
+	//score challange button setting
   	button[nbuttons].r.width = 140;
 	button[nbuttons].r.height = 60;
-	button[nbuttons].r.left = 200;
+	button[nbuttons].r.left = 250;
 	button[nbuttons].r.bot = 160;
 	button[nbuttons].r.right =
 	   button[nbuttons].r.left + button[nbuttons].r.width;
@@ -395,9 +393,10 @@ void gamestateMenu()
 	button[nbuttons].text_color = 0x00ffffff;
 	nbuttons++;
 	
+	//time trial button settings
 	button[nbuttons].r.width = 140;
 	button[nbuttons].r.height = 60;
-	button[nbuttons].r.left = 20;
+	button[nbuttons].r.left = 50;
 	button[nbuttons].r.bot = 160;
 	button[nbuttons].r.right =
 	   button[nbuttons].r.left + button[nbuttons].r.width;

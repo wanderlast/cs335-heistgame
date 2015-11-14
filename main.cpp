@@ -102,13 +102,14 @@ Treasure treasure[MAX_TREASURE];
 int done;
 int level;
 int start;
+int timestart;
 int info;
 int gridDim;
 int boardDim;
 int gameover;
 int winner;
 int score;
-int soundNum;
+//int soundNum;
 Ppmimage *startImage;
 GLuint startTexture;
 int nbuttons;
@@ -156,8 +157,7 @@ int main(int argc, char *argv[])
 	init();
 	initialize_fonts();
 	srand((unsigned int)time(NULL));
-	clock_gettime(CLOCK_REALTIME, &timePause);
-	clock_gettime(CLOCK_REALTIME, &timeStart);
+
 	
 	while(!start) {  //game has not started
 		while(XPending(dpy)) {
@@ -186,8 +186,7 @@ int main(int argc, char *argv[])
 }     
 }
 }
-   
-	
+
 	level = 1;
 	while(!done) {	
 		if (level == 1){
@@ -198,6 +197,10 @@ int main(int argc, char *argv[])
 				checkMouse(&e);
 				checkKeys(&e);
 			}
+			   if(level == 1 && timestart == 1) {
+	clock_gettime(CLOCK_REALTIME, &timePause);
+	clock_gettime(CLOCK_REALTIME, &timeStart);
+}
 			//soundNum = 1;
 			//createSound(soundNum);
 			//Below is a process to apply physics at a consistent rate.
@@ -228,6 +231,7 @@ int main(int argc, char *argv[])
 			render();
 			glXSwapBuffers(dpy, win);
 		}
+		timestart = 0;
 	
 	if(level == 2){
 		done = 0;
@@ -249,7 +253,7 @@ int main(int argc, char *argv[])
 				checkResize(&e);
 				checkSKeys(&e);
 			}
-		
+			timestart = 0;
 			highScore(treasureScore, highScores);
 			scoreSheet(highScores);
 			glXSwapBuffers(dpy, win);
@@ -488,7 +492,8 @@ void resetGame(void)
 	initTreasure();
 	gameover  = 0;
 	score = 0;
-	winner    = 0;
+	winner = 0;
+	timestart = 0;
 }
 
 void checkKeys(XEvent *e)
@@ -547,6 +552,7 @@ void checkKeys(XEvent *e)
 			level = 2;
 		case XK_space:
 			start = 1;
+			timestart = 1;
 		case XK_Return:
 			info = 1;
 	}
@@ -593,6 +599,7 @@ void checkMouse(XEvent *e)
 					switch(i) {
 						case 0:
 							resetGame();
+							timestart =1;
 							break;
 						case 1:
 							level=2;
