@@ -136,6 +136,7 @@ void cleanupSound()
  alcDestroyContext(Context);
 	// // Close device.
  alcCloseDevice(Device);
+ 
  cout << "sound is cleaned " << endl;
 
 }
