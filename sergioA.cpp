@@ -25,6 +25,8 @@ using namespace std;
 ALuint alSource;
 ALuint alBuffer;
 
+void cleanupSound();
+
 int createSound(int soundNum)
 {
 
@@ -62,6 +64,21 @@ int loop;
  alGenSources(1, &alSource);
  alSourcei(alSource, AL_BUFFER, alBuffer);	
 		break;
+		
+	case 3 :
+	loop = 0;
+	alBuffer = alutCreateBufferFromFile("./gameover.wav");
+ alGenSources(1, &alSource);
+ alSourcei(alSource, AL_BUFFER, alBuffer);	
+		break;
+		
+	case 4 :
+	loop = 0;
+	alBuffer = alutCreateBufferFromFile("./menu.wav");
+ alGenSources(1, &alSource);
+ alSourcei(alSource, AL_BUFFER, alBuffer);	
+		break;
+		
   }
 
 	// // Source refers to the sound.
@@ -69,7 +86,7 @@ int loop;
  //alGenSources(1, &alSource);
  //alSourcei(alSource, AL_BUFFER, alBuffer);
  
-  if(loop == 0){ 
+  if(!loop){ 
  alSourcef(alSource, AL_GAIN, 1.0f);
  alSourcef(alSource, AL_PITCH, 1.0f);
  alSourcei(alSource, AL_LOOPING, AL_FALSE);
@@ -82,18 +99,18 @@ int loop;
 }  
  
  
- if(loop == 1){
+ if(loop == 1 && level == 1){
  alSourcef(alSource, AL_GAIN, 1.0f);
  alSourcef(alSource, AL_PITCH, 1.0f);
- alSourcei(alSource, AL_LOOPING, AL_TRUE);
+ alSourcei(alSource, AL_LOOPING, AL_FALSE);
  if (alGetError() != AL_NO_ERROR) {
  	printf("ERROR: setting source\n");
  }
-	if (level == 1) {
 	alSourcePlay(alSource);
-	 usleep(99999999);
-	}
- } 
+	 usleep(90000000);
+	 
+ }
+
 
 /*
 	// // Set volume and pitch to normal, no looping of sound.
@@ -137,7 +154,7 @@ void cleanupSound()
 	// // Close device.
  alcCloseDevice(Device);
  
- cout << "sound is cleaned " << endl;
+ cout << "Sound has been cleaned " << endl;
 
 }
  
@@ -198,6 +215,17 @@ void startMenu()
   	glTexCoord2f(1.0f, 0.0f); glVertex2i(xres, 0);
   glEnd();
   glBindTexture(GL_TEXTURE_2D, 0);
+	
+/*  glColor3ub(119,119,119);
+  glPushMatrix();
+  glBegin(GL_QUADS);
+    glVertex2i(250, 400);
+    glVertex2i(250, 400);
+    glVertex2i(250, 400);
+    glVertex2i(400, 250);
+  glEnd();
+  glPopMatrix();	
+*/	
 	
   r.left   = xres/2;
   r.bot    = yres-100;
@@ -279,15 +307,46 @@ void infoMenu()
   r.bot    = yres-100;
   r.center = 1;
   ggprint16(&r, 16, 0x00ffffff, "Important Keys");
-	
-  r.left   = xres/2;
-  r.bot    = yres-300;
+  
+  r.left   = 200;
+  r.bot    = yres-50;
   r.center = 1;
+  ggprint16(&r, 16, 0x00ffffff, "HIT SPACE TO PLAY GAME!");
+	
+  r.left   = 200;
+  r.bot    = 375;
+  ggprint16(&r, 16, 0x00ffffff, "--IN MENU--");
+  
+  r.left   = 500;
+  r.bot    = 375;
+  ggprint16(&r, 16, 0x00ffffff, "--IN GAME--");
+  
+  r.left   = 500;
+  r.bot    = 330;
+  ggprint16(&r, 16, 0x00ffffff, "Arrow Up: move up");
+  
+  r.left   = 500;
+  r.bot    = 300;
+  ggprint16(&r, 16, 0x00ffffff, "Arrow Down: move down");
+  
+  r.left   = 500;
+  r.bot    = 270;
+  ggprint16(&r, 16, 0x00ffffff, "Arrow Left: move left");
+  
+  r.left   = 500;
+  r.bot    = 240;
+  ggprint16(&r, 16, 0x00ffffff, "Arrow Right: move right");  
+  
+  r.left   = 500;
+  r.bot    = 375;
+  ggprint16(&r, 16, 0x00ffffff, "--IN GAME--");
+	
+  r.left   = 200;
+  r.bot    = 300;
   ggprint16(&r, 16, 0x00ffffff, "SPACE: start!");
   
-  r.left   = xres/2;
-  r.bot    = yres-400;
-  r.center = 1;
+  r.left   = 200;
+  r.bot    = 330;
   ggprint16(&r, 16, 0x00ffffff, "R: restart");
 
 }

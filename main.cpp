@@ -200,8 +200,7 @@ int main(int argc, char *argv[])
 	clock_gettime(CLOCK_REALTIME, &timePause);
 	clock_gettime(CLOCK_REALTIME, &timeStart);
 }
-			//soundNum = 1;
-			//createSound(soundNum);
+
 			//Below is a process to apply physics at a consistent rate.
 			//1. Get the time right now.
 			clock_gettime(CLOCK_REALTIME, &timeCurrent);
@@ -233,6 +232,8 @@ int main(int argc, char *argv[])
 		timestart = 0;
 	
 	if(level == 2){
+		soundNum = 3;
+		createSound(soundNum);
 		done = 0;
 		//int randNumber = rand() % 100;
 		
@@ -259,7 +260,7 @@ int main(int argc, char *argv[])
 		}
 	}
 	}
-	
+	cleanupSound();
 	cleanupXWindows();
 	cleanup_fonts();
 	logClose();
@@ -518,6 +519,8 @@ void checkKeys(XEvent *e)
 	switch(key) {
 		case XK_r:
 			resetGame();
+			soundNum = 4;
+			createSound(soundNum);
 			break;
 		//~ case XK_equal:
 			//~ g.snake.delay *= 0.9;
@@ -550,11 +553,17 @@ void checkKeys(XEvent *e)
 			break;
 		case XK_Escape:
 			level = 2;
+			soundNum = 4;
+			createSound(soundNum);
 		case XK_space:
 			start = 1;
 			timestart = 1;
+			soundNum = 4;
+			createSound(soundNum);
 		case XK_Return:
 			info = 1;
+			soundNum = 4;
+			createSound(soundNum);
 	}
 }
 
@@ -981,6 +990,6 @@ void render(void)
         r.left   = xres/2;
         r.bot    = yres-100;
         r.center = 1;
-        ggprint16(&r, 16, 0x00ffffff, "Zeitheist");
+        ggprint16(&r, 16, 0x00ffffff,  "Zeitheist");
         }
 }
