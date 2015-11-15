@@ -29,7 +29,7 @@ enum gameModes { scoreAttackEasy, timeAttackEasy, scoreAttack,
 
 using namespace std;
 
-
+int soundNum;
 //Checks to see if the player will collide with a boundary if moved in
 //the direction the player asks for. Currently only checks against
 //game grid boundaries.
@@ -220,6 +220,7 @@ void initTreasure(int n)
     //generate n treasure one at a time
     for ( int i = 0; i < n; i++) {
         treasureGeneration(i);
+        cleanupSound(); 
     }
 }
 
@@ -340,11 +341,11 @@ void treasureCollision()
                      treasure[i].pos[0]	 << ", " << treasure[i].pos[1];
                 cout << endl;
             }
-            //~ createSound(2);
-            //~ cleanupSound();
+            //soundNum = 2;
+            //createSound(soundNum);
             Log("new treasure: %i %i\n",treasure[i].pos[0],treasure[i].pos[1]);
             cout << "treasure collected" << endl;
-        }
+        } 
     }
     return;
 
@@ -430,12 +431,17 @@ void treasureGeneration(int i)
             treasure[i].status = 1;
             cout << i << ": (" << treasure[i].pos[0] << ", " <<
                  treasure[i].pos[1] << ")" << endl;
+
         }
     }
 
     treasure[i].type = rand()%3 + 1; //assigns it a type from 1-3
     cout << "treasure type is now: " << treasure[i].type << endl;
-
+	
+	if(soundFlag == 1 && level == 1 && test == 3){
+		soundNum = 2;
+		createSound(soundNum);
+}
     return;
 }
 

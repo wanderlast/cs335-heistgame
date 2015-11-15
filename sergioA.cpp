@@ -2,6 +2,7 @@
 //Description: This cpp holds the sound functions, the start menu,
 //the controls page, and the gamestate menu. 
 #include <stdio.h>
+#include <iostream>
 #include <string.h>
 #include <math.h>
 #include <unistd.h>
@@ -17,6 +18,7 @@
 extern "C"{
 	#include "fonts.h"
 }
+using namespace std;
 
 #define MAXBUTTONS 4
 
@@ -47,21 +49,40 @@ int loop;
  //alBuffer[0] = alutCreateBufferFromFile("./theme.wav");
 
   switch(soundNum) {
-	case 1 :loop = 1;
+	case 1 :
+	loop = 1;
 		alBuffer = alutCreateBufferFromFile("./theme.wav");
+ alGenSources(1, &alSource);
+ alSourcei(alSource, AL_BUFFER, alBuffer);
 		break;
-		loop = 0;
-	case 2 :  alBuffer = alutCreateBufferFromFile("./cha-ching.wav");
+			
+	case 2 :
+	loop = 0;
+	alBuffer = alutCreateBufferFromFile("./cha-ching.wav");
+ alGenSources(1, &alSource);
+ alSourcei(alSource, AL_BUFFER, alBuffer);	
 		break;
   }
 
 	// // Source refers to the sound.
 	// // Generate a source, and store it in a buffer.
- alGenSources(1, &alSource);
- alSourcei(alSource, AL_BUFFER, alBuffer);
+ //alGenSources(1, &alSource);
+ //alSourcei(alSource, AL_BUFFER, alBuffer);
+ 
+  if(loop == 0){ 
+ alSourcef(alSource, AL_GAIN, 1.0f);
+ alSourcef(alSource, AL_PITCH, 1.0f);
+ alSourcei(alSource, AL_LOOPING, AL_FALSE);
+ if (alGetError() != AL_NO_ERROR) {
+ 	printf("ERROR: setting source\n");
+ }
+	 alSourcePlay(alSource);
+	 usleep(90);
+
+}  
+ 
  
  if(loop == 1){
-   
  alSourcef(alSource, AL_GAIN, 1.0f);
  alSourcef(alSource, AL_PITCH, 1.0f);
  alSourcei(alSource, AL_LOOPING, AL_TRUE);
@@ -74,21 +95,6 @@ int loop;
 	}
  } 
 
-  if(!loop){
-	  
- alSourcef(alSource, AL_GAIN, 1.0f);
- alSourcef(alSource, AL_PITCH, 1.0f);
- alSourcei(alSource, AL_LOOPING, AL_FALSE);
- if (alGetError() != AL_NO_ERROR) {
- 	printf("ERROR: setting source\n");
- }
- for(int i=0; i<1; i++){
-	 alSourcePlay(alSource);
-	 usleep(900000);
- }
-
-  } 
-  
 /*
 	// // Set volume and pitch to normal, no looping of sound.
  alSourcef(alSource, AL_GAIN, 1.0f);
@@ -115,7 +121,6 @@ return 0;
 
 void cleanupSound()
 {
-
         // First delete the source.
  alDeleteSources(1, &alSource);
 	// // Delete the buffer.
@@ -131,6 +136,7 @@ void cleanupSound()
  alcDestroyContext(Context);
 	// // Close device.
  alcCloseDevice(Device);
+ cout << "sound is cleaned " << endl;
 
 }
  

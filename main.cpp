@@ -109,7 +109,7 @@ int boardDim;
 int gameover;
 int winner;
 int score;
-//int soundNum;
+int soundFlag;
 Ppmimage *startImage;
 GLuint startTexture;
 int nbuttons;
@@ -168,8 +168,6 @@ int main(int argc, char *argv[])
 			checkKeys(&e);
 		}
 		startMenu();
-		// soundNum = 1;
-		//createSound(soundNum);
 		glXSwapBuffers(dpy, win);
 
 	if(level == 0 && info == 1) {
@@ -190,6 +188,7 @@ int main(int argc, char *argv[])
 	level = 1;
 	while(!done) {	
 		if (level == 1){
+			soundFlag = 1;
 			while(XPending(dpy)) {
 				XEvent e;
 				XNextEvent(dpy, &e);
@@ -494,6 +493,7 @@ void resetGame(void)
 	score = 0;
 	winner = 0;
 	timestart = 0;
+	soundFlag = 0;
 }
 
 void checkKeys(XEvent *e)
@@ -599,7 +599,6 @@ void checkMouse(XEvent *e)
 					switch(i) {
 						case 0:
 							resetGame();
-							timestart =1;
 							break;
 						case 1:
 							level=2;
