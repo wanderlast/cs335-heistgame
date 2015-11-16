@@ -88,7 +88,7 @@ void gameTypeSelector(int select)
 	initTreasure();
 	break;
     case timeAttack:
-	initPlayer();
+	initPlayer(0);
 	initTreasure();
 	break;
     case scoreAttackHard:
@@ -96,7 +96,7 @@ void gameTypeSelector(int select)
 	initTreasure();
 	break;
     case timeAttackHard:
-	initPlayer();
+	initPlayer(0);
 	initTreasure();
 	break;
     default:

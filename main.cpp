@@ -197,9 +197,9 @@ int main(int argc, char *argv[])
 				checkKeys(&e);
 			}
 			   if(level == 1 && timestart == 1) {
-	clock_gettime(CLOCK_REALTIME, &timePause);
-	clock_gettime(CLOCK_REALTIME, &timeStart);
-}
+			      clock_gettime(CLOCK_REALTIME, &timePause);
+			      clock_gettime(CLOCK_REALTIME, &timeStart);
+			}
 
 			//Below is a process to apply physics at a consistent rate.
 			//1. Get the time right now.
@@ -445,7 +445,7 @@ void resetGame(void)
 	gameover  = 0;
 	treasureScore = 0;
 	winner = 0;
-	timestart = 0;
+	timestart = 1;
 	soundFlag = 0;
 }
 
