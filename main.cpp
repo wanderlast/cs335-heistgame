@@ -443,7 +443,7 @@ void resetGame(void)
 	initPlayer();
 	initTreasure();
 	gameover  = 0;
-	score = 0;
+	treasureScore = 0;
 	winner = 0;
 	timestart = 0;
 	soundFlag = 0;

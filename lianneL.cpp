@@ -30,6 +30,7 @@ enum gameModes { scoreAttackEasy, timeAttackEasy, scoreAttack,
 using namespace std;
 
 int soundNum;
+
 //Checks to see if the player will collide with a boundary if moved in
 //the direction the player asks for. Currently only checks against
 //game grid boundaries.
@@ -71,6 +72,8 @@ int findTreasureValue(int i)
 
 void gameTypeSelector(int select)
 {
+    //set player, set treasure spawn, set timer
+  
     switch(select) {
     case scoreAttackEasy:
         initPlayer();
@@ -80,6 +83,26 @@ void gameTypeSelector(int select)
         initPlayer(0);
         initTreasure();
         break;
+    case scoreAttack:
+	initPlayer();
+	initTreasure();
+	break;
+    case timeAttack:
+	initPlayer();
+	initTreasure();
+	break;
+    case scoreAttackHard:
+	initPlayer();
+	initTreasure();
+	break;
+    case timeAttackHard:
+	initPlayer();
+	initTreasure();
+	break;
+    default:
+	initPlayer();
+	initTreasure();
+	break;
     }
 }
 
