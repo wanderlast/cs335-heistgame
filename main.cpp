@@ -252,8 +252,8 @@ int main(int argc, char *argv[])
 				XNextEvent(dpy, &e);
 				checkResize(&e);
 				checkSKeys(&e);
+				checkSMouse(&e);
 			}
-			timestart = 0;
 			highScore(treasureScore, highScores);
 			scoreSheet(highScores);
 			glXSwapBuffers(dpy, win);
@@ -391,7 +391,7 @@ void init(void)
 	button[nbuttons].r.width = 140;
 	button[nbuttons].r.height = 60;
 	button[nbuttons].r.left = 630;
-	button[nbuttons].r.bot = 140;
+	button[nbuttons].r.bot = 230;
 	button[nbuttons].r.right =
 	   button[nbuttons].r.left + button[nbuttons].r.width;
 	button[nbuttons].r.top =
@@ -414,7 +414,7 @@ void init(void)
 	button[nbuttons].r.width = 140;
 	button[nbuttons].r.height = 60;
 	button[nbuttons].r.left = 630;
-	button[nbuttons].r.bot = 230;
+	button[nbuttons].r.bot = 140;
 	button[nbuttons].r.right =
 	   button[nbuttons].r.left + button[nbuttons].r.width;
 	button[nbuttons].r.top = button[nbuttons].r.bot +
@@ -429,54 +429,6 @@ void init(void)
 	button[nbuttons].color[0] = 0.4f;
 	button[nbuttons].color[1] = 0.4f;
 	button[nbuttons].color[2] = 0.4f;
-	button[nbuttons].dcolor[0] = button[nbuttons].color[0] * 0.5f;
-	button[nbuttons].dcolor[1] = button[nbuttons].color[1] * 0.5f;
-	button[nbuttons].dcolor[2] = button[nbuttons].color[2] * 0.5f;
-	button[nbuttons].text_color = 0x00ffffff;
-	nbuttons++;
-	
-	button[nbuttons].r.width = 140;
-	button[nbuttons].r.height = 60;
-	button[nbuttons].r.left = 20;
-	button[nbuttons].r.bot = 160;
-	button[nbuttons].r.right =
-	   button[nbuttons].r.left + button[nbuttons].r.width;
-	button[nbuttons].r.top = button[nbuttons].r.bot +
-	   button[nbuttons].r.height;
-	button[nbuttons].r.centerx = (button[nbuttons].r.left +
-	   button[nbuttons].r.right) / 2;
-	button[nbuttons].r.centery = (button[nbuttons].r.bot +
-	   button[nbuttons].r.top) / 2;
-	strcpy(button[nbuttons].text, "Play Again");
-	button[nbuttons].down = 0;
-	button[nbuttons].click = 0;
-	button[nbuttons].color[0] = 0.3f;
-	button[nbuttons].color[1] = 0.3f;
-	button[nbuttons].color[2] = 0.6f;
-	button[nbuttons].dcolor[0] = button[nbuttons].color[0] * 0.5f;
-	button[nbuttons].dcolor[1] = button[nbuttons].color[1] * 0.5f;
-	button[nbuttons].dcolor[2] = button[nbuttons].color[2] * 0.5f;
-	button[nbuttons].text_color = 0x00ffffff;
-	nbuttons++;
-	
-	button[nbuttons].r.width = 140;
-	button[nbuttons].r.height = 60;
-	button[nbuttons].r.left = 20;
-	button[nbuttons].r.bot = 160;
-	button[nbuttons].r.right =
-	   button[nbuttons].r.left + button[nbuttons].r.width;
-	button[nbuttons].r.top = button[nbuttons].r.bot +
-	   button[nbuttons].r.height;
-	button[nbuttons].r.centerx = (button[nbuttons].r.left +
-	   button[nbuttons].r.right) / 2;
-	button[nbuttons].r.centery = (button[nbuttons].r.bot +
-	   button[nbuttons].r.top) / 2;
-	strcpy(button[nbuttons].text, "End Game");
-	button[nbuttons].down = 0;
-	button[nbuttons].click = 0;
-	button[nbuttons].color[0] = 0.3f;
-	button[nbuttons].color[1] = 0.3f;
-	button[nbuttons].color[2] = 0.6f;
 	button[nbuttons].dcolor[0] = button[nbuttons].color[0] * 0.5f;
 	button[nbuttons].dcolor[1] = button[nbuttons].color[1] * 0.5f;
 	button[nbuttons].dcolor[2] = button[nbuttons].color[2] * 0.5f;

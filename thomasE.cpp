@@ -33,6 +33,19 @@ GLXContext glc;
 
 int xres5=1300, yres5=800;
 
+typedef struct t_button {
+	Rect r;
+	char text[32];
+	int over;
+	int down;
+	int click;
+	float color[3];
+	float dcolor[3];
+	unsigned int text_color;
+	} Button;
+	
+	Button button2[4];
+
 void highScore(int score, int highScores[])
 { 
 	unsigned int cref = 0x00ffffff; //white
@@ -95,6 +108,96 @@ void highScore(int score, int highScores[])
   glBindTexture(GL_TEXTURE_2D, 0);
   
 	//=========
+	//INITIALIZE BUTTONS
+	int i;
+	Rect r;
+	int nbuttons=0;
+	button2[nbuttons].r.width = 140;
+	button2[nbuttons].r.height = 60;
+	button2[nbuttons].r.left = 550;
+	button2[nbuttons].r.bot = 460;
+	button2[nbuttons].r.right =
+	   button2[nbuttons].r.left + button2[nbuttons].r.width;
+	button2[nbuttons].r.top = button2[nbuttons].r.bot +
+	   button2[nbuttons].r.height;
+	button2[nbuttons].r.centerx = (button2[nbuttons].r.left +
+	   button2[nbuttons].r.right) / 2;
+	button2[nbuttons].r.centery = (button2[nbuttons].r.bot +
+	   button2[nbuttons].r.top) / 2;
+	strcpy(button2[nbuttons].text, "Play Again");
+	button2[nbuttons].down = 0;
+	button2[nbuttons].click = 0;
+	button2[nbuttons].color[0] = 0.4f;
+	button2[nbuttons].color[1] = 0.4f;
+	button2[nbuttons].color[2] = 0.4f;
+	button2[nbuttons].dcolor[0] = button2[nbuttons].color[0] * 0.5f;
+	button2[nbuttons].dcolor[1] = button2[nbuttons].color[1] * 0.5f;
+	button2[nbuttons].dcolor[2] = button2[nbuttons].color[2] * 0.5f;
+	button2[nbuttons].text_color = 0x00ffffff;
+	nbuttons++;
+	
+	button2[nbuttons].r.width = 140;
+	button2[nbuttons].r.height = 60;
+	button2[nbuttons].r.left = 550;
+	button2[nbuttons].r.bot = 360;
+	button2[nbuttons].r.right = 
+	   button2[nbuttons].r.left + button2[nbuttons].r.width;
+	button2[nbuttons].r.top = button2[nbuttons].r.bot +
+	   button2[nbuttons].r.height;
+	button2[nbuttons].r.centerx = (button2[nbuttons].r.left +
+	   button2[nbuttons].r.right) / 2;
+	button2[nbuttons].r.centery = (button2[nbuttons].r.bot +
+	   button2[nbuttons].r.top) / 2;
+	strcpy(button2[nbuttons].text, "End Game");
+	button2[nbuttons].down = 0;
+	button2[nbuttons].click = 0;
+	button2[nbuttons].color[0] = 0.4f;
+	button2[nbuttons].color[1] = 0.4f;
+	button2[nbuttons].color[2] = 0.4f;
+	button2[nbuttons].dcolor[0] = button2[nbuttons].color[0] * 0.5f;
+	button2[nbuttons].dcolor[1] = button2[nbuttons].color[1] * 0.5f;
+	button2[nbuttons].dcolor[2] = button2[nbuttons].color[2] * 0.5f;
+	button2[nbuttons].text_color = 0x00ffffff;
+	nbuttons++;
+	
+	//=============== END OF BUTTONS
+	//draw all buttons
+	for (i=0; i<2; i++) {
+		if (button2[i].over) {
+			int w=2;
+			glColor3f(1.0f, 1.0f, 0.0f);
+			//draw a highlight around button
+			glLineWidth(3);
+			glBegin(GL_LINE_LOOP);
+				glVertex2i(button2[i].r.left-w,  button2[i].r.bot-w);
+				glVertex2i(button2[i].r.left-w,  button2[i].r.top+w);
+				glVertex2i(button2[i].r.right+w, button2[i].r.top+w);
+				glVertex2i(button2[i].r.right+w, button2[i].r.bot-w);
+				glVertex2i(button2[i].r.left-w,  button2[i].r.bot-w);
+			glEnd();
+			glLineWidth(1);
+		}
+		if (button2[i].down) {
+			glColor3fv(button2[i].dcolor);
+		} else {
+			glColor3fv(button2[i].color);
+		}
+		glBegin(GL_QUADS);
+			glVertex2i(button2[i].r.left,  button2[i].r.bot);
+			glVertex2i(button2[i].r.left,  button2[i].r.top);
+			glVertex2i(button2[i].r.right, button2[i].r.top);
+			glVertex2i(button2[i].r.right, button2[i].r.bot);
+		glEnd();
+		r.left = button2[i].r.centerx;
+		r.bot  = button2[i].r.centery-8;
+		r.center = 1;
+		if (button2[i].down) {
+			ggprint16(&r, 0, button2[i].text_color, "Pressed!");
+		} else {
+			ggprint16(&r, 0, button2[i].text_color, button2[i].text);
+		}
+	}
+	//========================
   
   
   Rect titleScore;
@@ -227,31 +330,45 @@ void readFile(int highScores[])
 {
 	
 	//--------- Take the value from the txt file and read it
-	string scoreNum[5];
-	//int tmp = 0;
-	//string line;
+	char temp[10];
+	char temp2[10];
+	char temp3[10];
+	char temp4[10];
+	char temp5[10];
+
+	stringstream scoreOne;
+	stringstream scoreTwo;
+	stringstream scoreThree;
+	stringstream scoreFour;
+	stringstream scoreFive;
+	
 	
 	fstream highscoreLog;
-	highscoreLog.open("highscore.txt");
-	for(int i = 0; i < 6; i++){
-		highscoreLog >> scoreNum[i];
-	}
+	highscoreLog.open("highscores.txt");
+	
+	highscoreLog.getline(temp, 10);
+	cout << "HIGH TEST" << temp << endl;
+	scoreOne << temp;
+	
+	highscoreLog.getline(temp2, 10);
+	scoreTwo << temp2;
+	
+	highscoreLog.getline(temp3, 10);
+	scoreThree << temp3;
+	
+	highscoreLog.getline(temp4, 10);
+	scoreFour << temp4;
+	
+	highscoreLog.getline(temp5, 10);
+	scoreFive << temp5;
+		
 	highscoreLog.close();
 	
-	//LOOK UP THE FIN FUNCTION INSTEAD, YOU ARE PULLING INTS FROM THE FILE
-	istringstream scoreOne(scoreNum[0]);
+    
     scoreOne >> highScores[0];
-    
-    istringstream scoreTwo(scoreNum[1]);
     scoreTwo >> highScores[1];
-    
-    istringstream scoreThree(scoreNum[2]);
-	scoreThree >> highScores[2];
-    
-    stringstream scoreFour(scoreNum[3]);
-	scoreFour >> highScores[3];
-    
-    stringstream scoreFive(scoreNum[4]);
+    scoreThree >> highScores[2];
+    scoreFour >> highScores[3];
     scoreFive >> highScores[4];
 	
 	return;
@@ -288,4 +405,57 @@ void checkSKeys(XEvent *e)
 	}
 }
 
-
+void checkSMouse(XEvent *e)
+{
+	static int savex = 0;
+	static int savey = 0;
+	int i,x,y;
+	int lbutton=0;
+	int rbutton=0;
+	//
+	if (e->type == ButtonRelease)
+		return;
+	if (e->type == ButtonPress) {
+		if (e->xbutton.button==1) {
+			//Left button is down
+			lbutton=1;
+		}
+		if (e->xbutton.button==3) {
+			//Right button is down
+			rbutton=1;
+			if (rbutton){}
+		}
+	}
+	x = e->xbutton.x;
+	y = e->xbutton.y;
+	y = yres - y;
+	if (savex != e->xbutton.x || savey != e->xbutton.y) {
+		//Mouse moved
+		savex = e->xbutton.x;
+		savey = e->xbutton.y;
+	}
+	for (i=0; i<2; i++) {
+		button2[i].over=0;
+		if (x >= button2[i].r.left &&
+			x <= button2[i].r.right &&
+			y >= button2[i].r.bot &&
+			y <= button2[i].r.top) {
+			button2[i].over=1;
+			if (button2[i].over) {
+				if (lbutton) {
+					switch(i) {
+						case 0:
+							level = 1;
+							resetGame();
+							break;
+						case 1:
+							level = 1;
+							done = 1;
+							break;
+					}
+				}
+			}
+		}
+	}
+	return;
+}
