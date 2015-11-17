@@ -35,307 +35,308 @@ void physics(void)
 void initWall(void)
 {
 //        int loc[50];
-        
-        // arrays to recognize character position
-        for(int i=4; i<=25; i+=2) {
-                loc[i] = player.pos[0][0];
-                loc[i+1] = player.pos[0][1];
-        }
 
-        // assignes walls to certain squares
-        for(int i=4; i<=25; i+=2) {
-                wall.here[i] = i;
-                wall.here[i+1] = 5;
-        }
-        
-if(again == true) {
+    // arrays to recognize character position
+    for(int i=4; i<=25; i+=2) {
+        loc[i] = player.pos[0][0];
+        loc[i+1] = player.pos[0][1];
+    }
+
+    // assignes walls to certain squares
+    for(int i=4; i<=25; i+=2) {
+        wall.here[i] = i;
+        wall.here[i+1] = 5;
+    }
+
+    if(again == true) {
         treasure[0].pos[0] = 4;
         treasure[0].pos[1] = 5;
-      again = false;
-}
-evenWall(4, 25);        
-    
-        for(int i=5; i<=26; i+=2) {
-                loc[i] = player.pos[0][0];
-                loc[i+1] = player.pos[0][1];
-        }
+        again = false;
+    }
+    evenWall(4, 25);
 
-        for(int i=5; i<=26; i+=2) {
-                wall.here[i] = i;
-                wall.here[i+1] = 5;
-        }
-evenWall(5, 26);
+    for(int i=5; i<=26; i+=2) {
+        loc[i] = player.pos[0][0];
+        loc[i+1] = player.pos[0][1];
+    }
 
-        for(int i=5; i<=25; i+=2) {
-                loc[i] = player.pos[0][0];
-                loc[i+1] = player.pos[0][1];
-        }
+    for(int i=5; i<=26; i+=2) {
+        wall.here[i] = i;
+        wall.here[i+1] = 5;
+    }
+    evenWall(5, 26);
 
-        for(int i=5; i<=25; i+=2) {
-                wall.here[i] = i;
-                wall.here[i+1] = 9;
-        }
-evenWall(5, 25);
+    for(int i=5; i<=25; i+=2) {
+        loc[i] = player.pos[0][0];
+        loc[i+1] = player.pos[0][1];
+    }
 
-        for(int i=4; i<=26; i+=2) {
-                loc[i] = player.pos[0][0];
-                loc[i+1] = player.pos[0][1];
-        }
+    for(int i=5; i<=25; i+=2) {
+        wall.here[i] = i;
+        wall.here[i+1] = 9;
+    }
+    evenWall(5, 25);
 
-        for(int i=4; i<=26; i+=2) {
-                wall.here[i] = i;
-                wall.here[i+1] = 9;
-        }
-evenWall(4, 26);
+    for(int i=4; i<=26; i+=2) {
+        loc[i] = player.pos[0][0];
+        loc[i+1] = player.pos[0][1];
+    }
 
-        for(int i=1; i<=25; i+=2) {
-                loc[i] = player.pos[0][0];
-                loc[i+1] = player.pos[0][1];
-        }
+    for(int i=4; i<=26; i+=2) {
+        wall.here[i] = i;
+        wall.here[i+1] = 9;
+    }
+    evenWall(4, 26);
 
-        for(int i=1; i<=25; i+=2) {
-                wall.here[i] = i;
-                wall.here[i+1] = 15;
-        }
-evenWall(1, 25);
+    for(int i=1; i<=25; i+=2) {
+        loc[i] = player.pos[0][0];
+        loc[i+1] = player.pos[0][1];
+    }
 
-        for(int i=0; i<=26; i+=2) {
-                loc[i] = player.pos[0][0];
-                loc[i+1] = player.pos[0][1];
-        }
+    for(int i=1; i<=25; i+=2) {
+        wall.here[i] = i;
+        wall.here[i+1] = 15;
+    }
+    evenWall(1, 25);
 
-        for(int i=0; i<=26; i+=2) {
-                wall.here[i] = i;
-                wall.here[i+1] = 15;
-        }
-evenWall(0,26);
+    for(int i=0; i<=26; i+=2) {
+        loc[i] = player.pos[0][0];
+        loc[i+1] = player.pos[0][1];
+    }
+
+    for(int i=0; i<=26; i+=2) {
+        wall.here[i] = i;
+        wall.here[i+1] = 15;
+    }
+    evenWall(0,26);
 
 // 20
-        for(int i=1; i<=25; i+=2) {
-                loc[i] = player.pos[0][0];
-                loc[i+1] = player.pos[0][1];
-        }
+    for(int i=1; i<=25; i+=2) {
+        loc[i] = player.pos[0][0];
+        loc[i+1] = player.pos[0][1];
+    }
 
-        for(int i=1; i<=25; i+=2) {
-                wall.here[i] = i;
-                wall.here[i+1] = 20;
-        }
-evenWall(1, 25);
+    for(int i=1; i<=25; i+=2) {
+        wall.here[i] = i;
+        wall.here[i+1] = 20;
+    }
+    evenWall(1, 25);
 
-        for(int i=0; i<=26; i+=2) {
-                loc[i] = player.pos[0][0];
-                loc[i+1] = player.pos[0][1];
-        }
+    for(int i=0; i<=26; i+=2) {
+        loc[i] = player.pos[0][0];
+        loc[i+1] = player.pos[0][1];
+    }
 
-        for(int i=0; i<=26; i+=2) {
-                wall.here[i] = i;
-                wall.here[i+1] = 20;
-        }
-evenWall(0,26);
+    for(int i=0; i<=26; i+=2) {
+        wall.here[i] = i;
+        wall.here[i+1] = 20;
+    }
+    evenWall(0,26);
 
-        // 25
-        for(int i=1; i<=37; i+=2) {
-                loc[i] = player.pos[0][0];
-                loc[i+1] = player.pos[0][1];
-        }
+    // 25
+    for(int i=1; i<=37; i+=2) {
+        loc[i] = player.pos[0][0];
+        loc[i+1] = player.pos[0][1];
+    }
 
-        for(int i=1; i<=37; i+=2) {
-                wall.here[i] = i;
-                wall.here[i+1] = 25;
-        }
-evenWall(0,26);
+    for(int i=1; i<=37; i+=2) {
+        wall.here[i] = i;
+        wall.here[i+1] = 25;
+    }
+    evenWall(0,26);
 
-        for(int i=0; i<=38; i+=2) {
-                loc[i] = player.pos[0][0];
-                loc[i+1] = player.pos[0][1];
-        }
+    for(int i=0; i<=38; i+=2) {
+        loc[i] = player.pos[0][0];
+        loc[i+1] = player.pos[0][1];
+    }
 
-        for(int i=0; i<=38; i+=2) {
-                wall.here[i] = i;
-                wall.here[i+1] = 25;
-        }
-evenWall(0,38);
+    for(int i=0; i<=38; i+=2) {
+        wall.here[i] = i;
+        wall.here[i+1] = 25;
+    }
+    evenWall(0,38);
 // 27
-        for(int i=3; i<=29; i+=2) {
-                loc[i] = player.pos[0][0];
-                loc[i+1] = player.pos[0][1];
-        }
+    for(int i=3; i<=29; i+=2) {
+        loc[i] = player.pos[0][0];
+        loc[i+1] = player.pos[0][1];
+    }
 
-        for(int i=3; i<=29; i+=2) {
-                wall.here[i] = i;
-                wall.here[i+1] = 27;
-        }
-evenWall(3,29);
+    for(int i=3; i<=29; i+=2) {
+        wall.here[i] = i;
+        wall.here[i+1] = 27;
+    }
+    evenWall(3,29);
 
-        for(int i=4; i<=28; i+=2) {
-                loc[i] = player.pos[0][0];
-                loc[i+1] = player.pos[0][1];
-        }
+    for(int i=4; i<=28; i+=2) {
+        loc[i] = player.pos[0][0];
+        loc[i+1] = player.pos[0][1];
+    }
 
-        for(int i=4; i<=28; i+=2) {
-                wall.here[i] = i;
-                wall.here[i+1] = 27;
-        }
-evenWall(4,28);
+    for(int i=4; i<=28; i+=2) {
+        wall.here[i] = i;
+        wall.here[i+1] = 27;
+    }
+    evenWall(4,28);
 
-        for(int i=3; i<=39; i+=2) {
-                loc[i] = player.pos[0][0];
-                loc[i+1] = player.pos[0][1];
-        }
+    for(int i=3; i<=39; i+=2) {
+        loc[i] = player.pos[0][0];
+        loc[i+1] = player.pos[0][1];
+    }
 
-        for(int i=3; i<=39; i+=2) {
-                wall.here[i] = i;
-                wall.here[i+1] = 31;
-        }
-evenWall(3,39);
+    for(int i=3; i<=39; i+=2) {
+        wall.here[i] = i;
+        wall.here[i+1] = 31;
+    }
+    evenWall(3,39);
 
-        for(int i=2; i<=38; i+=2) {
-                loc[i] = player.pos[0][0];
-                loc[i+1] = player.pos[0][1];
-        }
+    for(int i=2; i<=38; i+=2) {
+        loc[i] = player.pos[0][0];
+        loc[i+1] = player.pos[0][1];
+    }
 
-        for(int i=2; i<=38; i+=2) {
-                wall.here[i] = i;
-                wall.here[i+1] = 31;
-        }
-evenWall(2,38);
+    for(int i=2; i<=38; i+=2) {
+        wall.here[i] = i;
+        wall.here[i+1] = 31;
+    }
+    evenWall(2,38);
 // 36 7-35
-        for(int i=7; i<=35; i+=2) {
-                loc[i] = player.pos[0][0];
-                loc[i+1] = player.pos[0][1];
-        }
+    for(int i=7; i<=35; i+=2) {
+        loc[i] = player.pos[0][0];
+        loc[i+1] = player.pos[0][1];
+    }
 
-        for(int i=7; i<=35; i+=2) {
-                wall.here[i] = i;
-                wall.here[i+1] = 36;
-        }
-evenWall(7,35);
+    for(int i=7; i<=35; i+=2) {
+        wall.here[i] = i;
+        wall.here[i+1] = 36;
+    }
+    evenWall(7,35);
 
-        for(int i=8; i<=34; i+=2) {
-                loc[i] = player.pos[0][0];
-                loc[i+1] = player.pos[0][1];
-        }
+    for(int i=8; i<=34; i+=2) {
+        loc[i] = player.pos[0][0];
+        loc[i+1] = player.pos[0][1];
+    }
 
-        for(int i=8; i<=34; i+=2) {
-                wall.here[i] = i;
-                wall.here[i+1] = 36;
-        }
-evenWall(8,34);
+    for(int i=8; i<=34; i+=2) {
+        wall.here[i] = i;
+        wall.here[i+1] = 36;
+    }
+    evenWall(8,34);
 
 }
 
-void evenWall(int a, int b) {
-        for(int i=a; i<=b; i+=2) {
+void evenWall(int a, int b)
+{
+    for(int i=a; i<=b; i+=2) {
 
-                        for(int j=0; j<15; j++) {
-                        while (treasure[j].pos[0] == wall.here[i] &&
-                                        treasure[j].pos[1] == wall.here[i+1]) {
-                        //      physics();
-cout << "hereakdsfnuinqao[;;;beniisetuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuutvrrrrrenwoooooovtutirtfjkdfjdkfjdkjdkjfdkfdjfdkfjdkfdjkjdjdkfdkfjdkfdjfdkjdkfdkjfdkjkdjkdjfkdjfkdjdjfkdjfkdjfkdjfkdjkfj" << endl;
-                        treasure[j].pos[0] = rand() % gridDim;
-                        //cout << treasure.pos[0] << endl;
-                        treasure[j].pos[1] = rand() % gridDim;
-                        }
-                        }
-                if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
-                        int collision=0;
-                //      myWall = false;
-                        int ntries=0;
-                        while(1) {
-                                collision=0;
-                                //createSound();
-                                        if (wall.here[i] == player.pos[0][0] &&
-                                        wall.here[i+1] == player.pos[0][1]) {
-                                                collision=1;
-                                                //cleanupSound();
-                                        myWall = true;
-                                //      if(myWall == true)
-                                //      player.pos[0][1] = -1;
-                                //myWall = false;
-                                movementWall(x);
-                                                break;
-                                        }
-                                        if (!collision) {
-                                           
-                                            myWall = true;
-                                            movementWall(x);
-                                            break;
-                                        }
-                                        if (++ntries > 1000000){
-                                            
-                                            myWall = true;
-                                            movementWall(x);
-                                        break;
-                                        }
-                //                      myWall = false;
-                        }
-                //      myWall = false;
-                Log("new wall: %i %i\n",wall.here[i],wall.here[i+1]);
-                //cout << "wall hit KB" << endl; 
-               //break;
-                //player.pos[0][1] -= -1;
-                //checkWall();
-        //      return;
-                }
+        for(int j=0; j<15; j++) {
+            while (treasure[j].pos[0] == wall.here[i] &&
+                    treasure[j].pos[1] == wall.here[i+1]) {
+                //      physics();
+                cout << "hereakdsfnuinqao[;;;beniisetuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuutvrrrrrenwoooooovtutirtfjkdfjdkfjdkjdkjfdkfdjfdkfjdkfdjkjdjdkfdkfjdkfdjfdkjdkfdkjfdkjkdjkdjfkdjfkdjdjfkdjfkdjfkdjfkdjkfj" << endl;
+                treasure[j].pos[0] = rand() % gridDim;
+                //cout << treasure.pos[0] << endl;
+                treasure[j].pos[1] = rand() % gridDim;
+            }
         }
+        if (loc[i] == wall.here[i] && loc[i+1] == wall.here[i+1]) {
+            int collision=0;
+            //      myWall = false;
+            int ntries=0;
+            while(1) {
+                collision=0;
+                //createSound();
+                if (wall.here[i] == player.pos[0][0] &&
+                        wall.here[i+1] == player.pos[0][1]) {
+                    collision=1;
+                    //cleanupSound();
+                    myWall = true;
+                    //      if(myWall == true)
+                    //      player.pos[0][1] = -1;
+                    //myWall = false;
+                    movementWall(x);
+                    break;
+                }
+                if (!collision) {
+
+                    myWall = true;
+                    movementWall(x);
+                    break;
+                }
+                if (++ntries > 1000000) {
+
+                    myWall = true;
+                    movementWall(x);
+                    break;
+                }
+                //                      myWall = false;
+            }
+            //      myWall = false;
+            Log("new wall: %i %i\n",wall.here[i],wall.here[i+1]);
+            //cout << "wall hit KB" << endl;
+            //break;
+            //player.pos[0][1] -= -1;
+            //checkWall();
+            //      return;
+        }
+    }
 }
 
 // to restrict character from going through wall
 void movementWall(int n)
 {
-        // when character goes down
-        if(n == 0){
+    // when character goes down
+    if(n == 0) {
         //      if(myWall == false) {
-                //player.direction = DIRECTION_DOWN;
-                //player.pos[0][1] += 1;
+        //player.direction = DIRECTION_DOWN;
+        //player.pos[0][1] += 1;
         //      }
-                
-                // moves character back if walks into wall
-                if(myWall == true){
-                  //  cout << "here" << endl;
-                        player.pos[0][1] -= 1;
-                        myWall = false;
-        //              return;
-                //      myWall = false;
 
-                x=0;
-                }
-                //if(initWall() == 0)
-                //cout << "(" << player.pos[0][0] << "," <<
-                // player.pos[0][1] << ")" << endl;
-                
-                // when character goes left
-        } else if (n == 1) {
+        // moves character back if walks into wall
+        if(myWall == true) {
+            //  cout << "here" << endl;
+            player.pos[0][1] -= 1;
+            myWall = false;
+            //              return;
+            //      myWall = false;
+
+            x=0;
+        }
+        //if(initWall() == 0)
+        //cout << "(" << player.pos[0][0] << "," <<
+        // player.pos[0][1] << ")" << endl;
+
+        // when character goes left
+    } else if (n == 1) {
         //      player.direction = DIRECTION_LEFT;
         //      player.pos[0][0] -= 1;
-                if(myWall == true){
-                        player.pos[0][0] += 1;
-                        myWall = false;
-                }
-                x=1;
+        if(myWall == true) {
+            player.pos[0][0] += 1;
+            myWall = false;
+        }
+        x=1;
         //      cout << "(" << player.pos[0][0] << "," <<
         //      player.pos[0][1] << ")" << endl;
-        } else if (n == 2) {
+    } else if (n == 2) {
         //      player.direction = DIRECTION_UP;
         //      player.pos[0][1] -= 1;
-                if(myWall == true){
-                        player.pos[0][1] += 1;
-                        myWall = false;
-                }
-                x=2;
+        if(myWall == true) {
+            player.pos[0][1] += 1;
+            myWall = false;
+        }
+        x=2;
         //      cout << "(" << player.pos[0][0] << "," <<
         //      player.pos[0][1] << ")" << endl;
-        } else {
+    } else {
         //      player.direction = DIRECTION_RIGHT;
         //      player.pos[0][0] += 1;
-                if(myWall == true){ // if(checkCollision() == 0) {
-                        player.pos[0][0] -= 1;
-                        myWall = false;
-                }
-                x=3;
+        if(myWall == true) { // if(checkCollision() == 0) {
+            player.pos[0][0] -= 1;
+            myWall = false;
+        }
+        x=3;
         //      cout << "(" << player.pos[0][0] << "," <<
         //      player.pos[0][1] << ")" << endl;
-        }
+    }
 
-        //return;
+    //return;
 }

@@ -10,12 +10,12 @@ static FILE *fpxx;
 
 void logOpen(void)
 {
-	fpxx = fopen("x.x","w");
+    fpxx = fopen("x.x","w");
 }
 
 void logClose(void)
 {
-	fclose(fpxx);
+    fclose(fpxx);
 }
 
 //This function works like printf()
@@ -25,10 +25,10 @@ void logClose(void)
 //
 void Log(const char *fmt, ...)
 {
-	va_list ap;
-	if (fmt == NULL) return;
-	va_start(ap, fmt);
-	vfprintf(fpxx, fmt, ap);
-	fflush(fpxx);
-	va_end(ap);
+    va_list ap;
+    if (fmt == NULL) return;
+    va_start(ap, fmt);
+    vfprintf(fpxx, fmt, ap);
+    fflush(fpxx);
+    va_end(ap);
 }
