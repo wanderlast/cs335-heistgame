@@ -73,36 +73,42 @@ int findTreasureValue(int i)
 void gameTypeSelector(int select)
 {
     //set player, set treasure spawn, set timer
-  
+
     switch(select) {
     case scoreAttackEasy:
         initPlayer();
         initTreasure();
         break;
+        
     case timeAttackEasy:
         initPlayer(0);
         initTreasure();
         break;
+    
     case scoreAttack:
-	initPlayer();
-	initTreasure();
-	break;
+        initPlayer();
+        initTreasure();
+        break;
+    
     case timeAttack:
-	initPlayer(0);
-	initTreasure();
-	break;
+        initPlayer(0);
+        initTreasure();
+        break;
+    
     case scoreAttackHard:
-	initPlayer();
-	initTreasure();
-	break;
+        initPlayer();
+        initTreasure();
+        break;
+    
     case timeAttackHard:
-	initPlayer(0);
-	initTreasure();
-	break;
+        initPlayer(0);
+        initTreasure();
+        break;
+    
     default:
-	initPlayer();
-	initTreasure();
-	break;
+        initPlayer();
+        initTreasure();
+        break;
     }
 }
 
@@ -243,7 +249,7 @@ void initTreasure(int n)
     //generate n treasure one at a time
     for ( int i = 0; i < n; i++) {
         treasureGeneration(i);
-        cleanupSound(); 
+        cleanupSound();
     }
 }
 
@@ -368,7 +374,7 @@ void treasureCollision()
             //createSound(soundNum);
             Log("new treasure: %i %i\n",treasure[i].pos[0],treasure[i].pos[1]);
             cout << "treasure collected" << endl;
-        } 
+        }
     }
     return;
 
@@ -460,11 +466,11 @@ void treasureGeneration(int i)
 
     treasure[i].type = rand()%3 + 1; //assigns it a type from 1-3
     cout << "treasure type is now: " << treasure[i].type << endl;
-	
-	if(soundFlag == 1 && level == 1 && test == 3){
-		soundNum = 2;
-		createSound(soundNum);
-}
+
+    if(soundFlag == 1 && level == 1 && test == 3) {
+        soundNum = 2;
+        createSound(soundNum);
+    }
     return;
 }
 
