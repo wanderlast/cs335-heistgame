@@ -29,6 +29,9 @@ extern void resetGame();
 extern int level;
 extern int treasureScore;
 extern int soundFlag;
+extern int start;
+extern int timestart;
+extern int soundNum;
 
 //extern void checkResize(XEvent *e);
 //extern void checkMouse(XEvent *e);

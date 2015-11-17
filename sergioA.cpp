@@ -1,6 +1,6 @@
 //Author: Sergio Alvarado
-//Description: This cpp holds the sound functions, the start menu,
-//the controls page, and the gamestate menu. 
+//Description: This cpp holds the in game sound functions, the start menu,
+//the controls page, and the gamestate selection menu. 
 #include <stdio.h>
 #include <iostream>
 #include <string.h>
@@ -15,16 +15,36 @@
 #include "log.h"
 #include "ppm.h"
 #include "main.h"
+#include "lianneL.h"
 extern "C"{
 	#include "fonts.h"
 }
 using namespace std;
 
-#define MAXBUTTONS 4
+
+#define MAXBUTTONS 6
 
 ALuint alSource;
 ALuint alBuffer;
 
+  typedef struct t_button {
+	Rect r;
+	char text[32];
+	int over;
+	int down;
+	int click;
+	float color[3];
+	float dcolor[3];
+	unsigned int text_color;
+} Button;
+
+enum gameModes { scoreAttackEasy, timeAttackEasy, scoreAttack,
+                 timeAttack, scoreAttackHard, timeAttackHard
+               };
+
+ Button button3[7];
+ 
+void checkgamestateMouse(XEvent *e);
 void cleanupSound();
 
 int createSound(int soundNum)
@@ -353,23 +373,12 @@ void infoMenu()
 
 void gamestateMenu()
 {
-  typedef struct t_button {
-	Rect r;
-	char text[32];
-	int over;
-	int down;
-	int click;
-	float color[3];
-	float dcolor[3];
-	unsigned int text_color;
-} Button;
 
   Ppmimage *startImage;
   startImage=NULL;
   GLuint startTexture;
   Rect r;
   int nbuttons, i;
-  Button button[MAXBUTTONS];
   
   //OpenGL initialization
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -428,100 +437,278 @@ void gamestateMenu()
   ggprint16(&r, 16, 0x00ffffff, "Heist Game");
 	
   r.left   = xres/2;
-  r.bot    = yres-300;
+  r.bot    = yres-200;
   r.center = 1;
   ggprint16(&r, 16, 0x00ffffff, "Choose A Game Mode!");
+  
+  r.left   = xres/2;
+  r.bot    = yres-200;
+  r.center = 1;
+  ggprint16(&r, 16, 0x00ffffff, "Choose A Game Mode!");
+  
+  r.left   = 200;
+  r.bot    = 350;
+  r.center = 1;
+  ggprint16(&r, 16, 0x00ffffff, "--Time Attack--");
+  
+  r.left   = 600;
+  r.bot    = 350;
+  r.center = 1;
+  ggprint16(&r, 16, 0x00ffffff, "--Score Attack--"); 
 
 	//initalize buttons
 	nbuttons = 0;
 	//score challange button setting
-  	button[nbuttons].r.width = 140;
-	button[nbuttons].r.height = 60;
-	button[nbuttons].r.left = 250;
-	button[nbuttons].r.bot = 160;
-	button[nbuttons].r.right =
-	   button[nbuttons].r.left + button[nbuttons].r.width;
-	button[nbuttons].r.top = button[nbuttons].r.bot +
-	   button[nbuttons].r.height;
-	button[nbuttons].r.centerx = (button[nbuttons].r.left +
-	   button[nbuttons].r.right) / 2;
-	button[nbuttons].r.centery = (button[nbuttons].r.bot +
-	   button[nbuttons].r.top) / 2;
-	strcpy(button[nbuttons].text, "Score Challange");
-	button[nbuttons].down = 0;
-	button[nbuttons].click = 0;
-	button[nbuttons].color[0] = 0.4f;
-	button[nbuttons].color[1] = 0.4f;
-	button[nbuttons].color[2] = 0.4f;
-	button[nbuttons].dcolor[0] = button[nbuttons].color[0] * 0.5f;
-	button[nbuttons].dcolor[1] = button[nbuttons].color[1] * 0.5f;
-	button[nbuttons].dcolor[2] = button[nbuttons].color[2] * 0.5f;
-	button[nbuttons].text_color = 0x00ffffff;
+  	button3[nbuttons].r.width = 140;
+	button3[nbuttons].r.height = 60;
+	button3[nbuttons].r.left = 125;
+	button3[nbuttons].r.bot =  250;
+	button3[nbuttons].r.right =
+	   button3[nbuttons].r.left + button3[nbuttons].r.width;
+	button3[nbuttons].r.top = button3[nbuttons].r.bot +
+	   button3[nbuttons].r.height;
+	button3[nbuttons].r.centerx = (button3[nbuttons].r.left +
+	   button3[nbuttons].r.right) / 2;
+	button3[nbuttons].r.centery = (button3[nbuttons].r.bot +
+	   button3[nbuttons].r.top) / 2;
+	strcpy(button3[nbuttons].text, "Easy!");
+	button3[nbuttons].down = 0;
+	button3[nbuttons].click = 0;
+	button3[nbuttons].color[0] = 0.4f;
+	button3[nbuttons].color[1] = 0.4f;
+	button3[nbuttons].color[2] = 0.4f;
+	button3[nbuttons].dcolor[0] = button3[nbuttons].color[0] * 0.5f;
+	button3[nbuttons].dcolor[1] = button3[nbuttons].color[1] * 0.5f;
+	button3[nbuttons].dcolor[2] = button3[nbuttons].color[2] * 0.5f;
+	button3[nbuttons].text_color = 0x00ffffff;
+	nbuttons++;
+	
+	button3[nbuttons].r.width = 140;
+	button3[nbuttons].r.height = 60;
+	button3[nbuttons].r.left = 125;
+	button3[nbuttons].r.bot = 150;
+	button3[nbuttons].r.right =
+	 button3[nbuttons].r.left + button3[nbuttons].r.width;
+	button3[nbuttons].r.top = button3[nbuttons].r.bot +
+	  button3[nbuttons].r.height;
+	button3[nbuttons].r.centerx = (button3[nbuttons].r.left +
+	  button3[nbuttons].r.right) / 2;
+	button3[nbuttons].r.centery = (button3[nbuttons].r.bot +
+	  button3[nbuttons].r.top) / 2;
+	strcpy(button3[nbuttons].text, "Medium!");
+	button3[nbuttons].down = 0;
+	button3[nbuttons].click = 0;
+	button3[nbuttons].color[0] = 0.4f;
+	button3[nbuttons].color[1] = 0.4f;
+	button3[nbuttons].color[2] = 0.4f;
+	button3[nbuttons].dcolor[0] = button3[nbuttons].color[0] * 0.5f;
+	button3[nbuttons].dcolor[1] = button3[nbuttons].color[1] * 0.5f;
+	button3[nbuttons].dcolor[2] = button3[nbuttons].color[2] * 0.5f;
+	button3[nbuttons].text_color = 0x00ffffff;
+	nbuttons++;
+	
+	button3[nbuttons].r.width = 140;
+	button3[nbuttons].r.height = 60;
+	button3[nbuttons].r.left = 125;
+	button3[nbuttons].r.bot = 50;
+	button3[nbuttons].r.right =
+	   button3[nbuttons].r.left + button3[nbuttons].r.width;
+	button3[nbuttons].r.top = button3[nbuttons].r.bot +
+	   button3[nbuttons].r.height;
+	button3[nbuttons].r.centerx = (button3[nbuttons].r.left +
+	   button3[nbuttons].r.right) / 2;
+	button3[nbuttons].r.centery = (button3[nbuttons].r.bot +
+	   button3[nbuttons].r.top) / 2;
+	strcpy(button3[nbuttons].text, "Hard!");
+	button3[nbuttons].down = 0;
+	button3[nbuttons].click = 0;
+	button3[nbuttons].color[0] = 0.4f;
+	button3[nbuttons].color[1] = 0.4f;
+	button3[nbuttons].color[2] = 0.4f;
+	button3[nbuttons].dcolor[0] = button3[nbuttons].color[0] * 0.5f;
+	button3[nbuttons].dcolor[1] = button3[nbuttons].color[1] * 0.5f;
+	button3[nbuttons].dcolor[2] = button3[nbuttons].color[2] * 0.5f;
+	button3[nbuttons].text_color = 0x00ffffff;
 	nbuttons++;
 	
 	//time trial button settings
-	button[nbuttons].r.width = 140;
-	button[nbuttons].r.height = 60;
-	button[nbuttons].r.left = 50;
-	button[nbuttons].r.bot = 160;
-	button[nbuttons].r.right =
-	   button[nbuttons].r.left + button[nbuttons].r.width;
-	button[nbuttons].r.top = button[nbuttons].r.bot +
-	   button[nbuttons].r.height;
-	button[nbuttons].r.centerx = (button[nbuttons].r.left +
-	   button[nbuttons].r.right) / 2;
-	button[nbuttons].r.centery = (button[nbuttons].r.bot +
-	   button[nbuttons].r.top) / 2;
-	strcpy(button[nbuttons].text, "Time Trial");
-	button[nbuttons].down = 0;
-	button[nbuttons].click = 0;
-	button[nbuttons].color[0] = 0.4f;
-	button[nbuttons].color[1] = 0.4f;
-	button[nbuttons].color[2] = 0.4f;
-	button[nbuttons].dcolor[0] = button[nbuttons].color[0] * 0.5f;
-	button[nbuttons].dcolor[1] = button[nbuttons].color[1] * 0.5f;
-	button[nbuttons].dcolor[2] = button[nbuttons].color[2] * 0.5f;
-	button[nbuttons].text_color = 0x00ffffff;
+	button3[nbuttons].r.width = 140;
+	button3[nbuttons].r.height = 60;
+	button3[nbuttons].r.left = 525;
+	button3[nbuttons].r.bot = 250;
+	button3[nbuttons].r.right =
+	   button3[nbuttons].r.left + button3[nbuttons].r.width;
+	button3[nbuttons].r.top = button3[nbuttons].r.bot +
+	   button3[nbuttons].r.height;
+	button3[nbuttons].r.centerx = (button3[nbuttons].r.left +
+	   button3[nbuttons].r.right) / 2;
+	button3[nbuttons].r.centery = (button3[nbuttons].r.bot +
+	   button3[nbuttons].r.top) / 2;
+	strcpy(button3[nbuttons].text, "Easy?");
+	button3[nbuttons].down = 0;
+	button3[nbuttons].click = 0;
+	button3[nbuttons].color[0] = 0.4f;
+	button3[nbuttons].color[1] = 0.4f;
+	button3[nbuttons].color[2] = 0.4f;
+	button3[nbuttons].dcolor[0] = button3[nbuttons].color[0] * 0.5f;
+	button3[nbuttons].dcolor[1] = button3[nbuttons].color[1] * 0.5f;
+	button3[nbuttons].dcolor[2] = button3[nbuttons].color[2] * 0.5f;
+	button3[nbuttons].text_color = 0x00ffffff;
+	nbuttons++;
+	
+	button3[nbuttons].r.width = 140;
+	button3[nbuttons].r.height = 60;
+	button3[nbuttons].r.left = 525;
+	button3[nbuttons].r.bot = 150;
+	button3[nbuttons].r.right =
+	   button3[nbuttons].r.left + button3[nbuttons].r.width;
+	button3[nbuttons].r.top = button3[nbuttons].r.bot +
+	   button3[nbuttons].r.height;
+	button3[nbuttons].r.centerx = (button3[nbuttons].r.left +
+	   button3[nbuttons].r.right) / 2;
+	button3[nbuttons].r.centery = (button3[nbuttons].r.bot +
+	   button3[nbuttons].r.top) / 2;
+	strcpy(button3[nbuttons].text, "Medium?");
+	button3[nbuttons].down = 0;
+	button3[nbuttons].click = 0;
+	button3[nbuttons].color[0] = 0.4f;
+	button3[nbuttons].color[1] = 0.4f;
+	button3[nbuttons].color[2] = 0.4f;
+	button3[nbuttons].dcolor[0] = button3[nbuttons].color[0] * 0.5f;
+	button3[nbuttons].dcolor[1] = button3[nbuttons].color[1] * 0.5f;
+	button3[nbuttons].dcolor[2] = button3[nbuttons].color[2] * 0.5f;
+	button3[nbuttons].text_color = 0x00ffffff;
+	nbuttons++;
+	
+	button3[nbuttons].r.width = 140;
+	button3[nbuttons].r.height = 60;
+	button3[nbuttons].r.left = 525;
+	button3[nbuttons].r.bot = 50;
+	button3[nbuttons].r.right =
+	   button3[nbuttons].r.left + button3[nbuttons].r.width;
+	button3[nbuttons].r.top = button3[nbuttons].r.bot +
+	   button3[nbuttons].r.height;
+	button3[nbuttons].r.centerx = (button3[nbuttons].r.left +
+	   button3[nbuttons].r.right) / 2;
+	button3[nbuttons].r.centery = (button3[nbuttons].r.bot +
+	   button3[nbuttons].r.top) / 2;
+	strcpy(button3[nbuttons].text, "Hard?");
+	button3[nbuttons].down = 0;
+	button3[nbuttons].click = 0;
+	button3[nbuttons].color[0] = 0.4f;
+	button3[nbuttons].color[1] = 0.4f;
+	button3[nbuttons].color[2] = 0.4f;
+	button3[nbuttons].dcolor[0] = button3[nbuttons].color[0] * 0.5f;
+	button3[nbuttons].dcolor[1] = button3[nbuttons].color[1] * 0.5f;
+	button3[nbuttons].dcolor[2] = button3[nbuttons].color[2] * 0.5f;
+	button3[nbuttons].text_color = 0x00ffffff;
 	nbuttons++;
 	
 	//draw all buttons
-	for (i=0; i<2; i++) {
-		if (button[i].over) {
-			int w=2;
+	for (i=0; i<7; i++) {
+		if (button3[i].over) {
+			int w=7;
 			glColor3f(1.0f, 1.0f, 0.0f);
 			//draw a highlight around button
 			glLineWidth(3);
 			glBegin(GL_LINE_LOOP);
-				glVertex2i(button[i].r.left-w,  button[i].r.bot-w);
-				glVertex2i(button[i].r.left-w,  button[i].r.top+w);
-				glVertex2i(button[i].r.right+w, button[i].r.top+w);
-				glVertex2i(button[i].r.right+w, button[i].r.bot-w);
-				glVertex2i(button[i].r.left-w,  button[i].r.bot-w);
+				glVertex2i(button3[i].r.left-w,  button3[i].r.bot-w);
+				glVertex2i(button3[i].r.left-w,  button3[i].r.top+w);
+				glVertex2i(button3[i].r.right+w, button3[i].r.top+w);
+				glVertex2i(button3[i].r.right+w, button3[i].r.bot-w);
+				glVertex2i(button3[i].r.left-w,  button3[i].r.bot-w);
 			glEnd();
 			glLineWidth(1);
 		}
-		if (button[i].down) {
-			glColor3fv(button[i].dcolor);
+		if (button3[i].down) {
+			glColor3fv(button3[i].dcolor);
 		} else {
-			glColor3fv(button[i].color);
+			glColor3fv(button3[i].color);
 		}
 		glBegin(GL_QUADS);
-			glVertex2i(button[i].r.left,  button[i].r.bot);
-			glVertex2i(button[i].r.left,  button[i].r.top);
-			glVertex2i(button[i].r.right, button[i].r.top);
-			glVertex2i(button[i].r.right, button[i].r.bot);
+			glVertex2i(button3[i].r.left,  button3[i].r.bot);
+			glVertex2i(button3[i].r.left,  button3[i].r.top);
+			glVertex2i(button3[i].r.right, button3[i].r.top);
+			glVertex2i(button3[i].r.right, button3[i].r.bot);
 		glEnd();
-		r.left = button[i].r.centerx;
-		r.bot  = button[i].r.centery-8;
+		r.left = button3[i].r.centerx;
+		r.bot  = button3[i].r.centery-8;
 		r.center = 1;
-		if (button[i].down) {
-			ggprint16(&r, 0, button[i].text_color, "Pressed!");
+		if (button3[i].down) {
+			ggprint16(&r, 0, button3[i].text_color, "Pressed!");
 		} else {
-			ggprint16(&r, 0, button[i].text_color, button[i].text);
+			ggprint16(&r, 0, button3[i].text_color, button3[i].text);
 		}
 	}
   
  
+}
+
+
+void checkgamestateMouse(XEvent *e)
+{
+	static int savex = 0;
+	static int savey = 0;
+	int i,x,y;
+	int lbutton=0;
+	int rbutton=0;
+	//
+	if (e->type == ButtonRelease)
+		return;
+	if (e->type == ButtonPress) {
+		if (e->xbutton.button==1) {
+			//Left button is down
+			lbutton=1;
+		}
+		if (e->xbutton.button==3) {
+			//Right button is down
+			rbutton=1;
+			if (rbutton){}
+		}
+	}
+	x = e->xbutton.x;
+	y = e->xbutton.y;
+	y = yres - y;
+	if (savex != e->xbutton.x || savey != e->xbutton.y) {
+		//Mouse moved
+		savex = e->xbutton.x;
+		savey = e->xbutton.y;
+	}
+	for (i=0; i<6; i++) {
+		button3[i].over=0;
+		if (x >= button3[i].r.left &&
+			x <= button3[i].r.right &&
+			y >= button3[i].r.bot &&
+			y <= button3[i].r.top) {
+			button3[i].over=1;
+			if (button3[i].over) {
+				if (lbutton) {
+					switch(i) {
+						case 0:
+							gameTypeSelector(timeAttackEasy);
+										start = 1;
+			timestart = 1;
+			soundNum = 4;
+			createSound(soundNum);
+							break;
+						case 1:
+							gameTypeSelector(timeAttack);
+							break;
+						case 2:
+							gameTypeSelector(timeAttackHard);
+						case 3:
+							gameTypeSelector(scoreAttackEasy);
+						case 4:
+							gameTypeSelector(scoreAttack);
+						case 5:
+							gameTypeSelector(timeAttackHard);						
+
+					}
+				}
+			}
+		}
+	}
+	return;
 }
 
 

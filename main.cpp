@@ -164,10 +164,12 @@ int main(int argc, char *argv[])
 			XEvent e;
 			XNextEvent(dpy, &e);
 			checkResize(&e);
-			checkMouse(&e);
+			//checkKeys(&e);
+			checkgamestateMouse(&e);
 			checkKeys(&e);
 		}
 		startMenu();
+		//gamestateMenu();
 		glXSwapBuffers(dpy, win);
 
 	if(level == 0 && info == 1) {
