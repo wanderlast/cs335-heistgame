@@ -79,26 +79,32 @@ void gameTypeSelector(int select)
         initPlayer();
         initTreasure();
         break;
+        
     case timeAttackEasy:
         initPlayer(0);
         initTreasure();
         break;
+    
     case scoreAttack:
         initPlayer();
         initTreasure();
         break;
+    
     case timeAttack:
         initPlayer(0);
         initTreasure();
         break;
+    
     case scoreAttackHard:
         initPlayer();
         initTreasure();
         break;
+    
     case timeAttackHard:
         initPlayer(0);
         initTreasure();
         break;
+    
     default:
         initPlayer();
         initTreasure();
