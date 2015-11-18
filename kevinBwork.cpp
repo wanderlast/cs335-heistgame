@@ -988,3 +988,25 @@ void movementWall(int n)
 
         //return;
 }
+void render_start_dialogue()
+{
+  Rect r;
+  unsigned int cref = 0x00ffffff; // rgb value for white
+
+  glClearColor(0.1f, 0.2f, 0.3f, 0.0f);
+  glClear(GL_COLOR_BUFFER_BIT);
+  glColor3ub(0,0,0);
+  glPushMatrix();
+  glBegin(GL_QUADS);
+    glVertex2i(0,0);
+    glVertex2i(0, 200);
+    glVertex2i(1200, 200);
+    glVertex2i(1200,0);
+  glEnd();
+  glPopMatrix();
+
+  r.bot = 100;
+  r.left = 100;
+  r.center = 1;
+
+  ggprint16(&r, 0, cref, "Hey. Hey you.");
