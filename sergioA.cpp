@@ -1,4 +1,3 @@
-
 //Author: Sergio Alvarado
 //Description: This cpp holds the in game sound functions, the start menu,
 //the controls page, and the gamestate selection menu. 
@@ -687,23 +686,46 @@ void checkgamestateMouse(XEvent *e)
 					switch(i) {
 						case 0:
 							gameTypeSelector(timeAttackEasy);
-										start = 1;
-			timestart = 1;
-			soundNum = 4;
-			createSound(soundNum);
+							gamemodeSelected = 1;
+							timestart = 1;
+							soundNum = 4;
+							createSound(soundNum);
 							break;
 						case 1:
 							gameTypeSelector(timeAttack);
+							gamemodeSelected = 1;
+							timestart = 1;
+							soundNum = 4;
+							createSound(soundNum);
 							break;
 						case 2:
 							gameTypeSelector(timeAttackHard);
+							gamemodeSelected = 1;
+							timestart = 1;
+							soundNum = 4;
+							createSound(soundNum);
+							break;
 						case 3:
 							gameTypeSelector(scoreAttackEasy);
+							gamemodeSelected = 1;
+							timestart = 1;
+							soundNum = 4;
+							createSound(soundNum);
+							break;
 						case 4:
 							gameTypeSelector(scoreAttack);
+							gamemodeSelected = 1;
+							timestart = 1;
+							soundNum = 4;
+							createSound(soundNum);
+							break;
 						case 5:
-							gameTypeSelector(timeAttackHard);						
-
+							gameTypeSelector(timeAttackHard);
+							gamemodeSelected = 1;
+							timestart = 1;
+							soundNum = 4;
+							createSound(soundNum);
+							break;
 					}
 				}
 			}

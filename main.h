@@ -1,4 +1,3 @@
-
 #define MAX_GRID 80
 
 typedef struct t_grid {
@@ -33,6 +32,7 @@ extern int soundFlag;
 extern int start;
 extern int timestart;
 extern int soundNum;
+extern int gamemodeSelected;
 
 //extern void checkResize(XEvent *e);
 //extern void checkMouse(XEvent *e);

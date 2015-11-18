@@ -1,4 +1,3 @@
-
 //cs335 Spring 2014
 //program: snake.cpp
 //author:  Gordon Griesel
@@ -111,6 +110,7 @@ int gameover;
 int winner;
 int score;
 int soundFlag;
+int gamemodeSelected;
 Ppmimage *startImage;
 GLuint startTexture;
 int nbuttons;
@@ -160,7 +160,7 @@ int main(int argc, char *argv[])
 	srand((unsigned int)time(NULL));
 
 	
-	while(!start) {  //game has not started
+	while(!start && !gamemodeSelected) {  //game has not started
 		while(XPending(dpy)) {
 			XEvent e;
 			XNextEvent(dpy, &e);
@@ -170,7 +170,6 @@ int main(int argc, char *argv[])
 			checkKeys(&e);
 		}
 		startMenu();
-		//gamestateMenu();
 		glXSwapBuffers(dpy, win);
 
 	if(level == 0 && info == 1) {
@@ -186,7 +185,21 @@ int main(int argc, char *argv[])
 		glXSwapBuffers(dpy, win);
 }     
 }
+	if(start == 1 && !gamemodeSelected){
+		while(!gamemodeSelected){
+	while(XPending(dpy)) {
+			XEvent e;
+			XNextEvent(dpy, &e);
+			checkResize(&e);
+			checkgamestateMouse(&e);
+			checkKeys(&e);
+		}
+		gamestateMenu();
+		glXSwapBuffers(dpy, win);
+		}
 }
+}
+
 
 	level = 1;
 	while(!done) {	
