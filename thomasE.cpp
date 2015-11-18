@@ -46,6 +46,8 @@ typedef struct t_button {
 
 Button button2[4];
 
+void scoreSheet(int highScores[]);
+
 void highScore(int score, int isnewHigh, int highScores[], int newScores[])
 {
     unsigned int cref = 0x00ffffff; //white
