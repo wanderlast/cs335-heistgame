@@ -36,21 +36,21 @@ void initWall(void)
 {
         // arrays to recognize character position
         for(int i=4; i<=25; i+=2) 
-	{
+        {
                 loc[i] = player.pos[0][0];
                 loc[i+1] = player.pos[0][1];
         }
 
         // assignes walls to certain squares
         for(int i=4; i<=25; i+=2) 
-	{
+        {
                 wall.here[i] = i;
                 wall.here[i+1] = 5;
         }        
 evenWall(4, 25);        
     
         for(int i=5; i<=26; i+=2) 
-	{
+        {
                 loc[i] = player.pos[0][0];
                 loc[i+1] = player.pos[0][1];
         }
@@ -59,7 +59,7 @@ evenWall(4, 25);
                 wall.here[i] = i;
                 wall.here[i+1] = 5;
         }
-	// first wall 5
+        // first wall 5
 evenWall(5, 26);
 
         for(int i=5; i<=25; i+=2) {
@@ -137,7 +137,7 @@ evenWall(0,26);
                 wall.here[i] = i;
                 wall.here[i+1] = 25;
         }
-evenWall(0,38);
+evenWall(1,38);
 
         for(int i=0; i<=38; i+=2) {
                 loc[i] = player.pos[0][0];
@@ -148,7 +148,7 @@ evenWall(0,38);
                 wall.here[i] = i;
                 wall.here[i+1] = 25;
         }
-evenWall(1,37);
+evenWall(0,38);
 
         for(int i=3; i<=29; i+=2) {
                 loc[i] = player.pos[0][0];
@@ -183,39 +183,39 @@ evenWall(4,28);
         }
 evenWall(3,39);
 
-        for(int i=2; i<=38; i+=2) {
+        for(int i=2; i<=39; i+=2) {
                 loc[i] = player.pos[0][0];
                 loc[i+1] = player.pos[0][1];
         }
 
-        for(int i=2; i<=38; i+=2) {
+        for(int i=2; i<=39; i+=2) {
                 wall.here[i] = i;
                 wall.here[i+1] = 31;
         }
-evenWall(2,38);
+evenWall(2,39);
 
-        for(int i=8; i<=34; i+=2) {
+        for(int i=7; i<=35; i+=2) {
                 loc[i] = player.pos[0][0];
                 loc[i+1] = player.pos[0][1];
         }
 
-        for(int i=8; i<=34; i+=2) {
+        for(int i=7; i<=35; i+=2) {
                 wall.here[i] = i;
                 wall.here[i+1] = 36;
         }
-evenWall(8,34);
+evenWall(7,35);
 
 
-        for(int i=9; i<=34; i+=2) {
+        for(int i=8; i<=35; i+=2) {
                 loc[i] = player.pos[0][0];
                 loc[i+1] = player.pos[0][1];
         }
 
-        for(int i=9; i<=34; i+=2) {
+        for(int i=8; i<=35; i+=2) {
                 wall.here[i] = i;
                 wall.here[i+1] = 36;
         }
-evenWall(9,34);
+evenWall(8,35);
 
         for(int i=6; i<=9; i+=2) {
                 loc[i] = player.pos[0][0];
@@ -323,7 +323,7 @@ cout << "hereakdsfnuinqao[;;;beniisetuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu
                                         break;
                                         }
                         }
-			cout << "wall collision kb" << endl;
+                        cout << "wall collision kb" << endl;
                 Log("new wall: %i %i\n",wall.here[i],wall.here[i+1]);
                 }
         }
@@ -334,39 +334,39 @@ void movementWall(int n)
 {
         // when character goes down
         if(n == 0)
-	{
+        {
                 // moves character back if walks into wall
                 if(myWall == true)
-		{
+                {
                         player.pos[0][1] -= 1;
                         myWall = false;
                 }
         } 
-	
+
                 // when character goes left
-	else if (n == 1) 
-	{
+        else if (n == 1) 
+        {
                 if(myWall == true)
-		{
+                {
                         player.pos[0][0] += 1;
                         myWall = false;
                 }
 
         }
 
-	else if (n == 2) 
-	{
+        else if (n == 2) 
+        {
                 if(myWall == true)
-		{
+                {
                         player.pos[0][1] += 1;
                         myWall = false;
                 }
         } 
-	
-	else 
-	{
+
+        else 
+        {
                 if(myWall == true)
-		{
+                {
                         player.pos[0][0] -= 1;
                         myWall = false;
                 }
