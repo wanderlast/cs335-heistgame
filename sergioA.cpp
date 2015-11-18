@@ -685,6 +685,7 @@ void checkgamestateMouse(XEvent *e)
 				if (lbutton) {
 					switch(i) {
 						case 0:
+							cout << "time attack easy button";
 							gameTypeSelector(timeAttackEasy);
 							gamemodeSelected = 1;
 							timestart = 1;
@@ -692,6 +693,7 @@ void checkgamestateMouse(XEvent *e)
 							createSound(soundNum);
 							break;
 						case 1:
+							cout << "time attack button";
 							gameTypeSelector(timeAttack);
 							gamemodeSelected = 1;
 							timestart = 1;
@@ -699,6 +701,7 @@ void checkgamestateMouse(XEvent *e)
 							createSound(soundNum);
 							break;
 						case 2:
+							cout << "time attack hard button";
 							gameTypeSelector(timeAttackHard);
 							gamemodeSelected = 1;
 							timestart = 1;
@@ -706,6 +709,7 @@ void checkgamestateMouse(XEvent *e)
 							createSound(soundNum);
 							break;
 						case 3:
+							cout << "score attack easy button";
 							gameTypeSelector(scoreAttackEasy);
 							gamemodeSelected = 1;
 							timestart = 1;
@@ -713,6 +717,7 @@ void checkgamestateMouse(XEvent *e)
 							createSound(soundNum);
 							break;
 						case 4:
+							cout << "score attack button";
 							gameTypeSelector(scoreAttack);
 							gamemodeSelected = 1;
 							timestart = 1;
@@ -720,7 +725,8 @@ void checkgamestateMouse(XEvent *e)
 							createSound(soundNum);
 							break;
 						case 5:
-							gameTypeSelector(timeAttackHard);
+							cout << "score attack hard";
+							gameTypeSelector(scoreAttackHard);
 							gamemodeSelected = 1;
 							timestart = 1;
 							soundNum = 4;
