@@ -133,28 +133,28 @@ void clock_physics(int select)
 {
 	
 	int seconds;
-	
+	cout << "RYAN: GAME MODE SELECTED IS" << select;
 	switch(select)
-	{
-		cout << "RYAN: GAME MODE SELECTED IS" << select;
-		
+	{		
 		case scoreAttackEasy:
 			//gameTypeSelector(scoreAttackEasy);
-			seconds = (bigHand -= (handIncrement / 15.0));
+			seconds = (bigHand -= (handIncrement / 25.0));
 			if(seconds == -255)
 			{
 				level = 2;
 				break;
 			}
+			break;
 			
 		case timeAttackEasy:
 			//gameTypeSelector(timeAttackEasy);
-			seconds = (bigHand -= (handIncrement / 10.0));
+			seconds = (bigHand -= (handIncrement / 100.0));
 			if(seconds == -255)
 			{
 				level = 2;
 				break;
 			}
+			break;
 			
 		case scoreAttack:
 			//gameTypeSelector(scoreAttack);
@@ -164,6 +164,8 @@ void clock_physics(int select)
 				level = 2;
 				break;
 			}
+			break;
+			
 		case timeAttack:
 			//gameTypeSelector(timeAttack);
 			seconds = (bigHand -= (handIncrement / 50.0));
@@ -172,6 +174,7 @@ void clock_physics(int select)
 				level = 2;
 				break;
 			}
+			break;
 			
 		case scoreAttackHard:
 			//gameTypeSelector(scoreAttackHard);
@@ -181,6 +184,7 @@ void clock_physics(int select)
 				level = 2;
 				break;
 			}
+			break;
 			
 		case timeAttackHard:
 			//gameTypeSelector(timeAttackHard);
@@ -190,6 +194,7 @@ void clock_physics(int select)
 				level = 2;
 				break;
 			}
+			break;
 			
 		default:
 			seconds = (bigHand -= (handIncrement / 75.0));
@@ -198,6 +203,7 @@ void clock_physics(int select)
 				level = 2;
 				break;
 			}
+			break;
 		}
 }	
 			
