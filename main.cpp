@@ -94,6 +94,7 @@ typedef struct t_button {
 	unsigned int text_color;
 } Button;
 
+char f[3];
 int x;
 int xres;
 int yres;
@@ -808,7 +809,24 @@ void render(void)
 	for (int i = 0; i < MAX_TREASURE; i++) {
 		if(treasure[i].status == 1){
 			getGridCenter(treasure[i].pos[1],treasure[i].pos[0],cent);
-			glColor3f(0.8, 0.5, 0.7);
+			//if(treasure[i].type == 1)
+			//glColor3f(1.1, 0.1f, 0.1f);
+			cout << treasure[i].type << endl;
+			//treasure[i].type = 1;
+			if(treasure[i].type == 1)    
+			//glColor3f(1.1, 0.1f, 0.1f);
+			//else
+			//glColor3f(1.1, 0.1f, 0.1f);
+			
+			glColor3f(1.0, 0.0f, 3.0f);
+			else if(treasure[i].type == 2)    
+			glColor3f(1.0, 0.0f, 0.0f);
+			else
+			glColor3f(0.0, 0.0f, 1.0f); // blue
+			
+			//if(treasure[i].type == 2)    
+			//glColor3f(1.1, 0.1f, 0.1f);
+
 			glBegin(GL_QUADS);
 			glVertex2i(cent[0]-4, cent[1]-3);
 			glVertex2i(cent[0]-4, cent[1]+4);
@@ -960,5 +978,74 @@ void render(void)
         r.center = 1;
         ggprint16(&r, 16, 0x00ffffff,  "Zeitheist");
         }
+        
+        for(int i=6; i<=8; i++) {
+        getGridCenter(i, 9, cent);
+        glColor3f(0.1, 0.1f, 0.0f);
+        glBegin(GL_QUADS);
+        glVertex2i(cent[0]-4, cent[1]-9);
+        glVertex2i(cent[0]-4, cent[1]+6);
+        glVertex2i(cent[0]+3, cent[1]+6);
+        glVertex2i(cent[0]+3, cent[1]-9);
+        glEnd();
+        //
+        //
+        r.left   = xres/2;
+        r.bot    = yres-100;
+        r.center = 1;
+        ggprint16(&r, 16, 0x00ffffff,  "Zeitheist");
+        }
+
+        for(int i=6; i<=8; i++) {
+        getGridCenter(i, 9, cent);
+        glColor3f(0.1, 0.1f, 0.0f);
+        glBegin(GL_QUADS);
+        glVertex2i(cent[0]-4, cent[1]-9);
+        glVertex2i(cent[0]-4, cent[1]+6);
+        glVertex2i(cent[0]+3, cent[1]+6);
+        glVertex2i(cent[0]+3, cent[1]-9);
+        glEnd();
+        //
+        //
+        r.left   = xres/2;
+        r.bot    = yres-100;
+        r.center = 1;
+        ggprint16(&r, 16, 0x00ffffff,  "Zeitheist");
+        }
+
+        for(int i=10; i<=14; i++) {
+        getGridCenter(i, 15, cent);
+        glColor3f(0.1, 0.1f, 0.0f);
+        glBegin(GL_QUADS);
+        glVertex2i(cent[0]-4, cent[1]-9);
+        glVertex2i(cent[0]-4, cent[1]+6);
+        glVertex2i(cent[0]+3, cent[1]+6);
+        glVertex2i(cent[0]+3, cent[1]-9);
+        glEnd();
+        //
+        //
+        r.left   = xres/2;
+        r.bot    = yres-100;
+        r.center = 1;
+        ggprint16(&r, 16, 0x00ffffff,  "Zeitheist");
+        }
+
+        for(int i=28; i<=30; i++) {
+        getGridCenter(i, 15, cent);
+        glColor3f(0.1, 0.1f, 0.0f);
+        glBegin(GL_QUADS);
+        glVertex2i(cent[0]-4, cent[1]-9);
+        glVertex2i(cent[0]-4, cent[1]+6);
+        glVertex2i(cent[0]+3, cent[1]+6);
+        glVertex2i(cent[0]+3, cent[1]-9);
+        glEnd();
+        //
+        //
+        r.left   = xres/2;
+        r.bot    = yres-100;
+        r.center = 1;
+        ggprint16(&r, 16, 0x00ffffff,  "Zeitheist");
+        }
+}
 }
 
