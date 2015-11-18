@@ -255,13 +255,10 @@ int main(int argc, char *argv[])
                 //int randNumber = rand() % 100;
 
                 int highScores[5];
-                /*highScores[0] = 4;
-                highScores[1] = 23;
-                highScores[2] = 45;
-                highScores[3] = 59;
-                highScores[4] = 80; //< - - - UNIT TESTING*/
+                int newScores[5];
                 readFile(highScores);
-                calculateScore(treasureScore, highScores);
+		readFile(newScores);
+                int isnewHigh = calculateScore(treasureScore, highScores);
 
                 while(level == 2) {
                         while(XPending(dpy)) {
@@ -271,8 +268,8 @@ int main(int argc, char *argv[])
                                 checkSKeys(&e);
                                 checkSMouse(&e);
                         }
-                        highScore(treasureScore, highScores);
-                        scoreSheet(highScores);
+                        highScore(treasureScore, isnewHigh, highScores, newScores);
+ 
                         glXSwapBuffers(dpy, win);
                 }
         }
