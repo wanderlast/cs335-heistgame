@@ -133,7 +133,7 @@ void clock_physics(int select)
 {
 	
 	int seconds;
-	cout << "RYAN: GAME MODE SELECTED IS" << select;
+	//cout << "RYAN: GAME MODE SELECTED IS" << select;
 	switch(select)
 	{		
 		case scoreAttackEasy:
