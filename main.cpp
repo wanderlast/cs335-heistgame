@@ -811,7 +811,7 @@ void render(void)
 			getGridCenter(treasure[i].pos[1],treasure[i].pos[0],cent);
 			//if(treasure[i].type == 1)
 			//glColor3f(1.1, 0.1f, 0.1f);
-			cout << treasure[i].type << endl;
+			// cout << treasure[i].type << endl;
 			//treasure[i].type = 1;
 			if(treasure[i].type == 1)    
 			//glColor3f(1.1, 0.1f, 0.1f);
