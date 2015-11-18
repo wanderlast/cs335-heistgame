@@ -34,6 +34,7 @@ extern int start;
 extern int timestart;
 extern int soundNum;
 extern int gamemodeSelected;
+extern int gameMode;
 
 //extern void checkResize(XEvent *e);
 //extern void checkMouse(XEvent *e);

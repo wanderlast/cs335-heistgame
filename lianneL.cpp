@@ -75,7 +75,8 @@ void gameTypeSelector(int select)
 {
     //set player, set treasure spawn, set timer
     cout << "the selected game mode is: " << select << endl;
-
+    gameMode = select;
+    
     switch(select) {
     
     //75 seconds, spawn in set position

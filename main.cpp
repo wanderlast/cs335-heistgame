@@ -111,7 +111,8 @@ int gameover;
 int winner;
 int score;
 int soundFlag;
-int gamemodeSelected;
+int gamemodeSelected; // this is a boolean used for menu selection
+int gameMode; //actual game mode #
 Ppmimage *startImage;
 GLuint startTexture;
 int nbuttons;
@@ -253,7 +254,7 @@ int main(int argc, char *argv[])
                         //           Apply no physics this frame.
                         while(physicsCountdown >= physicsRate) {
                                 //6. Apply physics
-                                clock_physics(gamemodeSelected);
+                                clock_physics(gameMode);
                                 physics();
                                 //7. Reduce the countdown by our physics-rate
                                 physicsCountdown -= physicsRate;
