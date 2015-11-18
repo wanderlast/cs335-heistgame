@@ -14,8 +14,13 @@
 #include <GL/glu.h>
 #include "main.h"
 #include "thomasE.h"
+#include "lianneL.h"
 
 using namespace std;
+
+enum gameModes { scoreAttackEasy, timeAttackEasy, scoreAttack,
+                 timeAttack, scoreAttackHard, timeAttackHard
+               };
 
 typedef float Flt;
 #define PI 3.1415926535897932384626433832795
@@ -124,8 +129,114 @@ void clock_animation()
     glPopMatrix();
 }
 
-void clock_physics()
+void clock_physics(int select)
 {
+	
+	int seconds;
+	
+	switch(select)
+	{
+		cout << "RYAN: GAME MODE SELECTED IS" << select;
+		
+		case scoreAttackEasy:
+			//gameTypeSelector(scoreAttackEasy);
+			seconds = (bigHand -= (handIncrement / 15.0));
+			if(seconds == -255)
+			{
+				level = 2;
+				break;
+			}
+			
+		case timeAttackEasy:
+			//gameTypeSelector(timeAttackEasy);
+			seconds = (bigHand -= (handIncrement / 10.0));
+			if(seconds == -255)
+			{
+				level = 2;
+				break;
+			}
+			
+		case scoreAttack:
+			//gameTypeSelector(scoreAttack);
+			seconds = (bigHand -= (handIncrement / 50.0));
+			if(seconds == -255)
+			{
+				level = 2;
+				break;
+			}
+		case timeAttack:
+			//gameTypeSelector(timeAttack);
+			seconds = (bigHand -= (handIncrement / 50.0));
+			if(seconds == -255)
+			{
+				level = 2;
+				break;
+			}
+			
+		case scoreAttackHard:
+			//gameTypeSelector(scoreAttackHard);
+			seconds = (bigHand -= (handIncrement / 30.0));
+			if(seconds == -255)
+			{
+				level = 2;
+				break;
+			}
+			
+		case timeAttackHard:
+			//gameTypeSelector(timeAttackHard);
+			seconds = (bigHand -= (handIncrement / 10.0));
+			if(seconds == -255)
+			{
+				level = 2;
+				break;
+			}
+			
+		default:
+			seconds = (bigHand -= (handIncrement / 75.0));
+			if(seconds == -255)
+			{
+				level = 2;
+				break;
+			}
+		}
+}	
+			
+			
+			
+			
+			
+			
+			
+		/*	
+		if(select == 1)
+		{
+			seconds = (bigHand -= (handIncrement / 180.0));
+			if(seconds == -255)
+			{
+				level = 2;
+			}
+		}
+		
+		else(gameModes == 2)
+		{
+			bigHand = 90;
+		}
+		
+		else if (gameModes == 3)
+		{
+			//clock_animation();
+			seconds = (bigHand += (handIncrement / 45.0));
+			if(seconds == -9000)
+			{
+				level = 2;
+			}
+		}
+		
+		else if (gameModes == 4)
+		{
+			bigHand = 90;
+		}
+//THIS IS WHERE REALLY OLD COLD STARTS
     int seconds;
     if(level != 1) {
         bigHand = 90;
@@ -137,6 +248,11 @@ void clock_physics()
             bigHand = 90;
             level = 2;
             //highScore(score);
+ 
+ //TO DO:
+ //MAKE KEY
+ //MAKE CHAOS LEVEL?
+ //ASSIGN TIME TO OTHER LEVELS
         }
     }
-}
+    */

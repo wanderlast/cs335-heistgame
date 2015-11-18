@@ -36,19 +36,22 @@
 #include <time.h>
 #include <math.h>
 #include <X11/Xlib.h>
-#include <X11/Xutil.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
+//#include <X11/Xutil.h>
+//#include <GL/gl.h>
+//#include <GL/glu.h>
 #include <X11/keysym.h>
 #include <GL/glx.h>
-#include "ryanS.h"
 #include "log.h"
 #include "ppm.h"
 extern "C"{
 	#include "fonts.h"
 }
 #include "main.h"
+#include "sergioA.h"
 #include "lianneL.h"
+#include "kevinB.h"
+#include "ryanS.h"
+#include "thomasE.h"
 
 using namespace std;
 
@@ -58,7 +61,6 @@ using namespace std;
 //X Windows variables
 Display *dpy;
 Window win;
-GLXContext glc;
 
 //function prototypes
 void initXWindows(void);
@@ -72,14 +74,15 @@ int checkCollision();
 void physics(void);
 void render(void);
 void getGridCenter(const int i, const int j, int cent[2]);
+void resetGame();
 
 #define DIRECTION_DOWN  0
 #define DIRECTION_LEFT  1
 #define DIRECTION_UP    2
 #define DIRECTION_RIGHT 3
-//
 #define MAX_GRID 80
 #define MAXBUTTONS 4
+#define MAX_TREASURE 15
 typedef struct t_button {
 	Rect r;
 	char text[32];
@@ -91,21 +94,30 @@ typedef struct t_button {
 	unsigned int text_color;
 } Button;
 
+int x;
 int xres;
 int yres;
 Grid grid[MAX_GRID][MAX_GRID];
-Treasure treasure;
+Treasure treasure[MAX_TREASURE];
 int done;
+int level;
+int start;
+int timestart;
+int info;
 int gridDim;
 int boardDim;
 int gameover;
 int winner;
-Ppmimage *heistImage;
-GLuint heistTexture;
+int score;
+int soundFlag;
+int gamemodeSelected;
+Ppmimage *startImage;
+GLuint startTexture;
 int nbuttons;
 Button button[MAXBUTTONS];
 Player player;
-
+Wall wall;
+int treasureScore; // <- - - PUT TOTAL TREASURE VALUE HERE
 //-----------------------------------------------------------------------------
 //Setup timers
 const double physicsRate = 1.0 / 60.0;
@@ -131,11 +143,12 @@ int main(int argc, char *argv[])
 	xres = 800;
 	yres = 600;
 	done = 0;
+	start = 0;
 	gridDim = 40;
 	gameover = 0;
 	winner = 0;
 	nbuttons = 0;
-	heistImage=NULL;
+	startImage=NULL;	
 	
 	if (argc) {}
 	if (argv[0]) {}
@@ -145,44 +158,125 @@ int main(int argc, char *argv[])
 	init();
 	initialize_fonts();
 	srand((unsigned int)time(NULL));
-	clock_gettime(CLOCK_REALTIME, &timePause);
-	clock_gettime(CLOCK_REALTIME, &timeStart);
-	while(!done) {
+
+	
+	while(!start && !gamemodeSelected) {  //game has not started
 		while(XPending(dpy)) {
+			XEvent e;
+			XNextEvent(dpy, &e);
+			checkResize(&e);
+			//checkKeys(&e);
+			checkgamestateMouse(&e);
+			checkKeys(&e);
+		}
+		startMenu();
+		glXSwapBuffers(dpy, win);
+
+	if(level == 0 && info == 1) {
+	while (info == 1 && !start){
+			while(XPending(dpy)) {
 			XEvent e;
 			XNextEvent(dpy, &e);
 			checkResize(&e);
 			checkMouse(&e);
 			checkKeys(&e);
 		}
-		//
-		//Below is a process to apply physics at a consistent rate.
-		//1. Get the time right now.
-		clock_gettime(CLOCK_REALTIME, &timeCurrent);
-		//2. How long since we were here last?
-		timeSpan = timeDiff(&timeStart, &timeCurrent);
-		//3. Save the current time as our new starting time.
-		timeCopy(&timeStart, &timeCurrent);
-		//4. Add time-span to our countdown amount.
-		physicsCountdown += timeSpan;
-		//5. Has countdown gone beyond our physics rate? 
-		//       if yes,
-		//           In a loop...
-		//              Apply physics
-		//              Reducing countdown by physics-rate.
-		//              Break when countdown < physics-rate.
-		//       if no,
-		//           Apply no physics this frame.
-		while(physicsCountdown >= physicsRate) {
-			//6. Apply physics
-			physics();
-			//7. Reduce the countdown by our physics-rate
-			physicsCountdown -= physicsRate;
-		}
-		//Always render every frame.
-		render();
+		infoMenu();
 		glXSwapBuffers(dpy, win);
+}     
+}
+	if(start == 1 && !gamemodeSelected){
+		while(!gamemodeSelected){
+	while(XPending(dpy)) {
+			XEvent e;
+			XNextEvent(dpy, &e);
+			checkResize(&e);
+			checkgamestateMouse(&e);
+			checkKeys(&e);
+		}
+		gamestateMenu();
+		glXSwapBuffers(dpy, win);
+		}
+}
+}
+
+
+	level = 1;
+	while(!done) {	
+		if (level == 1){
+			soundFlag = 1;
+			while(XPending(dpy)) {
+				XEvent e;
+				XNextEvent(dpy, &e);
+				checkResize(&e);
+				checkMouse(&e);
+				checkKeys(&e);
+			}
+			   if(level == 1 && timestart == 1) {
+			      clock_gettime(CLOCK_REALTIME, &timePause);
+			      clock_gettime(CLOCK_REALTIME, &timeStart);
+			}
+
+			//Below is a process to apply physics at a consistent rate.
+			//1. Get the time right now.
+			clock_gettime(CLOCK_REALTIME, &timeCurrent);
+			//2. How long since we were here last?
+			timeSpan = timeDiff(&timeStart, &timeCurrent);
+			//3. Save the current time as our new starting time.
+			timeCopy(&timeStart, &timeCurrent);
+			//4. Add time-span to our countdown amount.
+			physicsCountdown += timeSpan;
+			//5. Has countdown gone beyond our physics rate? 
+			//       if yes,
+			//           In a loop...
+			//              Apply physics
+			//              Reducing countdown by physics-rate.
+			//              Break when countdown < physics-rate.
+			//       if no,
+			//           Apply no physics this frame.
+			while(physicsCountdown >= physicsRate) {
+				//6. Apply physics
+				clock_physics(gamemodeSelected);
+				physics();
+				//7. Reduce the countdown by our physics-rate
+				physicsCountdown -= physicsRate;
+			}
+			//Always render every frame.
+			render();
+			glXSwapBuffers(dpy, win);
+		}
+		timestart = 0;
+	
+	if(level == 2){
+		soundNum = 3;
+		createSound(soundNum);
+		done = 0;
+		//int randNumber = rand() % 100;
+		
+		int highScores[5];
+		/*highScores[0] = 4;
+		highScores[1] = 23;
+		highScores[2] = 45;
+		highScores[3] = 59;
+		highScores[4] = 80; //< - - - UNIT TESTING*/
+		readFile(highScores);
+		calculateScore(treasureScore, highScores);
+		
+		while(level == 2) {
+			while(XPending(dpy)) {
+				XEvent e;
+				XNextEvent(dpy, &e);
+				checkResize(&e);
+				checkSKeys(&e);
+				checkSMouse(&e);
+			}
+			highScore(treasureScore, highScores);
+			scoreSheet(highScores);
+			glXSwapBuffers(dpy, win);
+		}
 	}
+	}
+	cleanupSound();
 	cleanupXWindows();
 	cleanup_fonts();
 	logClose();
@@ -200,7 +294,7 @@ void setTitle(void)
 {
 	//Set the window title bar.
 	XMapWindow(dpy, win);
-	XStoreName(dpy, win, "CS335 - Heist Game");
+	XStoreName(dpy, win, "Press ESC to see High Score");
 }
 
 void setupScreenRes(const int w, const int h)
@@ -275,16 +369,16 @@ void initOpengl(void)
 	//
 	//load the image file into a ppm structure.
 	//
-	heistImage = ppm6GetImage("./images/heist.ppm");
+	startImage = ppm6GetImage("./images/start.ppm");
 	//
 	//create opengl texture elements
-	glGenTextures(1, &heistTexture);
-	glBindTexture(GL_TEXTURE_2D, heistTexture);
+	glGenTextures(1, &startTexture);
+	glBindTexture(GL_TEXTURE_2D, startTexture);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, 3,
-	             heistImage->width, heistImage->height,
-	             0, GL_RGB, GL_UNSIGNED_BYTE, heistImage->data);
+	             startImage->width, startImage->height,
+	             0, GL_RGB, GL_UNSIGNED_BYTE, startImage->data);
 }
 
 void checkResize(XEvent *e)
@@ -299,39 +393,21 @@ void checkResize(XEvent *e)
 	}
 }
 
-void initPlayer(void)
-{
-	//spawns player in an initial position
-	player.status = 1;
-	player.delay = .15;
-	player.pos[0][0] = 2;
-	player.pos[0][1] = 2;
-	player.direction = DIRECTION_RIGHT;
-	//snake.timer = glfwGetTime() + 0.5;
-}
-
-void initTreasure(void)
-{
-	//spawns treasure in an initial position
-	treasure.status = 1;
-	treasure.pos[0] = 25;
-	treasure.pos[1] = 2;
-}
-
 void init(void)
 {
 	boardDim = gridDim * 10;
 	//
-	initPlayer();
-	initTreasure();
+	//~ initPlayer();
+	//~ initTreasure();
+	treasureScore = 0;
 	//
 	//initialize buttons...
 	nbuttons=0;
 	//size and position
 	button[nbuttons].r.width = 140;
 	button[nbuttons].r.height = 60;
-	button[nbuttons].r.left = 20;
-	button[nbuttons].r.bot = 320;
+	button[nbuttons].r.left = 630;
+	button[nbuttons].r.bot = 230;
 	button[nbuttons].r.right =
 	   button[nbuttons].r.left + button[nbuttons].r.width;
 	button[nbuttons].r.top =
@@ -345,7 +421,7 @@ void init(void)
 	button[nbuttons].click = 0;
 	button[nbuttons].color[0] = 0.4f;
 	button[nbuttons].color[1] = 0.4f;
-	button[nbuttons].color[2] = 0.7f;
+	button[nbuttons].color[2] = 0.4f;
 	button[nbuttons].dcolor[0] = button[nbuttons].color[0] * 0.5f;
 	button[nbuttons].dcolor[1] = button[nbuttons].color[1] * 0.5f;
 	button[nbuttons].dcolor[2] = button[nbuttons].color[2] * 0.5f;
@@ -353,8 +429,8 @@ void init(void)
 	nbuttons++;
 	button[nbuttons].r.width = 140;
 	button[nbuttons].r.height = 60;
-	button[nbuttons].r.left = 20;
-	button[nbuttons].r.bot = 160;
+	button[nbuttons].r.left = 630;
+	button[nbuttons].r.bot = 140;
 	button[nbuttons].r.right =
 	   button[nbuttons].r.left + button[nbuttons].r.width;
 	button[nbuttons].r.top = button[nbuttons].r.bot +
@@ -366,14 +442,16 @@ void init(void)
 	strcpy(button[nbuttons].text, "Quit");
 	button[nbuttons].down = 0;
 	button[nbuttons].click = 0;
-	button[nbuttons].color[0] = 0.3f;
-	button[nbuttons].color[1] = 0.3f;
-	button[nbuttons].color[2] = 0.6f;
+	button[nbuttons].color[0] = 0.4f;
+	button[nbuttons].color[1] = 0.4f;
+	button[nbuttons].color[2] = 0.4f;
 	button[nbuttons].dcolor[0] = button[nbuttons].color[0] * 0.5f;
 	button[nbuttons].dcolor[1] = button[nbuttons].color[1] * 0.5f;
 	button[nbuttons].dcolor[2] = button[nbuttons].color[2] * 0.5f;
 	button[nbuttons].text_color = 0x00ffffff;
 	nbuttons++;
+	
+	
 }
 
 void resetGame(void)
@@ -381,7 +459,10 @@ void resetGame(void)
 	initPlayer();
 	initTreasure();
 	gameover  = 0;
-	winner    = 0;
+	treasureScore = 0;
+	winner = 0;
+	timestart = 1;
+	soundFlag = 0;
 }
 
 void checkKeys(XEvent *e)
@@ -406,6 +487,8 @@ void checkKeys(XEvent *e)
 	switch(key) {
 		case XK_r:
 			resetGame();
+			soundNum = 4;
+			createSound(soundNum);
 			break;
 		//~ case XK_equal:
 			//~ g.snake.delay *= 0.9;
@@ -417,16 +500,38 @@ void checkKeys(XEvent *e)
 			//~ break;
 		case XK_Left:
 			movement(1);
+			x=1;
+			movementWall(x);
 			break;
 		case XK_Right:
 			movement(3);
+			x=3;
+			movementWall(x);
 			break;
 		case XK_Up:
 			movement(2);
+			x=2;
+			movementWall(x);
+			
 			break;
 		case XK_Down:
 			movement(0);
+			x=0;
+			movementWall(x);
 			break;
+		case XK_Escape:
+			level = 2;
+			soundNum = 4;
+			createSound(soundNum);
+		case XK_space:
+			start = 1;
+			timestart = 1;
+			soundNum = 4;
+			createSound(soundNum);
+		case XK_Return:
+			info = 1;
+			soundNum = 4;
+			createSound(soundNum);
 	}
 }
 
@@ -459,7 +564,7 @@ void checkMouse(XEvent *e)
 		savex = e->xbutton.x;
 		savey = e->xbutton.y;
 	}
-	for (i=0; i<nbuttons; i++) {
+	for (i=0; i<2; i++) {
 		button[i].over=0;
 		if (x >= button[i].r.left &&
 			x <= button[i].r.right &&
@@ -473,7 +578,7 @@ void checkMouse(XEvent *e)
 							resetGame();
 							break;
 						case 1:
-							done=1;
+							level=2;
 							break;
 					}
 				}
@@ -483,7 +588,7 @@ void checkMouse(XEvent *e)
 	return;
 }
 
-/*void getGridCenter(const int i, const int j, int cent[2])
+void getGridCenter(const int i, const int j, int cent[2])
 {
 	//This function can be optimized, and made more generic.
 	int b2 = boardDim/2;
@@ -504,16 +609,16 @@ void checkMouse(XEvent *e)
 	cent[1] = quad[1] + bq/2;
 	cent[0] += (bq * j);
 	cent[1] += (bq * i1);
-}*/
+}
 
-void physics(void)
+/*void physics(void)
 {
 	//
-	
-	//timer for clock
-	//clock_physics();
-	
-	
+	//
+	//
+	clock_physics();
+	//
+	//
 	//Is it time to move the player?
 	//move the player segments...
 	int headpos[2];
@@ -542,9 +647,11 @@ void physics(void)
 			treasure.pos[0] = rand() % gridDim;
 			treasure.pos[1] = rand() % gridDim;
 			collision=0;
+			createSound();
 			if (treasure.pos[0] == player.pos[0][0] &&
 					treasure.pos[1] == player.pos[0][1]) {
 					collision=1;
+					cleanupSound();
 					break;
 				}
 			if (!collision) break;
@@ -553,12 +660,13 @@ void physics(void)
 		Log("new treasure: %i %i\n",treasure.pos[0],treasure.pos[1]);
 		return;
 	}
-}
+}*/
 
 void render(void)
 {
 	int i,j;
 	Rect r;
+
 	//--------------------------------------------------------
 	//This code is repeated several times in this program, so
 	//it can be made more generic and cleaner with some work.
@@ -583,7 +691,7 @@ void render(void)
 	//
 	//screen background
 	glColor3f(0.5f, 0.5f, 0.5f);
-	glBindTexture(GL_TEXTURE_2D, heistTexture);
+	glBindTexture(GL_TEXTURE_2D, startTexture);
 	glBegin(GL_QUADS);
 		glTexCoord2f(0.0f, 0.0f); glVertex2i(0,      0);
 		glTexCoord2f(0.0f, 1.0f); glVertex2i(0,      yres);
@@ -592,14 +700,8 @@ void render(void)
 	glEnd();
 	glBindTexture(GL_TEXTURE_2D, 0);
 	//
-	
-	
-	//draw timer
-	//clock_animation();
-	
-	
 	//draw all buttons
-	for (i=0; i<nbuttons; i++) {
+	for (i=0; i<2; i++) {
 		if (button[i].over) {
 			int w=2;
 			glColor3f(1.0f, 1.0f, 0.0f);
@@ -635,7 +737,7 @@ void render(void)
 		}
 	}
 	//draw the main game board in middle of screen
-	glColor3f(0.6f, 0.5f, 0.2f);
+	glColor3f(0.4f, 0.4f, 0.4f);
 	glBegin(GL_QUADS);
 		glVertex2i(s0-b2, s1-b2);
 		glVertex2i(s0-b2, s1+b2);
@@ -648,7 +750,7 @@ void render(void)
 	int x1 = s0+b2;
 	int y0 = s1-b2;
 	int y1 = s1+b2;
-	glColor3f(0.1f, 0.1f, 0.1f);
+	glColor3f(0.0, 0.0, 0.0);
 	glBegin(GL_LINES);
 	for (i=1; i<gridDim; i++) {
 		y0 += 10;
@@ -665,6 +767,8 @@ void render(void)
 	}
 	glEnd();
 	//
+	//
+	clock_animation();
 	#define COLORFUL_SNAKE
 	//
 	//draw snake...
@@ -701,18 +805,160 @@ void render(void)
 	//
 	//
 	//draw treasure...
-	getGridCenter(treasure.pos[1],treasure.pos[0],cent);
+	for (int i = 0; i < MAX_TREASURE; i++) {
+		if(treasure[i].status == 1){
+			getGridCenter(treasure[i].pos[1],treasure[i].pos[0],cent);
+			glColor3f(0.8, 0.5, 0.7);
+			glBegin(GL_QUADS);
+			glVertex2i(cent[0]-4, cent[1]-3);
+			glVertex2i(cent[0]-4, cent[1]+4);
+			glVertex2i(cent[0]+3, cent[1]+4);
+			glVertex2i(cent[0]+3, cent[1]-		3);
+			glEnd();
+		}
+	}
+	//
+	//
+	r.left   = xres/2;
+	r.bot    = yres-100;
+	r.center = 1;
+	ggprint16(&r, 16, 0x00ffffff, "Zeitheist");
+	
+	// draw wall
+	for(int i=4; i<26; i++) {
+	getGridCenter(5, i, cent);
 	glColor3f(0.1, 0.1f, 0.0f);
 	glBegin(GL_QUADS);
-	glVertex2i(cent[0]-4, cent[1]-3);
-	glVertex2i(cent[0]-4, cent[1]+4);
-	glVertex2i(cent[0]+3, cent[1]+4);
-	glVertex2i(cent[0]+3, cent[1]-3);
+	glVertex2i(cent[0]-5, cent[1]-4);
+	glVertex2i(cent[0]-5, cent[1]+3);
+	glVertex2i(cent[0]+4, cent[1]+3);
+	glVertex2i(cent[0]+4, cent[1]-4);
 	glEnd();
 	//
 	//
 	r.left   = xres/2;
 	r.bot    = yres-100;
 	r.center = 1;
-	ggprint16(&r, 16, 0x00ffffff, "Heist Game");
+	ggprint16(&r, 16, 0x00ffffff, "Zeitheist");
+	}
+	
+	for(int i=4; i<=26; i++) {
+        getGridCenter(9, i, cent);
+        glColor3f(0.1, 0.1f, 0.0f);
+        glBegin(GL_QUADS);
+        glVertex2i(cent[0]-5, cent[1]-4);
+        glVertex2i(cent[0]-5, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]-4);
+        glEnd();
+        //
+        //
+        r.left   = xres/2;
+        r.bot    = yres-100;
+        r.center = 1;
+        ggprint16(&r, 16, 0x00ffffff, "Zeitheist");
+        }
+
+        for(int i=0; i<=26; i++) {
+        getGridCenter(15, i, cent);
+        glColor3f(0.1, 0.1f, 0.0f);
+        glBegin(GL_QUADS);
+        glVertex2i(cent[0]-5, cent[1]-4);
+        glVertex2i(cent[0]-5, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]-4);
+        glEnd();
+        //
+        //
+        r.left   = xres/2;
+        r.bot    = yres-100;
+        r.center = 1;
+        ggprint16(&r, 16, 0x00ffffff, "Zeitheist");
+        }
+        
+        for(int i=0; i<=26; i++) {
+        getGridCenter(20, i, cent);
+        glColor3f(0.1, 0.1f, 0.0f);
+        glBegin(GL_QUADS);
+        glVertex2i(cent[0]-5, cent[1]-4);
+        glVertex2i(cent[0]-5, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]-4);
+        glEnd();
+        //
+        //
+        r.left   = xres/2;
+        r.bot    = yres-100;
+        r.center = 1;
+        ggprint16(&r, 16, 0x00ffffff, "Zeitheist");
+        }
+        
+        for(int i=0; i<=38; i++) {
+        getGridCenter(25, i, cent);
+        glColor3f(0.1, 0.1f, 0.0f);
+        glBegin(GL_QUADS);
+        glVertex2i(cent[0]-5, cent[1]-4);
+        glVertex2i(cent[0]-5, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]-4);
+        glEnd();
+        //
+        //
+        r.left   = xres/2;
+        r.bot    = yres-100;
+        r.center = 1;
+        ggprint16(&r, 16, 0x00ffffff, "Zeitheist");
+        }
+
+        for(int i=3; i<=29; i++) {
+        getGridCenter(27, i, cent);
+        glColor3f(0.1, 0.1f, 0.0f);
+        glBegin(GL_QUADS);
+        glVertex2i(cent[0]-5, cent[1]-4);
+        glVertex2i(cent[0]-5, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]-4);
+        glEnd();
+        //
+        //
+        r.left   = xres/2;
+        r.bot    = yres-100;
+        r.center = 1;
+        ggprint16(&r, 16, 0x00ffffff, "Zeitheist");
+        }
+
+        for(int i=2; i<=39; i++) {
+        getGridCenter(31, i, cent);
+        glColor3f(0.1, 0.1f, 0.0f);
+        glBegin(GL_QUADS);
+        glVertex2i(cent[0]-5, cent[1]-4);
+        glVertex2i(cent[0]-5, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]-4);
+        glEnd();
+        //
+        //
+        r.left   = xres/2;
+        r.bot    = yres-100;
+        r.center = 1;
+        ggprint16(&r, 16, 0x00ffffff, "Zeitheist");
+        }
+
+        for(int i=7; i<=35; i++) {
+        getGridCenter(36, i, cent);
+        glColor3f(0.1, 0.1f, 0.0f);
+        glBegin(GL_QUADS);
+        glVertex2i(cent[0]-5, cent[1]-4);
+        glVertex2i(cent[0]-5, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]+3);
+        glVertex2i(cent[0]+4, cent[1]-4);
+        glEnd();
+        //
+        //
+        r.left   = xres/2;
+        r.bot    = yres-100;
+        r.center = 1;
+        ggprint16(&r, 16, 0x00ffffff,  "Zeitheist");
+        }
 }
+

@@ -236,7 +236,7 @@ int main(int argc, char *argv[])
 			//           Apply no physics this frame.
 			while(physicsCountdown >= physicsRate) {
 				//6. Apply physics
-				clock_physics();
+				clock_physics(gamemodeSelected);
 				physics();
 				//7. Reduce the countdown by our physics-rate
 				physicsCountdown -= physicsRate;
@@ -808,7 +808,7 @@ void render(void)
 	for (int i = 0; i < MAX_TREASURE; i++) {
 		if(treasure[i].status == 1){
 			getGridCenter(treasure[i].pos[1],treasure[i].pos[0],cent);
-			glColor3f(0.1, 0.1f, 0.0f);
+			glColor3f(0.8, 0.5, 0.7);
 			glBegin(GL_QUADS);
 			glVertex2i(cent[0]-4, cent[1]-3);
 			glVertex2i(cent[0]-4, cent[1]+4);

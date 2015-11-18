@@ -83,9 +83,9 @@ void gameTypeSelector(int select)
     //treasure spawns all at once and is replenished upon
     //grabbing it
     case scoreAttackEasy:
+		cout << "Wowzers!" << endl;
         initPlayer();
         initTreasure(1);
-        clock_physics(select);
         break;
     
     //player starts in set position, 20 treasure
@@ -93,7 +93,6 @@ void gameTypeSelector(int select)
     case timeAttackEasy:
         initPlayer(0);
         initTreasure(2);
-        clock_physics(select);
         break;
     
     
@@ -103,7 +102,6 @@ void gameTypeSelector(int select)
     case scoreAttack:
         initPlayer();
         initTreasure(15);
-        clock_physics(select);
         break;
     
     //player starts in set position, 20 treasure
@@ -111,7 +109,6 @@ void gameTypeSelector(int select)
     case timeAttack:
         initPlayer(0);
         initTreasure();
-        clock_physics(select);
         break;
     
     //player starts in random position, treasure spawns in increasing waves capping at 10
@@ -119,21 +116,18 @@ void gameTypeSelector(int select)
     case scoreAttackHard:
         initPlayer();
         initTreasure();
-        clock_physics(select);
         break;
     
     //player starts in random position, 20 treasure, 30 seconds
     case timeAttackHard:
         initPlayer(0);
         initTreasure();
-        clock_physics(select);
         break;
     
     //default is scoreAttackEasy
     default:
         initPlayer(0);
         initTreasure(1);
-        clock_physics(select);
         break;
     }
 }
