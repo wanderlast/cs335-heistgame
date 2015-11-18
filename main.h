@@ -1,17 +1,18 @@
 #define MAX_GRID 80
 
 typedef struct t_grid {
-	int status;
-	float color[4];
+        int status;
+        float color[4];
 } Grid;
 
 typedef struct t_treasure {
-	int status; //whether it has spawned
-	int pos[2]; //position (x,y)
-	int maxCount; //max # of treasures to spawn
-	int maxRate; //max treasure spawn rate
-	int increase; //how many treasures should spawn next
-	int type; // coin = 1, jewel = 2
+        int status; //whether it has spawned
+        int pos[2]; //position (x,y)
+        int maxCount; //max # of treasures to spawn
+        int maxRate; //max treasure spawn rate
+        int increase; //how many treasures should spawn next
+        int type; // coin = 1, jewel = 2
+        int count; //# of treasures spawned
 } Treasure;
 
 extern int xres;

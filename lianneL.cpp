@@ -26,7 +26,7 @@ enum gameModes { scoreAttackEasy, timeAttackEasy, scoreAttack,
 #define DIRECTION_UP    2
 #define DIRECTION_RIGHT 3
 
-#define MAX_TREASURE 15
+#define MAX_TREASURE 20
 
 using namespace std;
 
@@ -76,62 +76,62 @@ void gameTypeSelector(int select)
     //set player, set treasure spawn, set timer
 
     switch(select) {
-      
+
     cout << "the selected game mode is: " << select;
-    
+
     //75 seconds, spawn in set position
     //treasure spawns all at once and is replenished upon
     //grabbing it
     case scoreAttackEasy:
         initPlayer();
-        initTreasure(1);
+        initTreasure();
         clock_physics(select);
         break;
-    
+
     //player starts in set position, 20 treasure
     //75 seconds
     case timeAttackEasy:
         initPlayer(0);
-        initTreasure(2);
+        initTreasure(20);
         clock_physics(select);
         break;
-    
-    
+
+
     //player starts in set position, cont. treasure
     //max 15
     //50 seconds
     case scoreAttack:
         initPlayer();
-        initTreasure(15);
+        initTreasure();
         clock_physics(select);
         break;
-    
+
     //player starts in set position, 20 treasure
     //50 seconds
     case timeAttack:
         initPlayer(0);
-        initTreasure();
+        initTreasure(20);
         clock_physics(select);
         break;
-    
-    //player starts in random position, treasure spawns in increasing waves capping at 10
+
+    //player starts in different position, treasure spawns in increasing waves capping at 10
     //on the map, 30 seconds
     case scoreAttackHard:
-        initPlayer();
-        initTreasure();
+        initPlayer(3, 1, 1);
+        initTreasure2();
         clock_physics(select);
         break;
-    
-    //player starts in random position, 20 treasure, 30 seconds
+
+    //player starts in different position, 20 treasure, 30 seconds
     case timeAttackHard:
-        initPlayer(0);
+        initPlayer(0, 1, 1);
         initTreasure();
         clock_physics(select);
         break;
-    
-    //default is scoreAttackEasy
+
+    //default is scoreAttackEasy but only one treasure spawns
     default:
-        initPlayer(0);
+        initPlayer();
         initTreasure(1);
         clock_physics(select);
         break;
@@ -313,6 +313,22 @@ void initTreasure2()
     }
 
     treasureGeneration(0); //spawns the first treasure
+    treasure[0].count = 1;
+}
+
+void initTreasure2(int rate, int max, int increase)
+{
+    //re-roll RNG
+    srand(time(NULL));
+
+    for (int i = 0; i < MAX_TREASURE; i++) {
+        treasure[i].maxRate = rate;
+        treasure[i].maxCount = max;
+        treasure[i].increase = increase;
+    }
+
+    treasureGeneration(0); //spawns the first treasure
+    treasure[0].count = 1;
 }
 
 //controls user movement, checking for collision with boundaries & treasure
@@ -395,6 +411,21 @@ void treasureCollision()
                 cout << "New position for treasure is : " <<
                      treasure[i].pos[0]	 << ", " << treasure[i].pos[1];
                 cout << endl;
+            } else if (player.type == 3) {
+                //player type 3 respawns treasure but also adds additional
+                // treasure each time it spawns
+                treasure[0].count = 0;
+                for (int i = 0; i < treasure[0].increase(); i++) {
+                    treasureGeneration(i);
+                    ++treasure[0].count;
+                    //at the end of the for loop, check if we haven't reached our max # yet
+                    if (i == (treasure[0].increase - 1) && (treasure[0].count < treasure[0].maxCount)) {
+                        if (treasure[0].increase < treasure[0].maxRate()) {
+                            treasure[0].increase += 2;
+                        }
+                    }
+                }
+
             }
             //soundNum = 2;
             //createSound(soundNum);
