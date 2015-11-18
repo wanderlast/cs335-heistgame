@@ -204,6 +204,22 @@ int main(int argc, char *argv[])
 
         level = 1;
         while(!done) {
+	  
+	    if(start == 1 && !gamemodeSelected){
+                while(!gamemodeSelected){
+		  while(XPending(dpy)) {
+                        XEvent e;
+                        XNextEvent(dpy, &e);
+                        checkResize(&e);
+                        checkgamestateMouse(&e);
+                        checkKeys(&e);
+		   }
+                gamestateMenu();
+                glXSwapBuffers(dpy, win);
+                }
+	    }
+	  
+	  
                 if (level == 1){
                         soundFlag = 1;
                         while(XPending(dpy)) {
@@ -461,6 +477,7 @@ void resetGame(void)
         winner = 0;
         timestart = 1;
         soundFlag = 0;
+	gamemodeSelected = 0;
 }
 
 void checkKeys(XEvent *e)
