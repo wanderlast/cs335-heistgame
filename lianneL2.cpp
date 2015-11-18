@@ -74,17 +74,16 @@ int findTreasureValue(int i)
 void gameTypeSelector(int select)
 {
     //set player, set treasure spawn, set timer
+    cout << "the selected game mode is: " << select << endl;
 
     switch(select) {
-      
-    cout << "the selected game mode is: " << select;
     
     //75 seconds, spawn in set position
     //treasure spawns all at once and is replenished upon
     //grabbing it
     case scoreAttackEasy:
         initPlayer();
-        initTreasure(1);
+        initTreasure();
         clock_physics(select);
         break;
     
@@ -92,7 +91,7 @@ void gameTypeSelector(int select)
     //75 seconds
     case timeAttackEasy:
         initPlayer(0);
-        initTreasure(2);
+        initTreasure();
         clock_physics(select);
         break;
     
@@ -102,7 +101,7 @@ void gameTypeSelector(int select)
     //50 seconds
     case scoreAttack:
         initPlayer();
-        initTreasure(15);
+        initTreasure(12);
         clock_physics(select);
         break;
     
@@ -110,16 +109,17 @@ void gameTypeSelector(int select)
     //50 seconds
     case timeAttack:
         initPlayer(0);
-        initTreasure();
+        initTreasure(12);
         clock_physics(select);
         break;
     
-    //player starts in random position, treasure spawns in increasing waves capping at 10
-    //on the map, 30 seconds
+    //player starts in random position, treasure spawns in increasing
+    //waves capping at 10 on the map, 30 seconds
     case scoreAttackHard:
-        initPlayer();
-        initTreasure();
+        initPlayer(3);
+        initTreasure2();
         clock_physics(select);
+        cout << ":WELKCJ:LWEKJCL:KWEJCL:WEJC:LWEJL:CWEJCKWEJC";
         break;
     
     //player starts in random position, 20 treasure, 30 seconds
@@ -399,7 +399,7 @@ void treasureCollision()
             } else if (player.type == 3){
               treasure[0].count++;
               for (int i = 0; i < treasure[0].increase; i++){
-                treasureGeneration();
+                treasureGeneration(i);
                 treasure[0].count++;
                 if (i == treasure[0].increase - 1 && treasure[0].count < treasure[0].maxCount){
                   if(treasure[0].increase < treasure[0].maxRate){
