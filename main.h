@@ -35,7 +35,7 @@ extern int timestart;
 extern int soundNum;
 extern int gamemodeSelected;
 extern int gameMode;
-
+extern void prwall(void);
 //extern void checkResize(XEvent *e);
 //extern void checkMouse(XEvent *e);
 //extern void checkKeys(XEvent *e);

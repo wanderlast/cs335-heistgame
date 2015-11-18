@@ -857,6 +857,8 @@ void render(void)
         r.center = 1;
         ggprint16(&r, 16, 0x00ffffff, "Zeitheist");
 
+prwall();
+/*
         // draw wall
         for(int i=4; i<26; i++) {
         getGridCenter(5, i, cent);
@@ -1060,5 +1062,5 @@ void render(void)
         r.bot    = yres-100;
         r.center = 1;
         ggprint16(&r, 16, 0x00ffffff,  "Zeitheist");
-        }
+        }*/
 }
