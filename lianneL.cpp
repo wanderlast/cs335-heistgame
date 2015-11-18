@@ -75,36 +75,54 @@ void gameTypeSelector(int select)
     //set player, set treasure spawn, set timer
 
     switch(select) {
+      
+    cout << "the selected game mode is: " << select;
+    
+    //75 seconds, spawn in set position
+    //treasure spawns all at once and is replenished upon
+    //grabbing it
     case scoreAttackEasy:
         initPlayer();
         initTreasure();
         break;
-        
+    
+    //player starts in set position, 20 treasure
+    //75 seconds
     case timeAttackEasy:
         initPlayer(0);
         initTreasure();
         break;
     
+    
+    //player starts in set position, cont. treasure
+    //max 15
+    //50 seconds
     case scoreAttack:
         initPlayer();
         initTreasure();
         break;
     
+    //player starts in set position, 20 treasure
+    //50 seconds
     case timeAttack:
         initPlayer(0);
         initTreasure();
         break;
     
+    //player starts in random position, treasure spawns in increasing waves capping at 10
+    //on the map, 30 seconds
     case scoreAttackHard:
         initPlayer();
         initTreasure();
         break;
     
+    //player starts in random position, 20 treasure, 30 seconds
     case timeAttackHard:
         initPlayer(0);
         initTreasure();
         break;
     
+    //default is scoreAttackEasy
     default:
         initPlayer();
         initTreasure();
