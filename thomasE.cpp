@@ -46,7 +46,7 @@ typedef struct t_button {
 
 Button button2[4];
 
-void highScore(int score, int highScores[])
+void highScore(int score, int isnewHigh, int highScores[], int newScores[])
 {
     unsigned int cref = 0x00ffffff; //white
 
@@ -139,11 +139,35 @@ void highScore(int score, int highScores[])
     button2[nbuttons].dcolor[2] = button2[nbuttons].color[2] * 0.5f;
     button2[nbuttons].text_color = 0x00ffffff;
     nbuttons++;
-
+    
     button2[nbuttons].r.width = 140;
     button2[nbuttons].r.height = 60;
     button2[nbuttons].r.left = 550;
     button2[nbuttons].r.bot = 360;
+    button2[nbuttons].r.right =
+        button2[nbuttons].r.left + button2[nbuttons].r.width;
+    button2[nbuttons].r.top = button2[nbuttons].r.bot +
+                              button2[nbuttons].r.height;
+    button2[nbuttons].r.centerx = (button2[nbuttons].r.left +
+                                   button2[nbuttons].r.right) / 2;
+    button2[nbuttons].r.centery = (button2[nbuttons].r.bot +
+                                   button2[nbuttons].r.top) / 2;
+    strcpy(button2[nbuttons].text, "Select Mode");
+    button2[nbuttons].down = 0;
+    button2[nbuttons].click = 0;
+    button2[nbuttons].color[0] = 0.4f;
+    button2[nbuttons].color[1] = 0.4f;
+    button2[nbuttons].color[2] = 0.4f;
+    button2[nbuttons].dcolor[0] = button2[nbuttons].color[0] * 0.5f;
+    button2[nbuttons].dcolor[1] = button2[nbuttons].color[1] * 0.5f;
+    button2[nbuttons].dcolor[2] = button2[nbuttons].color[2] * 0.5f;
+    button2[nbuttons].text_color = 0x00ffffff;
+    nbuttons++;
+
+    button2[nbuttons].r.width = 140;
+    button2[nbuttons].r.height = 60;
+    button2[nbuttons].r.left = 550;
+    button2[nbuttons].r.bot = 260;
     button2[nbuttons].r.right =
         button2[nbuttons].r.left + button2[nbuttons].r.width;
     button2[nbuttons].r.top = button2[nbuttons].r.bot +
@@ -163,10 +187,12 @@ void highScore(int score, int highScores[])
     button2[nbuttons].dcolor[2] = button2[nbuttons].color[2] * 0.5f;
     button2[nbuttons].text_color = 0x00ffffff;
     nbuttons++;
+    
+    
 
     //=============== END OF BUTTONS
     //draw all buttons
-    for (i=0; i<2; i++) {
+    for (i=0; i<3; i++) {
         if (button2[i].over) {
             int w=2;
             glColor3f(1.0f, 1.0f, 0.0f);
@@ -202,91 +228,262 @@ void highScore(int score, int highScores[])
         }
     }
     //========================
+    
+    if(isnewHigh == 0){
+		Rect yourScore;
+		yourScore.bot = 500;
+		yourScore.left = 175;
+		yourScore.center = 150;
+		ggprint16(&yourScore, 0, cref, "--YOUR SCORE--");
 
 
-    Rect titleScore;
-    titleScore.bot = 500;
-    titleScore.left = 135;
-    titleScore.center = 150;
+		Rect finalScore;
+		finalScore.bot = 450;
+		finalScore.left = 175;
+		finalScore.center = 150;
 
-    ggprint16(&titleScore, 0, cref, "--HIGH SCORE--");
+		stringstream strs;
+		strs << score;
+		string temp_str = strs.str();
+		char* lastScore = (char*) temp_str.c_str();
+		ggprint12(&finalScore, 0, cref, lastScore);
+		
+		Rect yourScore2;
+		yourScore2.bot = 400;
+		yourScore2.left = 175;
+		yourScore2.center = 150;
+		ggprint16(&yourScore2, 0, cref, "No New High Score");
+		
+		Rect yourScore3;
+		yourScore3.bot = 375;
+		yourScore3.left = 175;
+		yourScore3.center = 150;
+		ggprint16(&yourScore3, 0, cref, "Better Luck Next Time!");
 
-    Rect finalScore;
-    finalScore.bot = 400;
-    finalScore.left = 135;
-    finalScore.center = 150;
+		// < - - - HIGH SCORES
+		Rect noHightitleScore;
+		noHightitleScore.bot = 500;
+		noHightitleScore.left = 435;
+		noHightitleScore.center = 150;
+		ggprint16(&noHightitleScore, 0, cref, "--HIGH SCORES--");
+		
+		Rect noHighscoreOne;
+		noHighscoreOne.bot = 450;
+		noHighscoreOne.left = 435;
+		noHighscoreOne.center = 150;
 
-    stringstream strs;
-    strs << score;
-    string temp_str = strs.str();
-    char* testCheck2 = (char*) temp_str.c_str();
-    ggprint12(&finalScore, 0, cref, testCheck2);
+		Rect noHighscoreTwo;
+		noHighscoreTwo.bot = 425;
+		noHighscoreTwo.left = 435;
+		noHighscoreTwo.center = 150;
+
+		Rect noHighscoreThree;
+		noHighscoreThree.bot = 400;
+		noHighscoreThree.left = 435;
+		noHighscoreThree.center = 150;
+
+		Rect noHighscoreFour;
+		noHighscoreFour.bot = 375;
+		noHighscoreFour.left = 435;
+		noHighscoreFour.center = 450;
+
+		Rect noHighscoreFive;
+		noHighscoreFive.bot = 350;
+		noHighscoreFive.left = 435;
+		noHighscoreFive.center = 150;
+
+		stringstream noHighstrs1;
+		noHighstrs1 << highScores[0];
+		string tmp1 = noHighstrs1.str();
+		char* noHighfirstScore = (char*) tmp1.c_str();
+
+		stringstream noHighstrs2;
+		noHighstrs2 << highScores[1];
+		string tmp2 = noHighstrs2.str();
+		char* noHighsecondScore = (char*) tmp2.c_str();
+
+		stringstream noHighstrs3;
+		noHighstrs3 << highScores[2];
+		string tmp3 = noHighstrs3.str();
+		char* noHighthirdScore = (char*) tmp3.c_str();
+
+		stringstream noHighstrs4;
+		noHighstrs4 << highScores[3];
+		string tmp4 = noHighstrs4.str();
+		char* noHighfourthScore = (char*) tmp4.c_str();
+
+		stringstream noHighstrs5;
+		noHighstrs5 << highScores[4];
+		string tmp5 = noHighstrs5.str();
+		char* noHighfifthScore = (char*) tmp5.c_str();
+
+		ggprint12(&noHighscoreOne, 0, cref, noHighfirstScore);
+		ggprint12(&noHighscoreTwo, 0, cref, noHighsecondScore);
+		ggprint12(&noHighscoreThree, 0, cref, noHighthirdScore);
+		ggprint12(&noHighscoreFour, 0, cref, noHighfourthScore);
+		ggprint12(&noHighscoreFive, 0, cref, noHighfifthScore);
+	}
 
 
+	if(isnewHigh == 1){
+		Rect yourScore;
+		yourScore.bot = 500;
+		yourScore.left = 100;
+		yourScore.center = 150;
+		ggprint16(&yourScore, 0, cref, "--YOUR SCORE--");
 
-    // < - - - HIGH SCORES
-    Rect scoreOne;
-    scoreOne.bot = 350;
-    scoreOne.left = 135;
-    scoreOne.center = 150;
 
-    Rect scoreTwo;
-    scoreTwo.bot = 325;
-    scoreTwo.left = 135;
-    scoreTwo.center = 150;
+		Rect finalScore;
+		finalScore.bot = 450;
+		finalScore.left = 100;
+		finalScore.center = 150;
 
-    Rect scoreThree;
-    scoreThree.bot = 300;
-    scoreThree.left = 135;
-    scoreThree.center = 150;
+		stringstream strs;
+		strs << score;
+		string temp_str = strs.str();
+		char* lastScore = (char*) temp_str.c_str();
+		ggprint12(&finalScore, 0, cref, lastScore);
+		
+		Rect oldyourScore2;
+		oldyourScore2.bot = 400;
+		oldyourScore2.left = 100;
+		oldyourScore2.center = 150;
+		ggprint16(&oldyourScore2, 0, cref, "New High Score!");
 
-    Rect scoreFour;
-    scoreFour.bot = 275;
-    scoreFour.left = 135;
-    scoreFour.center = 150;
+		// < - - - OLD SCORES
+		Rect oldtitleScore;
+		oldtitleScore.bot = 500;
+		oldtitleScore.left = 270;
+		oldtitleScore.center = 150;
+		ggprint16(&oldtitleScore, 0, cref, "--OLD SCORES--");
+		
+		Rect oldscoreOne;
+		oldscoreOne.bot = 450;
+		oldscoreOne.left = 270;
+		oldscoreOne.center = 150;
 
-    Rect scoreFive;
-    scoreFive.bot = 250;
-    scoreFive.left = 135;
-    scoreFive.center = 150;
+		Rect oldscoreTwo;
+		oldscoreTwo.bot = 425;
+		oldscoreTwo.left = 270;
+		oldscoreTwo.center = 150;
 
-    stringstream strs1;
-    strs1 << highScores[0];
-    string tmp1 = strs1.str();
-    char* firstScore = (char*) tmp1.c_str();
+		Rect oldscoreThree;
+		oldscoreThree.bot = 400;
+		oldscoreThree.left = 270;
+		oldscoreThree.center = 150;
 
-    stringstream strs2;
-    strs2 << highScores[1];
-    string tmp2 = strs2.str();
-    char* secondScore = (char*) tmp2.c_str();
+		Rect oldscoreFour;
+		oldscoreFour.bot = 375;
+		oldscoreFour.left = 270;
+		oldscoreFour.center = 450;
 
-    stringstream strs3;
-    strs3 << highScores[2];
-    string tmp3 = strs3.str();
-    char* thirdScore = (char*) tmp3.c_str();
+		Rect oldscoreFive;
+		oldscoreFive.bot = 350;
+		oldscoreFive.left = 270;
+		oldscoreFive.center = 150;
 
-    stringstream strs4;
-    strs4 << highScores[3];
-    string tmp4 = strs4.str();
-    char* fourthScore = (char*) tmp4.c_str();
+		stringstream oldstrs1;
+		oldstrs1 << highScores[0];
+		string oldtmp1 = oldstrs1.str();
+		char* oldfirstScore = (char*) oldtmp1.c_str();
 
-    stringstream strs5;
-    strs5 << highScores[4];
-    string tmp5 = strs5.str();
-    char* fifthScore = (char*) tmp5.c_str();
+		stringstream oldstrs2;
+		oldstrs2 << highScores[1];
+		string oldtmp2 = oldstrs2.str();
+		char* oldsecondScore = (char*) oldtmp2.c_str();
 
-    ggprint12(&scoreOne, 0, cref, firstScore);
-    ggprint12(&scoreTwo, 0, cref, secondScore);
-    ggprint12(&scoreThree, 0, cref, thirdScore);
-    ggprint12(&scoreFour, 0, cref, fourthScore);
-    ggprint12(&scoreFive, 0, cref, fifthScore);
+		stringstream oldstrs3;
+		oldstrs3 << highScores[2];
+		string oldtmp3 = oldstrs3.str();
+		char* oldthirdScore = (char*) oldtmp3.c_str();
 
+		stringstream oldstrs4;
+		oldstrs4 << highScores[3];
+		string oldtmp4 = oldstrs4.str();
+		char* oldfourthScore = (char*) oldtmp4.c_str();
+
+		stringstream oldstrs5;
+		oldstrs5 << highScores[4];
+		string oldtmp5 = oldstrs5.str();
+		char* oldfifthScore = (char*) oldtmp5.c_str();
+
+		ggprint12(&oldscoreOne, 0, cref, oldfirstScore);
+		ggprint12(&oldscoreTwo, 0, cref, oldsecondScore);
+		ggprint12(&oldscoreThree, 0, cref, oldthirdScore);
+		ggprint12(&oldscoreFour, 0, cref, oldfourthScore);
+		ggprint12(&oldscoreFive, 0, cref, oldfifthScore);
+
+		// < - - - NEW SCORES
+		Rect titleScore;
+		titleScore.bot = 500;
+		titleScore.left = 435;
+		titleScore.center = 150;
+		ggprint16(&titleScore, 0, cref, "--NEW SCORES--");
+		
+		Rect scoreOne;
+		scoreOne.bot = 450;
+		scoreOne.left = 435;
+		scoreOne.center = 150;
+
+		Rect scoreTwo;
+		scoreTwo.bot = 425;
+		scoreTwo.left = 435;
+		scoreTwo.center = 150;
+
+		Rect scoreThree;
+		scoreThree.bot = 400;
+		scoreThree.left = 435;
+		scoreThree.center = 150;
+
+		Rect scoreFour;
+		scoreFour.bot = 375;
+		scoreFour.left = 435;
+		scoreFour.center = 450;
+
+		Rect scoreFive;
+		scoreFive.bot = 350;
+		scoreFive.left = 435;
+		scoreFive.center = 150;
+
+		stringstream strs1;
+		strs1 << newScores[0];
+		string tmp1 = strs1.str();
+		char* firstScore = (char*) tmp1.c_str();
+
+		stringstream strs2;
+		strs2 << newScores[1];
+		string tmp2 = strs2.str();
+		char* secondScore = (char*) tmp2.c_str();
+
+		stringstream strs3;
+		strs3 << newScores[2];
+		string tmp3 = strs3.str();
+		char* thirdScore = (char*) tmp3.c_str();
+
+		stringstream strs4;
+		strs4 << newScores[3];
+		string tmp4 = strs4.str();
+		char* fourthScore = (char*) tmp4.c_str();
+
+		stringstream strs5;
+		strs5 << newScores[4];
+		string tmp5 = strs5.str();
+		char* fifthScore = (char*) tmp5.c_str();
+
+		ggprint12(&scoreOne, 0, cref, firstScore);
+		ggprint12(&scoreTwo, 0, cref, secondScore);
+		ggprint12(&scoreThree, 0, cref, thirdScore);
+		ggprint12(&scoreFour, 0, cref, fourthScore);
+		ggprint12(&scoreFive, 0, cref, fifthScore);
+		
+		scoreSheet(newScores);
+	}
 
 
     return;
 }
 
-void calculateScore(int currentScore, int highScores[])
+int calculateScore(int currentScore, int highScores[], int newScores[])
 {
     for (int k = 1; k < 5; k++) { //sort all scores before checking, in case of custom values
         for (int i = 0; i < 4 - k; i++) {
@@ -297,24 +494,36 @@ void calculateScore(int currentScore, int highScores[])
             }
         }
     }
+    
+    for (int k = 1; k < 5; k++) { //sort all scores before checking, in case of custom values
+        for (int i = 0; i < 4 - k; i++) {
+            if (newScores[i] > newScores[i +1]) {
+                int sort = newScores[i];
+                newScores[i] = newScores[i + 1];
+                newScores[i + 1] = sort;
+            }
+        }
+    }
 
     for (int i = 0; i < 5; i++) { //check if high score was made then sort
-        if(currentScore > highScores[i]) {
+        if(currentScore > newScores[i]) {
 
-            highScores[0] = currentScore;
+            newScores[0] = currentScore;
 
             for (int k = 1; k < 6; k++) {
                 for (int i = 0; i < 5 - k; i++) {
-                    if (highScores[i] > highScores[i +1]) {
-                        int sort = highScores[i];
-                        highScores[i] = highScores[i + 1];
-                        highScores[i + 1] = sort;
+                    if (newScores[i] > newScores[i +1]) {
+                        int sort = newScores[i];
+                        newScores[i] = newScores[i + 1];
+                        newScores[i + 1] = sort;
                     }
                 }
             }
-            break;
+            return 1;
         }
     }
+    
+    return 0;
 }
 
 void scoreSheet(int highScores[])
@@ -438,7 +647,7 @@ void checkSMouse(XEvent *e)
         savex = e->xbutton.x;
         savey = e->xbutton.y;
     }
-    for (i=0; i<2; i++) {
+    for (i=0; i<3; i++) {
         button2[i].over=0;
         if (x >= button2[i].r.left &&
                 x <= button2[i].r.right &&
@@ -453,6 +662,10 @@ void checkSMouse(XEvent *e)
                         resetGame();
                         break;
                     case 1:
+						level = 0;
+                        //gamemodeSelected = false;
+                        break;
+                    case 2:
                         level = 1;
                         done = 1;
                         break;
