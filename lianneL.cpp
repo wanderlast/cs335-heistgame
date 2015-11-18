@@ -83,14 +83,14 @@ void gameTypeSelector(int select)
     //grabbing it
     case scoreAttackEasy:
         initPlayer();
-        initTreasure();
+        initTreasure(1);
         break;
     
     //player starts in set position, 20 treasure
     //75 seconds
     case timeAttackEasy:
         initPlayer(0);
-        initTreasure();
+        initTreasure(2);
         break;
     
     
@@ -99,7 +99,7 @@ void gameTypeSelector(int select)
     //50 seconds
     case scoreAttack:
         initPlayer();
-        initTreasure();
+        initTreasure(15);
         break;
     
     //player starts in set position, 20 treasure
@@ -124,8 +124,8 @@ void gameTypeSelector(int select)
     
     //default is scoreAttackEasy
     default:
-        initPlayer();
-        initTreasure();
+        initPlayer(0);
+        initTreasure(1);
         break;
     }
 }

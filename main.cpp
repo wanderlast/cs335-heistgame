@@ -397,8 +397,8 @@ void init(void)
 {
 	boardDim = gridDim * 10;
 	//
-	initPlayer();
-	initTreasure();
+	//~ initPlayer();
+	//~ initTreasure();
 	treasureScore = 0;
 	//
 	//initialize buttons...
