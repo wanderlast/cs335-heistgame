@@ -142,34 +142,11 @@ void highScore(int score, int isnewHigh, int highScores[], int newScores[])
     button2[nbuttons].text_color = 0x00ffffff;
     nbuttons++;
     
-    button2[nbuttons].r.width = 140;
-    button2[nbuttons].r.height = 60;
-    button2[nbuttons].r.left = 550;
-    button2[nbuttons].r.bot = 360;
-    button2[nbuttons].r.right =
-        button2[nbuttons].r.left + button2[nbuttons].r.width;
-    button2[nbuttons].r.top = button2[nbuttons].r.bot +
-                              button2[nbuttons].r.height;
-    button2[nbuttons].r.centerx = (button2[nbuttons].r.left +
-                                   button2[nbuttons].r.right) / 2;
-    button2[nbuttons].r.centery = (button2[nbuttons].r.bot +
-                                   button2[nbuttons].r.top) / 2;
-    strcpy(button2[nbuttons].text, "Select Mode");
-    button2[nbuttons].down = 0;
-    button2[nbuttons].click = 0;
-    button2[nbuttons].color[0] = 0.4f;
-    button2[nbuttons].color[1] = 0.4f;
-    button2[nbuttons].color[2] = 0.4f;
-    button2[nbuttons].dcolor[0] = button2[nbuttons].color[0] * 0.5f;
-    button2[nbuttons].dcolor[1] = button2[nbuttons].color[1] * 0.5f;
-    button2[nbuttons].dcolor[2] = button2[nbuttons].color[2] * 0.5f;
-    button2[nbuttons].text_color = 0x00ffffff;
-    nbuttons++;
 
     button2[nbuttons].r.width = 140;
     button2[nbuttons].r.height = 60;
     button2[nbuttons].r.left = 550;
-    button2[nbuttons].r.bot = 260;
+    button2[nbuttons].r.bot = 360;
     button2[nbuttons].r.right =
         button2[nbuttons].r.left + button2[nbuttons].r.width;
     button2[nbuttons].r.top = button2[nbuttons].r.bot +
@@ -661,13 +638,9 @@ void checkSMouse(XEvent *e)
                     switch(i) {
                     case 0:
                         level = 1;
-                        resetGame();
+			resetGame();
                         break;
                     case 1:
-						level = 0;
-                        //gamemodeSelected = false;
-                        break;
-                    case 2:
                         level = 1;
                         done = 1;
                         break;
