@@ -258,7 +258,7 @@ int main(int argc, char *argv[])
                 int newScores[5];
                 readFile(highScores);
 		readFile(newScores);
-                int isnewHigh = calculateScore(treasureScore, highScores);
+                int isnewHigh = calculateScore(treasureScore, highScores, newScores);
 
                 while(level == 2) {
                         while(XPending(dpy)) {
