@@ -59,16 +59,12 @@ int loop;
  }
  //Clear error state.
  alGetError();
- // Setup the listener.
+
  // Forward and up vectors are used.
  float vec[6] = {0.0f,0.0f,1.0f, 0.0f,1.0f,0.0f};
  alListener3f(AL_POSITION, 0.0f, 0.0f, 0.0f);
  alListenerfv(AL_ORIENTATION, vec);
  alListenerf(AL_GAIN, 1.0f);
-	
-	// // Buffer holds the sound information.
- //alBuffer[0] = alutCreateBufferFromFile("./cha-ching.wav");
- //alBuffer[0] = alutCreateBufferFromFile("./theme.wav");
 
   switch(soundNum) {
 	case 1 :
@@ -100,11 +96,6 @@ int loop;
 		break;
 		
   }
-
-	// // Source refers to the sound.
-	// // Generate a source, and store it in a buffer.
- //alGenSources(1, &alSource);
- //alSourcei(alSource, AL_BUFFER, alBuffer);
  
   if(!loop){ 
  alSourcef(alSource, AL_GAIN, 1.0f);
@@ -118,7 +109,6 @@ int loop;
 
 }  
  
- 
  if(loop == 1 && level == 1){
  alSourcef(alSource, AL_GAIN, 1.0f);
  alSourcef(alSource, AL_PITCH, 1.0f);
@@ -131,34 +121,12 @@ int loop;
 	 
  }
 
-
-/*
-	// // Set volume and pitch to normal, no looping of sound.
- alSourcef(alSource, AL_GAIN, 1.0f);
- alSourcef(alSource, AL_PITCH, 1.0f);
- alSourcei(alSource, AL_LOOPING, AL_FALSE);
- if (alGetError() != AL_NO_ERROR) {
- 	printf("ERROR: setting source\n");
- }
- 
-(
- if((loop = 1)) {
- for (int i=0; i<1; i++) {
-	 alSourcePlay(alSource);
-	 usleep(999900);
- }
- }
- */
- 
-	 //alSourcePlay(alSource);
-	 //usleep(900000);
-
 return 0;
 }
 
 void cleanupSound()
 {
-        // First delete the source.
+    // First delete the source.
  alDeleteSources(1, &alSource);
 	// // Delete the buffer.
  alDeleteBuffers(1, &alBuffer);
@@ -191,9 +159,7 @@ void startMenu()
   glClearDepth(1.0f);
   glClear(GL_COLOR_BUFFER_BIT);
   glEnable(GL_COLOR_MATERIAL);
-  //
-  //choose one of these
-  //glShadeModel(GL_FLAT);
+
   glShadeModel(GL_SMOOTH);
   glDisable(GL_LIGHTING);
   glBindTexture(GL_TEXTURE_2D, 0);
@@ -214,7 +180,6 @@ void startMenu()
 	startImage->width, startImage->height,
 	0, GL_RGB, GL_UNSIGNED_BYTE, startImage->data);
 
-  //start the opengl stuff
   //set the viewing area on screen
   glViewport(0, 0, xres, yres);
   
@@ -234,18 +199,7 @@ void startMenu()
 	glTexCoord2f(1.0f, 1.0f); glVertex2i(xres, yres);
   	glTexCoord2f(1.0f, 0.0f); glVertex2i(xres, 0);
   glEnd();
-  glBindTexture(GL_TEXTURE_2D, 0);
-	
-/*  glColor3ub(119,119,119);
-  glPushMatrix();
-  glBegin(GL_QUADS);
-    glVertex2i(250, 400);
-    glVertex2i(250, 400);
-    glVertex2i(250, 400);
-    glVertex2i(400, 250);
-  glEnd();
-  glPopMatrix();	
-*/	
+  glBindTexture(GL_TEXTURE_2D, 0);	
 	
   r.left   = xres/2;
   r.bot    = yres-100;
@@ -278,21 +232,17 @@ void infoMenu()
   glClearDepth(1.0f);
   glClear(GL_COLOR_BUFFER_BIT);
   glEnable(GL_COLOR_MATERIAL);
-  //
-  //choose one of these
-  //glShadeModel(GL_FLAT);
+
   glShadeModel(GL_SMOOTH);
   glDisable(GL_LIGHTING);
   glBindTexture(GL_TEXTURE_2D, 0);
-  //
+  
   glEnable(GL_TEXTURE_2D);
-  //marble_texture = loadBMP("marble.bmp");
+
   glBindTexture(GL_TEXTURE_2D, 0);
-  //
-  //load the image file into a ppm structure.
-  //
+
   startImage = ppm6GetImage("./images/start.ppm");
-  //
+  
   //create opengl texture elements
   glGenTextures(1, &startTexture);
   glBindTexture(GL_TEXTURE_2D, startTexture);
@@ -302,7 +252,6 @@ void infoMenu()
 	startImage->width, startImage->height,
 	0, GL_RGB, GL_UNSIGNED_BYTE, startImage->data);
 
-  //start the opengl stuff
   //set the viewing area on screen
   glViewport(0, 0, xres, yres);
   //clear color buffer
@@ -381,21 +330,17 @@ void gamestateMenu()
   glClearDepth(1.0f);
   glClear(GL_COLOR_BUFFER_BIT);
   glEnable(GL_COLOR_MATERIAL);
-  //
-  //choose one of these
-  //glShadeModel(GL_FLAT);
+
   glShadeModel(GL_SMOOTH);
   glDisable(GL_LIGHTING);
   glBindTexture(GL_TEXTURE_2D, 0);
-  //
+
   glEnable(GL_TEXTURE_2D);
   //marble_texture = loadBMP("marble.bmp");
   glBindTexture(GL_TEXTURE_2D, 0);
-  //
-  //load the image file into a ppm structure.
-  //
+
   startImage = ppm6GetImage("./images/start.ppm");
-  //
+  
   //create opengl texture elements
   glGenTextures(1, &startTexture);
   glBindTexture(GL_TEXTURE_2D, startTexture);
@@ -405,16 +350,14 @@ void gamestateMenu()
 	startImage->width, startImage->height,
 	0, GL_RGB, GL_UNSIGNED_BYTE, startImage->data);
 
-  //start the opengl stuff
   //set the viewing area on screen
   glViewport(0, 0, xres, yres);
-  //clear color buffer
+
   //init matrices
   glMatrixMode (GL_PROJECTION); glLoadIdentity();
   glMatrixMode(GL_MODELVIEW); glLoadIdentity();
   //this sets to 2D mode (no perspective)
   glOrtho(0, xres, 0, yres, -1, 1);
-  //
 
   //screen background
   glColor3f(0.5f, 0.5f, 0.5f);
@@ -467,7 +410,7 @@ void gamestateMenu()
 	   button3[nbuttons].r.right) / 2;
 	button3[nbuttons].r.centery = (button3[nbuttons].r.bot +
 	   button3[nbuttons].r.top) / 2;
-	strcpy(button3[nbuttons].text, "Easy!");
+	strcpy(button3[nbuttons].text, "Easy");
 	button3[nbuttons].down = 0;
 	button3[nbuttons].click = 0;
 	button3[nbuttons].color[0] = 0.4f;
@@ -491,7 +434,7 @@ void gamestateMenu()
 	  button3[nbuttons].r.right) / 2;
 	button3[nbuttons].r.centery = (button3[nbuttons].r.bot +
 	  button3[nbuttons].r.top) / 2;
-	strcpy(button3[nbuttons].text, "Medium!");
+	strcpy(button3[nbuttons].text, "Medium");
 	button3[nbuttons].down = 0;
 	button3[nbuttons].click = 0;
 	button3[nbuttons].color[0] = 0.4f;
@@ -515,7 +458,7 @@ void gamestateMenu()
 	   button3[nbuttons].r.right) / 2;
 	button3[nbuttons].r.centery = (button3[nbuttons].r.bot +
 	   button3[nbuttons].r.top) / 2;
-	strcpy(button3[nbuttons].text, "Hard!");
+	strcpy(button3[nbuttons].text, "Hard");
 	button3[nbuttons].down = 0;
 	button3[nbuttons].click = 0;
 	button3[nbuttons].color[0] = 0.4f;
@@ -540,7 +483,7 @@ void gamestateMenu()
 	   button3[nbuttons].r.right) / 2;
 	button3[nbuttons].r.centery = (button3[nbuttons].r.bot +
 	   button3[nbuttons].r.top) / 2;
-	strcpy(button3[nbuttons].text, "Easy?");
+	strcpy(button3[nbuttons].text, "Easy");
 	button3[nbuttons].down = 0;
 	button3[nbuttons].click = 0;
 	button3[nbuttons].color[0] = 0.4f;
@@ -564,7 +507,7 @@ void gamestateMenu()
 	   button3[nbuttons].r.right) / 2;
 	button3[nbuttons].r.centery = (button3[nbuttons].r.bot +
 	   button3[nbuttons].r.top) / 2;
-	strcpy(button3[nbuttons].text, "Medium?");
+	strcpy(button3[nbuttons].text, "Medium");
 	button3[nbuttons].down = 0;
 	button3[nbuttons].click = 0;
 	button3[nbuttons].color[0] = 0.4f;
@@ -588,7 +531,7 @@ void gamestateMenu()
 	   button3[nbuttons].r.right) / 2;
 	button3[nbuttons].r.centery = (button3[nbuttons].r.bot +
 	   button3[nbuttons].r.top) / 2;
-	strcpy(button3[nbuttons].text, "Hard?");
+	strcpy(button3[nbuttons].text, "Hard");
 	button3[nbuttons].down = 0;
 	button3[nbuttons].click = 0;
 	button3[nbuttons].color[0] = 0.4f;
