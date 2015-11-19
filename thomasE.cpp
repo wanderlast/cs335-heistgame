@@ -22,6 +22,7 @@ using namespace std;
 #include "ppm.h"
 #include "log.h"
 #include "main.h"
+#include "ryanS.h"
 extern "C" {
 #include "fonts.h"
 }
@@ -61,8 +62,7 @@ void highScore(int score, int isnewHigh, int highScores[], int newScores[])
     glEnd();
 
 
-
-
+    
     //===================
 
     Ppmimage *startImage;
@@ -115,6 +115,8 @@ void highScore(int score, int isnewHigh, int highScores[], int newScores[])
 
     //=========
     //INITIALIZE BUTTONS
+    creditButton(); 
+ 
     int i;
     Rect r;
     int nbuttons=0;
@@ -166,7 +168,7 @@ void highScore(int score, int isnewHigh, int highScores[], int newScores[])
     button2[nbuttons].dcolor[2] = button2[nbuttons].color[2] * 0.5f;
     button2[nbuttons].text_color = 0x00ffffff;
     nbuttons++;
-    
+   
     
 
     //=============== END OF BUTTONS
@@ -207,6 +209,7 @@ void highScore(int score, int isnewHigh, int highScores[], int newScores[])
         }
     }
     //========================
+    
     
     if(isnewHigh == 0){
 		Rect yourScore;
@@ -638,7 +641,7 @@ void checkSMouse(XEvent *e)
                     switch(i) {
                     case 0:
                         level = 1;
-			resetGame();
+						resetGame();
                         break;
                     case 1:
                         level = 1;
