@@ -308,7 +308,7 @@ void evenWall(int a, int b){
         for(int j=0; j<15; j++) {
             while (treasure[j].pos[0] == wall.here[i] &&
                     treasure[j].pos[1] == wall.here[i+1]) {
-                cout << "hereakdsfnuinqao[;;;beniisetuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuutvrrrrrenwoooooovtutirtfjkdfjdkfjdkjdkjfdkfdjfdkfjdkfdjkjdjdkfdkfjdkfdjfdkjdkfdkjfdkjkdjkdjfkdjfkdjdjfkdjfkdjfkdjfkdjkfj" << endl;
+                cout << "Treasure Respawn KB" << endl;
                 treasure[j].pos[0] = rand() % gridDim;
                 treasure[j].pos[1] = rand() % gridDim;
             }
