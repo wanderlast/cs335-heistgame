@@ -752,6 +752,27 @@ void render(void)
                         ggprint16(&r, 0, button[i].text_color, button[i].text);
                 }
         }
+
+		unsigned int cref = 0x00ffffff;
+        glColor3f(0.4f, 0.4f, 0.4f);
+        glBegin(GL_QUADS);
+			glVertex2i(25, 100);
+			glVertex2i(25, 500);
+			glVertex2i(175, 500);
+			glVertex2i(175, 100);
+		glEnd();
+		r.left = 100;
+		r.bot = 500;
+        ggprint16(&r, 0, cref, "Grab the gems!");
+        r.left = 100;
+        r.bot = 450;
+   		ggprint8b(&r, 0, 0x0000ff00, "Emeralds = $100");   
+        r.bot = 350;
+        ggprint8b(&r, 0, 0x00ff0000, "Rubies = $500");
+		r.bot = 250;
+        ggprint8b(&r, 0, 0x000000ff, "Sapphires = $1000");
+
+		
         //draw the main game board in middle of screen
         glColor3f(0.4f, 0.4f, 0.4f);
         glBegin(GL_QUADS);
@@ -760,6 +781,7 @@ void render(void)
                 glVertex2i(s0+b2, s1+b2);
                 glVertex2i(s0+b2, s1-b2);
         glEnd();
+        
         //
         //grid lines...
         int x0 = s0-b2;
@@ -833,7 +855,7 @@ void render(void)
                         //else
                         //glColor3f(1.1, 0.1f, 0.1f);
 
-                        glColor3f(1.0, 0.0f, 3.0f);
+                        glColor3f(0.0, 1.0, 0.0);
                         else if(treasure[i].type == 2)    
                         glColor3f(1.0, 0.0f, 0.0f);
                         else
