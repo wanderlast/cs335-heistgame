@@ -64,7 +64,7 @@ void highScore(int score, int isnewHigh, int highScores[], int newScores[])
     glEnd();
 
 
-    
+
     //===================
 
     Ppmimage *startImage;
@@ -117,8 +117,8 @@ void highScore(int score, int isnewHigh, int highScores[], int newScores[])
 
     //=========
     //INITIALIZE BUTTONS
-    creditButton(); 
- 
+    creditButton();
+
     int i;
     Rect r;
     int nbuttons=0;
@@ -145,7 +145,7 @@ void highScore(int score, int isnewHigh, int highScores[], int newScores[])
     button2[nbuttons].dcolor[2] = button2[nbuttons].color[2] * 0.5f;
     button2[nbuttons].text_color = 0x00ffffff;
     nbuttons++;
-    
+
 
     button2[nbuttons].r.width = 140;
     button2[nbuttons].r.height = 60;
@@ -170,8 +170,8 @@ void highScore(int score, int isnewHigh, int highScores[], int newScores[])
     button2[nbuttons].dcolor[2] = button2[nbuttons].color[2] * 0.5f;
     button2[nbuttons].text_color = 0x00ffffff;
     nbuttons++;
-   
-    
+
+
 
     //=============== END OF BUTTONS
     //draw all buttons
@@ -211,257 +211,257 @@ void highScore(int score, int isnewHigh, int highScores[], int newScores[])
         }
     }
     //========================
-    
-    
-    if(isnewHigh == 0){
-		Rect yourScore;
-		yourScore.bot = 500;
-		yourScore.left = 175;
-		yourScore.center = 150;
-		ggprint16(&yourScore, 0, cref, "--YOUR SCORE--");
 
 
-		Rect finalScore;
-		finalScore.bot = 450;
-		finalScore.left = 175;
-		finalScore.center = 150;
-
-		stringstream strs;
-		strs << score;
-		string temp_str = strs.str();
-		char* lastScore = (char*) temp_str.c_str();
-		ggprint12(&finalScore, 0, cref, lastScore);
-		
-		Rect yourScore2;
-		yourScore2.bot = 400;
-		yourScore2.left = 175;
-		yourScore2.center = 150;
-		ggprint16(&yourScore2, 0, cref, "No New High Score");
-		
-		Rect yourScore3;
-		yourScore3.bot = 375;
-		yourScore3.left = 175;
-		yourScore3.center = 150;
-		ggprint16(&yourScore3, 0, cref, "Better Luck Next Time!");
-
-		// < - - - HIGH SCORES
-		Rect noHightitleScore;
-		noHightitleScore.bot = 500;
-		noHightitleScore.left = 435;
-		noHightitleScore.center = 150;
-		ggprint16(&noHightitleScore, 0, cref, "--HIGH SCORES--");
-		
-		Rect noHighscoreOne;
-		noHighscoreOne.bot = 450;
-		noHighscoreOne.left = 435;
-		noHighscoreOne.center = 150;
-
-		Rect noHighscoreTwo;
-		noHighscoreTwo.bot = 425;
-		noHighscoreTwo.left = 435;
-		noHighscoreTwo.center = 150;
-
-		Rect noHighscoreThree;
-		noHighscoreThree.bot = 400;
-		noHighscoreThree.left = 435;
-		noHighscoreThree.center = 150;
-
-		Rect noHighscoreFour;
-		noHighscoreFour.bot = 375;
-		noHighscoreFour.left = 435;
-		noHighscoreFour.center = 450;
-
-		Rect noHighscoreFive;
-		noHighscoreFive.bot = 350;
-		noHighscoreFive.left = 435;
-		noHighscoreFive.center = 150;
-
-		stringstream noHighstrs1;
-		noHighstrs1 << highScores[0];
-		string tmp1 = noHighstrs1.str();
-		char* noHighfirstScore = (char*) tmp1.c_str();
-
-		stringstream noHighstrs2;
-		noHighstrs2 << highScores[1];
-		string tmp2 = noHighstrs2.str();
-		char* noHighsecondScore = (char*) tmp2.c_str();
-
-		stringstream noHighstrs3;
-		noHighstrs3 << highScores[2];
-		string tmp3 = noHighstrs3.str();
-		char* noHighthirdScore = (char*) tmp3.c_str();
-
-		stringstream noHighstrs4;
-		noHighstrs4 << highScores[3];
-		string tmp4 = noHighstrs4.str();
-		char* noHighfourthScore = (char*) tmp4.c_str();
-
-		stringstream noHighstrs5;
-		noHighstrs5 << highScores[4];
-		string tmp5 = noHighstrs5.str();
-		char* noHighfifthScore = (char*) tmp5.c_str();
-
-		ggprint12(&noHighscoreOne, 0, cref, noHighfirstScore);
-		ggprint12(&noHighscoreTwo, 0, cref, noHighsecondScore);
-		ggprint12(&noHighscoreThree, 0, cref, noHighthirdScore);
-		ggprint12(&noHighscoreFour, 0, cref, noHighfourthScore);
-		ggprint12(&noHighscoreFive, 0, cref, noHighfifthScore);
-	}
+    if(isnewHigh == 0) {
+        Rect yourScore;
+        yourScore.bot = 500;
+        yourScore.left = 175;
+        yourScore.center = 150;
+        ggprint16(&yourScore, 0, cref, "--YOUR SCORE--");
 
 
-	if(isnewHigh == 1){
-		Rect yourScore;
-		yourScore.bot = 500;
-		yourScore.left = 100;
-		yourScore.center = 150;
-		ggprint16(&yourScore, 0, cref, "--YOUR SCORE--");
+        Rect finalScore;
+        finalScore.bot = 450;
+        finalScore.left = 175;
+        finalScore.center = 150;
+
+        stringstream strs;
+        strs << score;
+        string temp_str = strs.str();
+        char* lastScore = (char*) temp_str.c_str();
+        ggprint12(&finalScore, 0, cref, lastScore);
+
+        Rect yourScore2;
+        yourScore2.bot = 400;
+        yourScore2.left = 175;
+        yourScore2.center = 150;
+        ggprint16(&yourScore2, 0, cref, "No New High Score");
+
+        Rect yourScore3;
+        yourScore3.bot = 375;
+        yourScore3.left = 175;
+        yourScore3.center = 150;
+        ggprint16(&yourScore3, 0, cref, "Better Luck Next Time!");
+
+        // < - - - HIGH SCORES
+        Rect noHightitleScore;
+        noHightitleScore.bot = 500;
+        noHightitleScore.left = 435;
+        noHightitleScore.center = 150;
+        ggprint16(&noHightitleScore, 0, cref, "--HIGH SCORES--");
+
+        Rect noHighscoreOne;
+        noHighscoreOne.bot = 450;
+        noHighscoreOne.left = 435;
+        noHighscoreOne.center = 150;
+
+        Rect noHighscoreTwo;
+        noHighscoreTwo.bot = 425;
+        noHighscoreTwo.left = 435;
+        noHighscoreTwo.center = 150;
+
+        Rect noHighscoreThree;
+        noHighscoreThree.bot = 400;
+        noHighscoreThree.left = 435;
+        noHighscoreThree.center = 150;
+
+        Rect noHighscoreFour;
+        noHighscoreFour.bot = 375;
+        noHighscoreFour.left = 435;
+        noHighscoreFour.center = 450;
+
+        Rect noHighscoreFive;
+        noHighscoreFive.bot = 350;
+        noHighscoreFive.left = 435;
+        noHighscoreFive.center = 150;
+
+        stringstream noHighstrs1;
+        noHighstrs1 << highScores[0];
+        string tmp1 = noHighstrs1.str();
+        char* noHighfirstScore = (char*) tmp1.c_str();
+
+        stringstream noHighstrs2;
+        noHighstrs2 << highScores[1];
+        string tmp2 = noHighstrs2.str();
+        char* noHighsecondScore = (char*) tmp2.c_str();
+
+        stringstream noHighstrs3;
+        noHighstrs3 << highScores[2];
+        string tmp3 = noHighstrs3.str();
+        char* noHighthirdScore = (char*) tmp3.c_str();
+
+        stringstream noHighstrs4;
+        noHighstrs4 << highScores[3];
+        string tmp4 = noHighstrs4.str();
+        char* noHighfourthScore = (char*) tmp4.c_str();
+
+        stringstream noHighstrs5;
+        noHighstrs5 << highScores[4];
+        string tmp5 = noHighstrs5.str();
+        char* noHighfifthScore = (char*) tmp5.c_str();
+
+        ggprint12(&noHighscoreOne, 0, cref, noHighfirstScore);
+        ggprint12(&noHighscoreTwo, 0, cref, noHighsecondScore);
+        ggprint12(&noHighscoreThree, 0, cref, noHighthirdScore);
+        ggprint12(&noHighscoreFour, 0, cref, noHighfourthScore);
+        ggprint12(&noHighscoreFive, 0, cref, noHighfifthScore);
+    }
 
 
-		Rect finalScore;
-		finalScore.bot = 450;
-		finalScore.left = 100;
-		finalScore.center = 150;
+    if(isnewHigh == 1) {
+        Rect yourScore;
+        yourScore.bot = 500;
+        yourScore.left = 100;
+        yourScore.center = 150;
+        ggprint16(&yourScore, 0, cref, "--YOUR SCORE--");
 
-		stringstream strs;
-		strs << score;
-		string temp_str = strs.str();
-		char* lastScore = (char*) temp_str.c_str();
-		ggprint12(&finalScore, 0, cref, lastScore);
-		
-		Rect oldyourScore2;
-		oldyourScore2.bot = 400;
-		oldyourScore2.left = 100;
-		oldyourScore2.center = 150;
-		ggprint16(&oldyourScore2, 0, cref, "New High Score!");
 
-		// < - - - OLD SCORES
-		Rect oldtitleScore;
-		oldtitleScore.bot = 500;
-		oldtitleScore.left = 270;
-		oldtitleScore.center = 150;
-		ggprint16(&oldtitleScore, 0, cref, "--OLD SCORES--");
-		
-		Rect oldscoreOne;
-		oldscoreOne.bot = 450;
-		oldscoreOne.left = 270;
-		oldscoreOne.center = 150;
+        Rect finalScore;
+        finalScore.bot = 450;
+        finalScore.left = 100;
+        finalScore.center = 150;
 
-		Rect oldscoreTwo;
-		oldscoreTwo.bot = 425;
-		oldscoreTwo.left = 270;
-		oldscoreTwo.center = 150;
+        stringstream strs;
+        strs << score;
+        string temp_str = strs.str();
+        char* lastScore = (char*) temp_str.c_str();
+        ggprint12(&finalScore, 0, cref, lastScore);
 
-		Rect oldscoreThree;
-		oldscoreThree.bot = 400;
-		oldscoreThree.left = 270;
-		oldscoreThree.center = 150;
+        Rect oldyourScore2;
+        oldyourScore2.bot = 400;
+        oldyourScore2.left = 100;
+        oldyourScore2.center = 150;
+        ggprint16(&oldyourScore2, 0, cref, "New High Score!");
 
-		Rect oldscoreFour;
-		oldscoreFour.bot = 375;
-		oldscoreFour.left = 270;
-		oldscoreFour.center = 450;
+        // < - - - OLD SCORES
+        Rect oldtitleScore;
+        oldtitleScore.bot = 500;
+        oldtitleScore.left = 270;
+        oldtitleScore.center = 150;
+        ggprint16(&oldtitleScore, 0, cref, "--OLD SCORES--");
 
-		Rect oldscoreFive;
-		oldscoreFive.bot = 350;
-		oldscoreFive.left = 270;
-		oldscoreFive.center = 150;
+        Rect oldscoreOne;
+        oldscoreOne.bot = 450;
+        oldscoreOne.left = 270;
+        oldscoreOne.center = 150;
 
-		stringstream oldstrs1;
-		oldstrs1 << highScores[0];
-		string oldtmp1 = oldstrs1.str();
-		char* oldfirstScore = (char*) oldtmp1.c_str();
+        Rect oldscoreTwo;
+        oldscoreTwo.bot = 425;
+        oldscoreTwo.left = 270;
+        oldscoreTwo.center = 150;
 
-		stringstream oldstrs2;
-		oldstrs2 << highScores[1];
-		string oldtmp2 = oldstrs2.str();
-		char* oldsecondScore = (char*) oldtmp2.c_str();
+        Rect oldscoreThree;
+        oldscoreThree.bot = 400;
+        oldscoreThree.left = 270;
+        oldscoreThree.center = 150;
 
-		stringstream oldstrs3;
-		oldstrs3 << highScores[2];
-		string oldtmp3 = oldstrs3.str();
-		char* oldthirdScore = (char*) oldtmp3.c_str();
+        Rect oldscoreFour;
+        oldscoreFour.bot = 375;
+        oldscoreFour.left = 270;
+        oldscoreFour.center = 450;
 
-		stringstream oldstrs4;
-		oldstrs4 << highScores[3];
-		string oldtmp4 = oldstrs4.str();
-		char* oldfourthScore = (char*) oldtmp4.c_str();
+        Rect oldscoreFive;
+        oldscoreFive.bot = 350;
+        oldscoreFive.left = 270;
+        oldscoreFive.center = 150;
 
-		stringstream oldstrs5;
-		oldstrs5 << highScores[4];
-		string oldtmp5 = oldstrs5.str();
-		char* oldfifthScore = (char*) oldtmp5.c_str();
+        stringstream oldstrs1;
+        oldstrs1 << highScores[0];
+        string oldtmp1 = oldstrs1.str();
+        char* oldfirstScore = (char*) oldtmp1.c_str();
 
-		ggprint12(&oldscoreOne, 0, cref, oldfirstScore);
-		ggprint12(&oldscoreTwo, 0, cref, oldsecondScore);
-		ggprint12(&oldscoreThree, 0, cref, oldthirdScore);
-		ggprint12(&oldscoreFour, 0, cref, oldfourthScore);
-		ggprint12(&oldscoreFive, 0, cref, oldfifthScore);
+        stringstream oldstrs2;
+        oldstrs2 << highScores[1];
+        string oldtmp2 = oldstrs2.str();
+        char* oldsecondScore = (char*) oldtmp2.c_str();
 
-		// < - - - NEW SCORES
-		Rect titleScore;
-		titleScore.bot = 500;
-		titleScore.left = 435;
-		titleScore.center = 150;
-		ggprint16(&titleScore, 0, cref, "--NEW SCORES--");
-		
-		Rect scoreOne;
-		scoreOne.bot = 450;
-		scoreOne.left = 435;
-		scoreOne.center = 150;
+        stringstream oldstrs3;
+        oldstrs3 << highScores[2];
+        string oldtmp3 = oldstrs3.str();
+        char* oldthirdScore = (char*) oldtmp3.c_str();
 
-		Rect scoreTwo;
-		scoreTwo.bot = 425;
-		scoreTwo.left = 435;
-		scoreTwo.center = 150;
+        stringstream oldstrs4;
+        oldstrs4 << highScores[3];
+        string oldtmp4 = oldstrs4.str();
+        char* oldfourthScore = (char*) oldtmp4.c_str();
 
-		Rect scoreThree;
-		scoreThree.bot = 400;
-		scoreThree.left = 435;
-		scoreThree.center = 150;
+        stringstream oldstrs5;
+        oldstrs5 << highScores[4];
+        string oldtmp5 = oldstrs5.str();
+        char* oldfifthScore = (char*) oldtmp5.c_str();
 
-		Rect scoreFour;
-		scoreFour.bot = 375;
-		scoreFour.left = 435;
-		scoreFour.center = 450;
+        ggprint12(&oldscoreOne, 0, cref, oldfirstScore);
+        ggprint12(&oldscoreTwo, 0, cref, oldsecondScore);
+        ggprint12(&oldscoreThree, 0, cref, oldthirdScore);
+        ggprint12(&oldscoreFour, 0, cref, oldfourthScore);
+        ggprint12(&oldscoreFive, 0, cref, oldfifthScore);
 
-		Rect scoreFive;
-		scoreFive.bot = 350;
-		scoreFive.left = 435;
-		scoreFive.center = 150;
+        // < - - - NEW SCORES
+        Rect titleScore;
+        titleScore.bot = 500;
+        titleScore.left = 435;
+        titleScore.center = 150;
+        ggprint16(&titleScore, 0, cref, "--NEW SCORES--");
 
-		stringstream strs1;
-		strs1 << newScores[0];
-		string tmp1 = strs1.str();
-		char* firstScore = (char*) tmp1.c_str();
+        Rect scoreOne;
+        scoreOne.bot = 450;
+        scoreOne.left = 435;
+        scoreOne.center = 150;
 
-		stringstream strs2;
-		strs2 << newScores[1];
-		string tmp2 = strs2.str();
-		char* secondScore = (char*) tmp2.c_str();
+        Rect scoreTwo;
+        scoreTwo.bot = 425;
+        scoreTwo.left = 435;
+        scoreTwo.center = 150;
 
-		stringstream strs3;
-		strs3 << newScores[2];
-		string tmp3 = strs3.str();
-		char* thirdScore = (char*) tmp3.c_str();
+        Rect scoreThree;
+        scoreThree.bot = 400;
+        scoreThree.left = 435;
+        scoreThree.center = 150;
 
-		stringstream strs4;
-		strs4 << newScores[3];
-		string tmp4 = strs4.str();
-		char* fourthScore = (char*) tmp4.c_str();
+        Rect scoreFour;
+        scoreFour.bot = 375;
+        scoreFour.left = 435;
+        scoreFour.center = 450;
 
-		stringstream strs5;
-		strs5 << newScores[4];
-		string tmp5 = strs5.str();
-		char* fifthScore = (char*) tmp5.c_str();
+        Rect scoreFive;
+        scoreFive.bot = 350;
+        scoreFive.left = 435;
+        scoreFive.center = 150;
 
-		ggprint12(&scoreOne, 0, cref, firstScore);
-		ggprint12(&scoreTwo, 0, cref, secondScore);
-		ggprint12(&scoreThree, 0, cref, thirdScore);
-		ggprint12(&scoreFour, 0, cref, fourthScore);
-		ggprint12(&scoreFive, 0, cref, fifthScore);
-		
-		scoreSheet(newScores);
-	}
+        stringstream strs1;
+        strs1 << newScores[0];
+        string tmp1 = strs1.str();
+        char* firstScore = (char*) tmp1.c_str();
+
+        stringstream strs2;
+        strs2 << newScores[1];
+        string tmp2 = strs2.str();
+        char* secondScore = (char*) tmp2.c_str();
+
+        stringstream strs3;
+        strs3 << newScores[2];
+        string tmp3 = strs3.str();
+        char* thirdScore = (char*) tmp3.c_str();
+
+        stringstream strs4;
+        strs4 << newScores[3];
+        string tmp4 = strs4.str();
+        char* fourthScore = (char*) tmp4.c_str();
+
+        stringstream strs5;
+        strs5 << newScores[4];
+        string tmp5 = strs5.str();
+        char* fifthScore = (char*) tmp5.c_str();
+
+        ggprint12(&scoreOne, 0, cref, firstScore);
+        ggprint12(&scoreTwo, 0, cref, secondScore);
+        ggprint12(&scoreThree, 0, cref, thirdScore);
+        ggprint12(&scoreFour, 0, cref, fourthScore);
+        ggprint12(&scoreFive, 0, cref, fifthScore);
+
+        scoreSheet(newScores);
+    }
 
 
     return;
@@ -478,7 +478,7 @@ int calculateScore(int currentScore, int highScores[], int newScores[])
             }
         }
     }
-    
+
     for (int k = 1; k < 5; k++) { //sort all scores before checking, in case of custom values
         for (int i = 0; i < 4 - k; i++) {
             if (newScores[i] > newScores[i +1]) {
@@ -506,7 +506,7 @@ int calculateScore(int currentScore, int highScores[], int newScores[])
             return 1;
         }
     }
-    
+
     return 0;
 }
 
@@ -643,7 +643,7 @@ void checkSMouse(XEvent *e)
                     switch(i) {
                     case 0:
                         level = 1;
-						resetGame();
+                        resetGame();
                         break;
                     case 1:
                         level = 1;

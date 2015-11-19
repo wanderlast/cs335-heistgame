@@ -76,59 +76,59 @@ void gameTypeSelector(int select)
     //set player, set treasure spawn, set timer
     cout << "the selected game mode is: " << select << endl;
     gameMode = select;
-    
+
     switch(select) {
-    
-    //75 seconds, spawn in set position
-    //treasure spawns all at once and is replenished upon
-    //grabbing it
+
+        //75 seconds, spawn in set position
+        //treasure spawns all at once and is replenished upon
+        //grabbing it
     case scoreAttackEasy:
         initPlayer();
         initTreasure();
         clock_physics(select);
         break;
-    
-    //player starts in set position, 20 treasure
-    //75 seconds
+
+        //player starts in set position, 20 treasure
+        //75 seconds
     case timeAttackEasy:
         initPlayer(0);
         initTreasure();
         clock_physics(select);
         break;
-    
-    //player starts in set position, cont. treasure
-    //max 15
-    //50 seconds
+
+        //player starts in set position, cont. treasure
+        //max 15
+        //50 seconds
     case scoreAttack:
         initPlayer();
         initTreasure(12);
         clock_physics(select);
         break;
-    
-    //player starts in set position, 20 treasure
-    //50 seconds
+
+        //player starts in set position, 20 treasure
+        //50 seconds
     case timeAttack:
         initPlayer(0);
         initTreasure(12);
         clock_physics(select);
         break;
-    
-    //player starts in random position, treasure spawns in increasing
-    //waves capping at 10 on the map, 30 seconds
+
+        //player starts in random position, treasure spawns in increasing
+        //waves capping at 10 on the map, 30 seconds
     case scoreAttackHard:
         initPlayer(3);
         initTreasure2();
         clock_physics(select);
         break;
-    
-    //player starts in random position, 20 treasure, 30 seconds
+
+        //player starts in random position, 20 treasure, 30 seconds
     case timeAttackHard:
         initPlayer(0);
         initTreasure();
         clock_physics(select);
         break;
-    
-    //default is scoreAttackEasy
+
+        //default is scoreAttackEasy
     default:
         initPlayer(0);
         initTreasure(1);
@@ -261,11 +261,11 @@ void initTreasure()
 
     //generate treasure
     for ( int i = 0; i < MAX_TREASURE; i++) {
-        if(player.type == 0){
-		    treasureGeneration(i, 1);
-	    } else {
-			treasureGeneration(i);
-		}
+        if(player.type == 0) {
+            treasureGeneration(i, 1);
+        } else {
+            treasureGeneration(i);
+        }
     }
 
     treasure[0].count = MAX_TREASURE;
@@ -279,11 +279,11 @@ void initTreasure(int n)
 
     //generate n treasure one at a time
     for ( int i = 0; i < n; i++) {
-        if(player.type == 0){
-		    treasureGeneration(i, 1);
-	    } else {
-			treasureGeneration(i);
-		}
+        if(player.type == 0) {
+            treasureGeneration(i, 1);
+        } else {
+            treasureGeneration(i);
+        }
     }
     treasure[0].count = n;
 }
@@ -298,11 +298,11 @@ void initTreasure(int n, int generate)
 
     //generate n treasure one at a time
     for ( int i = 0; i < n; i++) {
-        if(player.type == 0){
-		    treasureGeneration(i, 1);
-	    } else {
-			treasureGeneration(i);
-		}
+        if(player.type == 0) {
+            treasureGeneration(i, 1);
+        } else {
+            treasureGeneration(i);
+        }
     }
 
     for (int i = 0; i < n; i++) {
@@ -411,30 +411,30 @@ void treasureCollision()
                 cout << "New position for treasure is : " <<
                      treasure[i].pos[0]	 << ", " << treasure[i].pos[1];
                 cout << endl;
-            } else if (player.type == 3){
-              treasure[0].count++;
-              for (int i = 0; i < treasure[0].increase; i++){
-                treasureGeneration(i);
+            } else if (player.type == 3) {
                 treasure[0].count++;
-                if (i == treasure[0].increase - 1 && treasure[0].count < treasure[0].maxCount){
-                  if(treasure[0].increase < treasure[0].maxRate){
-                    treasure[0].increase += 2;
-                  }
+                for (int i = 0; i < treasure[0].increase; i++) {
+                    treasureGeneration(i);
+                    treasure[0].count++;
+                    if (i == treasure[0].increase - 1 && treasure[0].count < treasure[0].maxCount) {
+                        if(treasure[0].increase < treasure[0].maxRate) {
+                            treasure[0].increase += 2;
+                        }
+                    }
                 }
-              }
             } else {
-				treasure[0].count--;
-				cout << treasure[0].count << "# left" << endl;
-				if(treasure[0].count == 0){
-					level = 2;
-				}
-			}
+                treasure[0].count--;
+                cout << treasure[0].count << "# left" << endl;
+                if(treasure[0].count == 0) {
+                    level = 2;
+                }
+            }
 
             if(soundFlag == 1 && level == 1 ) {
-				soundNum = 2;
-				createSound(soundNum);
-			}
-            
+                soundNum = 2;
+                createSound(soundNum);
+            }
+
             //soundNum = 2;
             //createSound(soundNum);
             Log("new treasure: %i %i\n",treasure[i].pos[0],treasure[i].pos[1]);

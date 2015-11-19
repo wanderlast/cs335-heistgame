@@ -19,8 +19,8 @@
 #include "main.h"
 #include "thomasE.h"
 #include "lianneL.h"
-extern "C"{
-	#include "fonts.h"
+extern "C" {
+#include "fonts.h"
 }
 
 using namespace std;
@@ -47,14 +47,14 @@ void creditButton();
 
 
 typedef struct t_button {
-	Rect r;
-	char text[32];
-	int over;
-	int down;
-	int click;
-	float color[3];
-	float dcolor[3];
-	unsigned int text_color;
+    Rect r;
+    char text[32];
+    int over;
+    int down;
+    int click;
+    float color[3];
+    float dcolor[3];
+    unsigned int text_color;
 } Button;
 
 Button credits[0];
@@ -165,117 +165,109 @@ void clock_animation()
 //It sets the time for the game mode based off the enums Lianne created.
 void clock_physics(int select)
 {
-	
-	int seconds;
-	//cout << "RYAN: GAME MODE SELECTED IS" << select;
-	switch(select)
-	{		
-		case scoreAttackEasy:
-			//gameTypeSelector(scoreAttackEasy);
-			seconds = (bigHand -= (handIncrement / 60.0));
-			if(seconds == -255)
-			{
-				level = 2;
-				break;
-			}
-			break;
-			
-		case timeAttackEasy:
-			//gameTypeSelector(timeAttackEasy);
-			seconds = (bigHand -= (handIncrement / 60.0));
-			if(seconds == -255)
-			{
-				level = 2;
-				break;
-			}
-			break;
-			
-		case scoreAttack:
-			//gameTypeSelector(scoreAttack);
-			seconds = (bigHand -= (handIncrement / 45.0));
-			if(seconds == -255)
-			{
-				level = 2;
-				break;
-			}
-			break;
-			
-		case timeAttack:
-			//gameTypeSelector(timeAttack);
-			seconds = (bigHand -= (handIncrement / 45.0));
-			if(seconds == -255)
-			{
-				level = 2;
-				break;
-			}
-			break;
-			
-		case scoreAttackHard:
-			//gameTypeSelector(scoreAttackHard);
-			seconds = (bigHand -= (handIncrement / 30.0));
-			if(seconds == -255)
-			{
-				level = 2;
-				break;
-			}
-			break;
-			
-		case timeAttackHard:
-			//gameTypeSelector(timeAttackHard);
-			seconds = (bigHand -= (handIncrement / 30.0));
-			if(seconds == -255)
-			{
-				level = 2;
-				break;
-			}
-			break;
-			
-		default:
-			seconds = (bigHand -= (handIncrement / 60.0));
-			seconds = (bigHand -= (handIncrement / 60.0));
-			if(seconds == -255)
-			{
-				level = 2;
-				break;
-			}
-			break;
-		}
-}	
-			
+
+    int seconds;
+    //cout << "RYAN: GAME MODE SELECTED IS" << select;
+    switch(select) {
+    case scoreAttackEasy:
+        //gameTypeSelector(scoreAttackEasy);
+        seconds = (bigHand -= (handIncrement / 60.0));
+        if(seconds == -255) {
+            level = 2;
+            break;
+        }
+        break;
+
+    case timeAttackEasy:
+        //gameTypeSelector(timeAttackEasy);
+        seconds = (bigHand -= (handIncrement / 60.0));
+        if(seconds == -255) {
+            level = 2;
+            break;
+        }
+        break;
+
+    case scoreAttack:
+        //gameTypeSelector(scoreAttack);
+        seconds = (bigHand -= (handIncrement / 45.0));
+        if(seconds == -255) {
+            level = 2;
+            break;
+        }
+        break;
+
+    case timeAttack:
+        //gameTypeSelector(timeAttack);
+        seconds = (bigHand -= (handIncrement / 45.0));
+        if(seconds == -255) {
+            level = 2;
+            break;
+        }
+        break;
+
+    case scoreAttackHard:
+        //gameTypeSelector(scoreAttackHard);
+        seconds = (bigHand -= (handIncrement / 30.0));
+        if(seconds == -255) {
+            level = 2;
+            break;
+        }
+        break;
+
+    case timeAttackHard:
+        //gameTypeSelector(timeAttackHard);
+        seconds = (bigHand -= (handIncrement / 30.0));
+        if(seconds == -255) {
+            level = 2;
+            break;
+        }
+        break;
+
+    default:
+        seconds = (bigHand -= (handIncrement / 60.0));
+        seconds = (bigHand -= (handIncrement / 60.0));
+        if(seconds == -255) {
+            level = 2;
+            break;
+        }
+        break;
+    }
+}
+
 //This function creates me credits button.
 void creditButton()
 {
-	Rect r;
-	int nbuttons, i;
-	
-	//initalize buttons
-	nbuttons = 0;
-	//score challange button setting
-  	credits[nbuttons].r.width = 140;
-	credits[nbuttons].r.height = 60;
-	credits[nbuttons].r.left = 125;
-	credits[nbuttons].r.bot =  250;
-	credits[nbuttons].r.right =
-	   credits[nbuttons].r.left + credits[nbuttons].r.width;
-	credits[nbuttons].r.top = credits[nbuttons].r.bot +
-	   credits[nbuttons].r.height;
-	credits[nbuttons].r.centerx = (credits[nbuttons].r.left +
-	   credits[nbuttons].r.right) / 2;
-	credits[nbuttons].r.centery = (credits[nbuttons].r.bot +
-	   credits[nbuttons].r.top) / 2;
-	strcpy(credits[nbuttons].text, "Credits");
-	credits[nbuttons].down = 0;
-	credits[nbuttons].click = 0;
-	credits[nbuttons].color[0] = 0.4f;
-	credits[nbuttons].color[1] = 0.4f;
-	credits[nbuttons].color[2] = 0.4f;
-	credits[nbuttons].dcolor[0] = credits[nbuttons].color[0] * 0.5f;
-	credits[nbuttons].dcolor[1] = credits[nbuttons].color[1] * 0.5f;
-	credits[nbuttons].dcolor[2] = credits[nbuttons].color[2] * 0.5f;
-	credits[nbuttons].text_color = 0x00ffffff;
-	nbuttons++;
-	
-	//=============== END OF BUTTONS
+    Rect r;
+    int nbuttons, i;
+
+    //initalize buttons
+    nbuttons = 0;
+    //score challange button setting
+    credits[nbuttons].r.width = 140;
+    credits[nbuttons].r.height = 60;
+    credits[nbuttons].r.left = 125;
+    credits[nbuttons].r.bot =  250;
+    credits[nbuttons].r.right =
+        credits[nbuttons].r.left + credits[nbuttons].r.width;
+    credits[nbuttons].r.top = credits[nbuttons].r.bot +
+                              credits[nbuttons].r.height;
+    credits[nbuttons].r.centerx = (credits[nbuttons].r.left +
+                                   credits[nbuttons].r.right) / 2;
+    credits[nbuttons].r.centery = (credits[nbuttons].r.bot +
+                                   credits[nbuttons].r.top) / 2;
+    strcpy(credits[nbuttons].text, "Credits");
+    credits[nbuttons].down = 0;
+    credits[nbuttons].click = 0;
+    credits[nbuttons].color[0] = 0.4f;
+    credits[nbuttons].color[1] = 0.4f;
+    credits[nbuttons].color[2] = 0.4f;
+    credits[nbuttons].dcolor[0] = credits[nbuttons].color[0] * 0.5f;
+    credits[nbuttons].dcolor[1] = credits[nbuttons].color[1] * 0.5f;
+    credits[nbuttons].dcolor[2] = credits[nbuttons].color[2] * 0.5f;
+    credits[nbuttons].text_color = 0x00ffffff;
+    nbuttons++;
+
+    //=============== END OF BUTTONS
     //draw all buttons
     for (i=0; i<2; i++) {
         if (credits[i].over) {
@@ -311,8 +303,8 @@ void creditButton()
         } else {
             ggprint16(&r, 0, credits[i].text_color, credits[i].text);
         }
-	}
-	
+    }
+
 }
 
 void checkCreditKeys(XEvent *e)
@@ -387,124 +379,130 @@ void checkCreditMouse(XEvent *e)
                     switch(i) {
                     case 0:
                         level = 1;
-						creditScreen();
+                        creditScreen();
                         break;
                     }
-                } 
+                }
             }
         }
     }
     return;
 }
 
-//The Credit screen function. 
+//The Credit screen function.
 //This loads in the ppm once the creditButton has been pushed
 
 void creditScreen()
 {
-  Ppmimage *startImage;
-  startImage=NULL;
-  GLuint startTexture;
-  // Rect r;
-  
-  //OpenGL initialization
-  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-  glClearDepth(1.0f);
-  glClear(GL_COLOR_BUFFER_BIT);
-  glEnable(GL_COLOR_MATERIAL);
+    Ppmimage *startImage;
+    startImage=NULL;
+    GLuint startTexture;
+    // Rect r;
 
-  glShadeModel(GL_SMOOTH);
-  glDisable(GL_LIGHTING);
-  glBindTexture(GL_TEXTURE_2D, 0);
-  //
-  glEnable(GL_TEXTURE_2D);
-  //marble_texture = loadBMP("marble.bmp");
-  glBindTexture(GL_TEXTURE_2D, 0);
-  
-  //load the image file into a ppm structure.
-  startImage = ppm6GetImage("./images/credits.ppm");
-  
-  //create opengl texture elements
-  glGenTextures(1, &startTexture);
-  glBindTexture(GL_TEXTURE_2D, startTexture);
-  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
-  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-  glTexImage2D(GL_TEXTURE_2D, 0, 3,
-	startImage->width, startImage->height,
-	0, GL_RGB, GL_UNSIGNED_BYTE, startImage->data);
+    //OpenGL initialization
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClearDepth(1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glEnable(GL_COLOR_MATERIAL);
 
-  //set the viewing area on screen
-  glViewport(0, 0, xres, yres);
-  
-  //clear color buffer
-  glMatrixMode (GL_PROJECTION); glLoadIdentity();
-  glMatrixMode(GL_MODELVIEW); glLoadIdentity();
-  
-  //this sets to 2D mode (no perspective)
-  glOrtho(0, xres, 0, yres, -1, 1);
+    glShadeModel(GL_SMOOTH);
+    glDisable(GL_LIGHTING);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    //
+    glEnable(GL_TEXTURE_2D);
+    //marble_texture = loadBMP("marble.bmp");
+    glBindTexture(GL_TEXTURE_2D, 0);
 
-  //screen background
-  glColor3f(0.5f, 0.5f, 0.5f);
-  glBindTexture(GL_TEXTURE_2D, startTexture);
-  glBegin(GL_QUADS);
-	glTexCoord2f(0.0f, 0.0f); glVertex2i(0,      0);
-	glTexCoord2f(0.0f, 1.0f); glVertex2i(0,      yres);
-	glTexCoord2f(1.0f, 1.0f); glVertex2i(xres, yres);
-  	glTexCoord2f(1.0f, 0.0f); glVertex2i(xres, 0);
-  glEnd();
-  glBindTexture(GL_TEXTURE_2D, 0);	
+    //load the image file into a ppm structure.
+    startImage = ppm6GetImage("./images/credits.ppm");
+
+    //create opengl texture elements
+    glGenTextures(1, &startTexture);
+    glBindTexture(GL_TEXTURE_2D, startTexture);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3,
+                 startImage->width, startImage->height,
+                 0, GL_RGB, GL_UNSIGNED_BYTE, startImage->data);
+
+    //set the viewing area on screen
+    glViewport(0, 0, xres, yres);
+
+    //clear color buffer
+    glMatrixMode (GL_PROJECTION);
+    glLoadIdentity();
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    //this sets to 2D mode (no perspective)
+    glOrtho(0, xres, 0, yres, -1, 1);
+
+    //screen background
+    glColor3f(0.5f, 0.5f, 0.5f);
+    glBindTexture(GL_TEXTURE_2D, startTexture);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex2i(0,      0);
+    glTexCoord2f(0.0f, 1.0f);
+    glVertex2i(0,      yres);
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex2i(xres, yres);
+    glTexCoord2f(1.0f, 0.0f);
+    glVertex2i(xres, 0);
+    glEnd();
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
-			
-			
-		
-		
-		
-		//Working Code, but for a different use. 	
-		/*	
-		if(select == 1)
-		{
-			seconds = (bigHand -= (handIncrement / 180.0));  <========This is meant for the time. And it works perfectly :)
-			if(seconds == -255)
-			{
-				level = 2;
-			}
-		}
-		
-		else(gameModes == 2)
-		{
-			bigHand = 90;
-		}
-		
-		else if (gameModes == 3)
-		{
-			//clock_animation();
-			seconds = (bigHand += (handIncrement / 45.0));
-			if(seconds == -9000)
-			{
-				level = 2;
-			}
-		}
-		
-		else if (gameModes == 4)
-		{
-			bigHand = 90;
-		}
-		* 
+
+
+
+
+
+//Working Code, but for a different use.
+/*
+if(select == 1)
+{
+	seconds = (bigHand -= (handIncrement / 180.0));  <========This is meant for the time. And it works perfectly :)
+	if(seconds == -255)
+	{
+		level = 2;
+	}
+}
+
+else(gameModes == 2)
+{
+	bigHand = 90;
+}
+
+else if (gameModes == 3)
+{
+	//clock_animation();
+	seconds = (bigHand += (handIncrement / 45.0));
+	if(seconds == -9000)
+	{
+		level = 2;
+	}
+}
+
+else if (gameModes == 4)
+{
+	bigHand = 90;
+}
+*
 //THIS IS WHERE REALLY OLD COLD STARTS
-    int seconds;
-    if(level != 1) {
-        bigHand = 90;
-        //seconds = 90;
-    } else {
-        seconds = (bigHand -= (handIncrement / 10.0)); //THIS CHANGES THE TIME OF THE GAME
-        //cout << seconds << endl;
-        if(seconds == -255) {
-            bigHand = 90;
-            level = 2;
-            //highScore(score);
- 
-        }
-    }
-    */
+int seconds;
+if(level != 1) {
+bigHand = 90;
+//seconds = 90;
+} else {
+seconds = (bigHand -= (handIncrement / 10.0)); //THIS CHANGES THE TIME OF THE GAME
+//cout << seconds << endl;
+if(seconds == -255) {
+    bigHand = 90;
+    level = 2;
+    //highScore(score);
+
+}
+}
+*/
 
 

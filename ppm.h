@@ -4,9 +4,9 @@
 //Read and write PPM files. Plain format.
 //#include <sys/types.h>
 typedef struct t_ppmimage {
-	int width;
-	int height;
-	void *data;
+    int width;
+    int height;
+    void *data;
 } Ppmimage;
 
 extern Ppmimage *ppm1GetImage(char *filename);
