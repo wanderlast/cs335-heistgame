@@ -108,7 +108,6 @@ int info;
 int gridDim;
 int boardDim;
 int gameover;
-int credit;
 int winner;
 int score;
 int soundFlag;
@@ -145,21 +144,6 @@ void timeCopy(struct timespec *dest, struct timespec *source)
 int main(int argc, char *argv[])
 {
 
-<<<<<<< HEAD
-        xres = 800;
-        yres = 600;
-        done = 0;
-        start = 0;
-        gridDim = 40;
-        gameover = 0;
-        winner = 0;
-        nbuttons = 0;
-        startImage=NULL;
-        int highScores[5];
-        int newScores[5];
-        readFile(highScores);
-		readFile(newScores);
-=======
     xres = 800;
     yres = 600;
     done = 0;
@@ -169,7 +153,6 @@ int main(int argc, char *argv[])
     winner = 0;
     nbuttons = 0;
     startImage=NULL;
->>>>>>> 6c7b0f301663bd261600dfa156584bd2a7b50a9a
 
     if (argc) {}
     if (argv[0]) {}
@@ -240,58 +223,6 @@ int main(int argc, char *argv[])
         }
 
 
-<<<<<<< HEAD
-        if(level == 2){
-
-                done = 0;
-                //int randNumber = rand() % 100;
-
-                
-                int isnewHigh = calculateScore(treasureScore, highScores, newScores);
-
-                while(level == 2) {
-                        while(XPending(dpy)) {
-                                XEvent e;
-                                XNextEvent(dpy, &e);
-                                checkResize(&e);
-                                checkSKeys(&e);
-                                checkCreditMouse(&e);
-                                checkSMouse(&e);
-                                //checkCreditKeys(&e);
-                        }
-                        if(credit != 1){
-				soundNum = 3;
-                createSound(soundNum);
-							highScore(treasureScore, isnewHigh, highScores, newScores);
-						} else {
-							creditScreen();
-						}
-                        glXSwapBuffers(dpy, win);
-					}
-					
-                        //~ //if(credit == 1) {
-							//~ while(!credit){
-							//~ while(XPending(dpy)) {
-                                //~ XEvent e;
-                                //~ XNextEvent(dpy, &e);
-                                //~ checkResize(&e);
-                                //~ checkCreditKeys(&e);
-                                //~ checkCreditMouse(&e);
-                        //~ }
-                        //~ creditScreen();
-                        //~ glXSwapBuffers(dpy, win);
-					//~ }
-				//} 
-				
-                }
-        }    
-        cleanupSound();
-        cleanupXWindows();
-        cleanup_fonts();
-        logClose();
-        //exit(EXIT_SUCCESS);ls
-        return 0;
-=======
         if (level == 1) {
             soundFlag = 1;
             while(XPending(dpy)) {
@@ -368,7 +299,6 @@ int main(int argc, char *argv[])
     logClose();
     //exit(EXIT_SUCCESS);ls
     return 0;
->>>>>>> 6c7b0f301663bd261600dfa156584bd2a7b50a9a
 }
 
 void cleanupXWindows(void)
@@ -379,15 +309,9 @@ void cleanupXWindows(void)
 
 void setTitle(void)
 {
-<<<<<<< HEAD
-        //Set the window title bar.
-        XMapWindow(dpy, win);
-        XStoreName(dpy, win, "Zeitheist");
-=======
     //Set the window title bar.
     XMapWindow(dpy, win);
     XStoreName(dpy, win, "Press ESC to see High Score");
->>>>>>> 6c7b0f301663bd261600dfa156584bd2a7b50a9a
 }
 
 void setupScreenRes(const int w, const int h)

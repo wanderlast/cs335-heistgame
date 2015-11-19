@@ -57,7 +57,7 @@ typedef struct t_button {
     unsigned int text_color;
 } Button;
 
-Button credits[1];
+Button credits[0];
 
 //Global variables
 int xres2=200, yres2=300;
@@ -237,39 +237,6 @@ void clock_physics(int select)
 //This function creates me credits button.
 void creditButton()
 {
-<<<<<<< HEAD
-	Rect r;
-	int nbuttons, i;
-	
-	//initalize buttons
-	nbuttons = 0;
-	//score challange button setting
-  	credits[nbuttons].r.width = 140;
-	credits[nbuttons].r.height = 60;
-	credits[nbuttons].r.left = 125;
-	credits[nbuttons].r.bot =  200;
-	credits[nbuttons].r.right =
-	   credits[nbuttons].r.left + credits[nbuttons].r.width;
-	credits[nbuttons].r.top = credits[nbuttons].r.bot +
-	   credits[nbuttons].r.height;
-	credits[nbuttons].r.centerx = (credits[nbuttons].r.left +
-	   credits[nbuttons].r.right) / 2;
-	credits[nbuttons].r.centery = (credits[nbuttons].r.bot +
-	   credits[nbuttons].r.top) / 2;
-	strcpy(credits[nbuttons].text, "Credits");
-	credits[nbuttons].down = 0;
-	credits[nbuttons].click = 0;
-	credits[nbuttons].color[0] = 0.4f;
-	credits[nbuttons].color[1] = 0.4f;
-	credits[nbuttons].color[2] = 0.4f;
-	credits[nbuttons].dcolor[0] = credits[nbuttons].color[0] * 0.5f;
-	credits[nbuttons].dcolor[1] = credits[nbuttons].color[1] * 0.5f;
-	credits[nbuttons].dcolor[2] = credits[nbuttons].color[2] * 0.5f;
-	credits[nbuttons].text_color = 0x00ffffff;
-	nbuttons++;
-	
-	//=============== END OF BUTTONS
-=======
     Rect r;
     int nbuttons, i;
 
@@ -301,16 +268,14 @@ void creditButton()
     nbuttons++;
 
     //=============== END OF BUTTONS
->>>>>>> 6c7b0f301663bd261600dfa156584bd2a7b50a9a
     //draw all buttons
-		i=0;
-		
+    for (i=0; i<2; i++) {
         if (credits[i].over) {
-            int w=1       ;
+            int w=2;
             glColor3f(1.0f, 1.0f, 0.0f);
             //draw a highlight around button
             glLineWidth(3);
-            glBegin(GL_LINE_LOOP); 
+            glBegin(GL_LINE_LOOP);
             glVertex2i(credits[i].r.left-w,  credits[i].r.bot-w);
             glVertex2i(credits[i].r.left-w,  credits[i].r.top+w);
             glVertex2i(credits[i].r.right+w, credits[i].r.top+w);
@@ -318,7 +283,7 @@ void creditButton()
             glVertex2i(credits[i].r.left-w,  credits[i].r.bot-w);
             glEnd();
             glLineWidth(1);
-		}
+        }
         if (credits[i].down) {
             glColor3fv(credits[i].dcolor);
         } else {
@@ -334,17 +299,13 @@ void creditButton()
         r.bot  = credits[i].r.centery-8;
         r.center = 1;
         if (credits[i].down) {
-            ggprint16(&r, 0, credits[i].text_color, "Pressed");
+            ggprint16(&r, 0, credits[i].text_color, "Schwifty");
         } else {
             ggprint16(&r, 0, credits[i].text_color, credits[i].text);
         }
-<<<<<<< HEAD
-=======
     }
 
->>>>>>> 6c7b0f301663bd261600dfa156584bd2a7b50a9a
 }
-	
 
 void checkCreditKeys(XEvent *e)
 {
@@ -369,10 +330,11 @@ void checkCreditKeys(XEvent *e)
     case XK_r:
         treasureScore = 0;
         level = 1;
+        resetGame();
         break;
     case XK_Escape:
         done = 1;
-        break;
+        level = 1;
     }
 }
 
@@ -405,7 +367,7 @@ void checkCreditMouse(XEvent *e)
         savex = e->xbutton.x;
         savey = e->xbutton.y;
     }
-		i=0;
+    for (i=0; i<2; i++) {
         credits[i].over=0;
         if (x >= credits[i].r.left &&
                 x <= credits[i].r.right &&
@@ -416,17 +378,14 @@ void checkCreditMouse(XEvent *e)
                 if (lbutton) {
                     switch(i) {
                     case 0:
-<<<<<<< HEAD
-                        credit = 1;
-=======
                         level = 1;
                         creditScreen();
->>>>>>> 6c7b0f301663bd261600dfa156584bd2a7b50a9a
                         break;
                     }
                 }
             }
         }
+    }
     return;
 }
 
@@ -435,59 +394,6 @@ void checkCreditMouse(XEvent *e)
 
 void creditScreen()
 {
-<<<<<<< HEAD
-  Ppmimage *startImage;
-  startImage=NULL;
-  GLuint startTexture;
-  // Rect r;
-  
-  //OpenGL initialization
-  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-  glClearDepth(1.0f);
-  glClear(GL_COLOR_BUFFER_BIT);
-  glEnable(GL_COLOR_MATERIAL);
-
-  glShadeModel(GL_SMOOTH);
-  glDisable(GL_LIGHTING);
-  glBindTexture(GL_TEXTURE_2D, 0);
-  //
-  glEnable(GL_TEXTURE_2D);
-  //marble_texture = loadBMP("marble.bmp");
-  glBindTexture(GL_TEXTURE_2D, 0);
-  
-  //load the image file into a ppm structure.
-  startImage = ppm6GetImage("./images/credits1.ppm");
-  
-  //create opengl texture elements
-  glGenTextures(1, &startTexture);
-  glBindTexture(GL_TEXTURE_2D, startTexture);
-  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
-  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-  glTexImage2D(GL_TEXTURE_2D, 0, 3,
-	startImage->width, startImage->height,
-	0, GL_RGB, GL_UNSIGNED_BYTE, startImage->data);
-
-  //set the viewing area on screen
-  glViewport(0, 0, xres, yres);
-  
-  //clear color buffer
-  glMatrixMode (GL_PROJECTION); glLoadIdentity();
-  glMatrixMode(GL_MODELVIEW); glLoadIdentity();
-  
-  //this sets to 2D mode (no perspective)
-  glOrtho(0, xres, 0, yres, -1, 1);
-
-  //screen background
-  glColor3f(0.5f, 0.5f, 0.5f);
-  glBindTexture(GL_TEXTURE_2D, startTexture);
-  glBegin(GL_QUADS);
-	glTexCoord2f(0.0f, 0.0f); glVertex2i(0,      0);
-	glTexCoord2f(0.0f, 1.0f); glVertex2i(0,      yres);
-	glTexCoord2f(1.0f, 1.0f); glVertex2i(xres, yres);
-  	glTexCoord2f(1.0f, 0.0f); glVertex2i(xres, 0);
-  glEnd();
-  glBindTexture(GL_TEXTURE_2D, 0);	
-=======
     Ppmimage *startImage;
     startImage=NULL;
     GLuint startTexture;
@@ -545,7 +451,6 @@ void creditScreen()
     glVertex2i(xres, 0);
     glEnd();
     glBindTexture(GL_TEXTURE_2D, 0);
->>>>>>> 6c7b0f301663bd261600dfa156584bd2a7b50a9a
 }
 
 

@@ -117,14 +117,8 @@ void highScore(int score, int isnewHigh, int highScores[], int newScores[])
 
     //=========
     //INITIALIZE BUTTONS
-<<<<<<< HEAD
-    credit = 0;
-    creditButton(); 
- 
-=======
     creditButton();
 
->>>>>>> 6c7b0f301663bd261600dfa156584bd2a7b50a9a
     int i;
     Rect r;
     int nbuttons=0;
@@ -605,7 +599,6 @@ void checkSKeys(XEvent *e)
     case XK_Escape:
         done = 1;
         level = 1;
-        break;
     }
 }
 
