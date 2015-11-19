@@ -119,7 +119,6 @@ void gameTypeSelector(int select)
         initPlayer(3);
         initTreasure2();
         clock_physics(select);
-        cout << ":WELKCJ:LWEKJCL:KWEJCL:WEJC:LWEJL:CWEJCKWEJC";
         break;
     
     //player starts in random position, 20 treasure, 30 seconds
@@ -262,8 +261,15 @@ void initTreasure()
 
     //generate treasure
     for ( int i = 0; i < MAX_TREASURE; i++) {
-        treasureGeneration(i);
+        if(player.type == 0){
+		    treasureGeneration(i, 1);
+	    } else {
+			treasureGeneration(i);
+		}
+        cleanupSound();
     }
+
+    treasure[0].count = MAX_TREASURE;
 }
 
 //generates n treasures within the game
@@ -274,9 +280,14 @@ void initTreasure(int n)
 
     //generate n treasure one at a time
     for ( int i = 0; i < n; i++) {
-        treasureGeneration(i);
+        if(player.type == 0){
+		    treasureGeneration(i, 1);
+	    } else {
+			treasureGeneration(i);
+		}
         cleanupSound();
     }
+    treasure[0].count = n;
 }
 
 //generates "n" treasure to start
@@ -289,12 +300,17 @@ void initTreasure(int n, int generate)
 
     //generate n treasure one at a time
     for ( int i = 0; i < n; i++) {
-        treasureGeneration(i);
+        if(player.type == 0){
+		    treasureGeneration(i, 1);
+	    } else {
+			treasureGeneration(i);
+		}
     }
 
     for (int i = 0; i < n; i++) {
         treasure[i].maxRate = generate;
     }
+    treasure[0].count = n;
 }
 
 //normal initTreasure spawns all treasure at once
@@ -375,7 +391,8 @@ void treasureCollision()
     //did the player get the treasure
     for (int i = 0; i < MAX_TREASURE; i++) {
         if (player.pos[0][0] == treasure[i].pos[0] &&
-                player.pos[0][1] == treasure[i].pos[1]) {
+                player.pos[0][1] == treasure[i].pos[1] &&
+                treasure[i].status == 1) {
             //we got treasure!
             cout << player.pos[0][0] << "," << player.pos [0][1];
             cout << endl;
@@ -407,7 +424,13 @@ void treasureCollision()
                   }
                 }
               }
-            }
+            } else {
+				treasure[0].count--;
+				cout << treasure[0].count << "# left" << endl;
+				if(treasure[0].count == 0){
+					level = 2;
+				}
+			}
             
             
             //soundNum = 2;
