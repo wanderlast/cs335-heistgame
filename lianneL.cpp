@@ -430,7 +430,7 @@ void treasureCollision()
 				}
 			}
 
-            if(soundFlag == 1 && level == 1 && test == 3) {
+            if(soundFlag == 1 && level == 1 ) {
 				soundNum = 2;
 				createSound(soundNum);
 			}

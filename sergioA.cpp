@@ -250,7 +250,7 @@ void startMenu()
   r.left   = xres/2;
   r.bot    = yres-100;
   r.center = 1;
-  ggprint16(&r, 16, 0x00ffffff, "Heist Game");
+  ggprint16(&r, 16, 0x00ffffff, "Zeitheist");
 	
   r.left   = xres/2;
   r.bot    = yres-300;
@@ -364,10 +364,6 @@ void infoMenu()
   r.left   = 200;
   r.bot    = 300;
   ggprint16(&r, 16, 0x00ffffff, "SPACE: start!");
-  
-  r.left   = 200;
-  r.bot    = 330;
-  ggprint16(&r, 16, 0x00ffffff, "R: restart");
 
 }
 
@@ -434,7 +430,7 @@ void gamestateMenu()
   r.left   = xres/2;
   r.bot    = yres-100;
   r.center = 1;
-  ggprint16(&r, 16, 0x00ffffff, "Heist Game");
+  ggprint16(&r, 16, 0x00ffffff, "Zeitheist");
 	
   r.left   = xres/2;
   r.bot    = yres-200;
