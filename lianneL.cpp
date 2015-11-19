@@ -266,7 +266,6 @@ void initTreasure()
 	    } else {
 			treasureGeneration(i);
 		}
-        cleanupSound();
     }
 
     treasure[0].count = MAX_TREASURE;
@@ -285,7 +284,6 @@ void initTreasure(int n)
 	    } else {
 			treasureGeneration(i);
 		}
-        cleanupSound();
     }
     treasure[0].count = n;
 }
@@ -431,7 +429,11 @@ void treasureCollision()
 					level = 2;
 				}
 			}
-            
+
+            if(soundFlag == 1 && level == 1 && test == 3) {
+				soundNum = 2;
+				createSound(soundNum);
+			}
             
             //soundNum = 2;
             //createSound(soundNum);
@@ -622,6 +624,11 @@ void treasureGeneration(int i, int type)
 
     treasure[i].type = type; //assigns it a specific type
     cout << "treasure type is now: " << treasure[i].type << endl;
+
+    if(soundFlag == 1 && level == 1 && test == 3) {
+        soundNum = 2;
+        createSound(soundNum);
+    }
 
     return;
 }
