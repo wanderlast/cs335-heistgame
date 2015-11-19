@@ -22,7 +22,7 @@ using namespace std;
 
 // assigned to true when character hits wall then assigned back to false after moved from wall
 bool myWall = false;
-int loc[50];
+int *loc = new int[50];
 int cent[2];
 
 void evenWall(int, int);
@@ -303,6 +303,9 @@ void initWall(void)
         wall.here[i+1] = i;
     }
     evenWall(29,31);
+    delete[] loc;
+    loc = NULL;
+    loc = new int[50];
 }
 
 // checks for collision
