@@ -17,8 +17,6 @@
 #define DIRECTION_UP    2
 #define DIRECTION_RIGHT 3
 
-
-
 using namespace std;
 
 // assigned to true when character hits wall then assigned back to false after moved from wall
