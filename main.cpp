@@ -273,7 +273,8 @@ int main(int argc, char *argv[])
         timestart = 0;
 
         if(level == 2) {
-
+	    soundNum = 3;
+	    createSound(soundNum);
             done = 0;
             //int randNumber = rand() % 100;
 
@@ -291,8 +292,6 @@ int main(int argc, char *argv[])
                     //checkCreditKeys(&e);
                 }
                 if(credit != 1) {
-                    soundNum = 3;
-                    createSound(soundNum);
                     highScore(treasureScore, isnewHigh, highScores, newScores);
                 } else {
                     creditScreen();
@@ -300,12 +299,11 @@ int main(int argc, char *argv[])
                 glXSwapBuffers(dpy, win);
             }
         }
-    }
+    }    
     cleanupSound();
     cleanupXWindows();
     cleanup_fonts();
     logClose();
-    //exit(EXIT_SUCCESS);ls
     return 0;
 }
 
