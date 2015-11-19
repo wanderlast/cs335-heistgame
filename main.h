@@ -25,6 +25,7 @@ extern int boardDim;
 extern int gameover;
 extern int winner;
 extern int score;
+extern int credit;
 extern void init(void);
 extern void resetGame();
 extern int level;

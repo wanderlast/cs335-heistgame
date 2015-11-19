@@ -57,7 +57,7 @@ typedef struct t_button {
     unsigned int text_color;
 } Button;
 
-Button credits[0];
+Button credits[1];
 
 //Global variables
 int xres2=200, yres2=300;
@@ -269,13 +269,14 @@ void creditButton()
 
     //=============== END OF BUTTONS
     //draw all buttons
-    for (i=0; i<2; i++) {
+    i=0;
+		
         if (credits[i].over) {
-            int w=2;
+            int w=1       ;
             glColor3f(1.0f, 1.0f, 0.0f);
             //draw a highlight around button
             glLineWidth(3);
-            glBegin(GL_LINE_LOOP);
+            glBegin(GL_LINE_LOOP); 
             glVertex2i(credits[i].r.left-w,  credits[i].r.bot-w);
             glVertex2i(credits[i].r.left-w,  credits[i].r.top+w);
             glVertex2i(credits[i].r.right+w, credits[i].r.top+w);
@@ -283,7 +284,7 @@ void creditButton()
             glVertex2i(credits[i].r.left-w,  credits[i].r.bot-w);
             glEnd();
             glLineWidth(1);
-        }
+		}
         if (credits[i].down) {
             glColor3fv(credits[i].dcolor);
         } else {
@@ -299,12 +300,10 @@ void creditButton()
         r.bot  = credits[i].r.centery-8;
         r.center = 1;
         if (credits[i].down) {
-            ggprint16(&r, 0, credits[i].text_color, "Schwifty");
+            ggprint16(&r, 0, credits[i].text_color, "Pressed");
         } else {
             ggprint16(&r, 0, credits[i].text_color, credits[i].text);
         }
-    }
-
 }
 
 void checkCreditKeys(XEvent *e)
@@ -334,7 +333,7 @@ void checkCreditKeys(XEvent *e)
         break;
     case XK_Escape:
         done = 1;
-        level = 1;
+		break;
     }
 }
 
@@ -367,7 +366,7 @@ void checkCreditMouse(XEvent *e)
         savex = e->xbutton.x;
         savey = e->xbutton.y;
     }
-    for (i=0; i<2; i++) {
+		i=0;
         credits[i].over=0;
         if (x >= credits[i].r.left &&
                 x <= credits[i].r.right &&
@@ -378,14 +377,14 @@ void checkCreditMouse(XEvent *e)
                 if (lbutton) {
                     switch(i) {
                     case 0:
-                        level = 1;
-                        creditScreen();
+                        credit = 1;
+                        //level = 1;
+                        //creditScreen();
                         break;
                     }
                 }
             }
         }
-    }
     return;
 }
 
@@ -414,7 +413,7 @@ void creditScreen()
     glBindTexture(GL_TEXTURE_2D, 0);
 
     //load the image file into a ppm structure.
-    startImage = ppm6GetImage("./images/credits.ppm");
+    startImage = ppm6GetImage("./images/credits1.ppm");
 
     //create opengl texture elements
     glGenTextures(1, &startTexture);

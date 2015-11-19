@@ -109,6 +109,7 @@ int gridDim;
 int boardDim;
 int gameover;
 int winner;
+int credit;
 int score;
 int soundFlag;
 int gamemodeSelected; // this is a boolean used for menu selection
@@ -153,6 +154,10 @@ int main(int argc, char *argv[])
     winner = 0;
     nbuttons = 0;
     startImage=NULL;
+    int highScores[5];
+    int newScores[5];
+    readFile(highScores);
+    readFile(newScores);
 
     if (argc) {}
     if (argv[0]) {}
@@ -267,32 +272,35 @@ int main(int argc, char *argv[])
         }
         timestart = 0;
 
-        if(level == 2) {
-            soundNum = 3;
-            createSound(soundNum);
-            done = 0;
-            //int randNumber = rand() % 100;
+         if(level == 2){
 
-            int highScores[5];
-            int newScores[5];
-            readFile(highScores);
-            readFile(newScores);
-            int isnewHigh = calculateScore(treasureScore, highScores, newScores);
+                done = 0;
+                //int randNumber = rand() % 100;
 
-            while(level == 2) {
-                while(XPending(dpy)) {
-                    XEvent e;
-                    XNextEvent(dpy, &e);
-                    checkResize(&e);
-                    checkSKeys(&e);
-                    checkSMouse(&e);
-                }
-                highScore(treasureScore, isnewHigh, highScores, newScores);
+                
+                int isnewHigh = calculateScore(treasureScore, highScores, newScores);
 
-                glXSwapBuffers(dpy, win);
+                while(level == 2) {
+                        while(XPending(dpy)) {
+                                XEvent e;
+                                XNextEvent(dpy, &e);
+                                checkResize(&e);
+                                checkSKeys(&e);
+                                checkCreditMouse(&e);
+                                checkSMouse(&e);
+                                //checkCreditKeys(&e);
+                        }
+                        if(credit != 1){
+				soundNum = 3;
+                createSound(soundNum);
+							highScore(treasureScore, isnewHigh, highScores, newScores);
+						} else {
+							creditScreen();
+						}
+                        glXSwapBuffers(dpy, win);
+					}
             }
         }
-    }
     cleanupSound();
     cleanupXWindows();
     cleanup_fonts();
@@ -311,7 +319,7 @@ void setTitle(void)
 {
     //Set the window title bar.
     XMapWindow(dpy, win);
-    XStoreName(dpy, win, "Press ESC to see High Score");
+    XStoreName(dpy, win, "Zeitheist");
 }
 
 void setupScreenRes(const int w, const int h)
