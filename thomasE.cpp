@@ -1,9 +1,11 @@
 //cs335 Fall 2015 Project Component
 //author: Thomas Espinoza
 //
-//This is a bootstrap code file to begin working off of.
-//Please remove any includes or files that are unnecessary
-//for what you are working on.
+//This code retrieves, sorts, and displays a table of highscores.
+//
+//When there is no new high score, the code displays previos scores
+//When there is a new high score, the code sorts and stores the new
+//value into the file containing the high scores.
 //
 using namespace std;
 #include <sstream>
