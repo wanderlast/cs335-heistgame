@@ -272,35 +272,35 @@ int main(int argc, char *argv[])
         }
         timestart = 0;
 
-         if(level == 2){
+        if(level == 2) {
 
-                done = 0;
-                //int randNumber = rand() % 100;
+            done = 0;
+            //int randNumber = rand() % 100;
 
-                
-                int isnewHigh = calculateScore(treasureScore, highScores, newScores);
 
-                while(level == 2) {
-                        while(XPending(dpy)) {
-                                XEvent e;
-                                XNextEvent(dpy, &e);
-                                checkResize(&e);
-                                checkSKeys(&e);
-                                checkCreditMouse(&e);
-                                checkSMouse(&e);
-                                //checkCreditKeys(&e);
-                        }
-                        if(credit != 1){
-				soundNum = 3;
-                createSound(soundNum);
-							highScore(treasureScore, isnewHigh, highScores, newScores);
-						} else {
-							creditScreen();
-						}
-                        glXSwapBuffers(dpy, win);
-					}
+            int isnewHigh = calculateScore(treasureScore, highScores, newScores);
+
+            while(level == 2) {
+                while(XPending(dpy)) {
+                    XEvent e;
+                    XNextEvent(dpy, &e);
+                    checkResize(&e);
+                    checkSKeys(&e);
+                    checkCreditMouse(&e);
+                    checkSMouse(&e);
+                    //checkCreditKeys(&e);
+                }
+                if(credit != 1) {
+                    soundNum = 3;
+                    createSound(soundNum);
+                    highScore(treasureScore, isnewHigh, highScores, newScores);
+                } else {
+                    creditScreen();
+                }
+                glXSwapBuffers(dpy, win);
             }
         }
+    }
     cleanupSound();
     cleanupXWindows();
     cleanup_fonts();
