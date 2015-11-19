@@ -17,13 +17,16 @@
 #define DIRECTION_UP    2
 #define DIRECTION_RIGHT 3
 
-// assigned to true when character hits wall then assigned back to false after moved from wall
-bool myWall = false;
+
 
 using namespace std;
-void evenWall(int, int);
+
+// assigned to true when character hits wall then assigned back to false after moved from wall
+bool myWall = false;
 int loc[50];
 int cent[2];
+
+void evenWall(int, int);
 
 // to call initWall(void) in main function
 void physics(void) {
