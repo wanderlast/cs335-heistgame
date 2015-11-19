@@ -33,9 +33,8 @@ void physics(void) {
 // spawns walls for character to move around
 void initWall(void) {
 	// assigning even and odd squares seperately
-	
 	// 4-25
-    // arrays to recognize character position
+	// arrays to recognize character position
     for(int i=4; i<=25; i+=2) {
         loc[i] = player.pos[0][0];
         loc[i+1] = player.pos[0][1];
@@ -300,7 +299,6 @@ void initWall(void) {
         wall.here[i+1] = i;
     }
     evenWall(29,31);
-
 }
 
 // checks for collision
@@ -329,13 +327,11 @@ void evenWall(int a, int b){
                     break;
                 }
                 if (!collision) {
-
                     myWall = true;
                     movementWall(x);
                     break;
                 }
                 if (++ntries > 1000000) {
-
                     myWall = true;
                     movementWall(x);
                     break;
