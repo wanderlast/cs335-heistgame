@@ -1,7 +1,7 @@
 // Kevin Boberg
 // cs335
 // final project
-// this
+// create and print walls in game grid and detect collision
 
 #include"kevinB.h"
 #include"main.h"
